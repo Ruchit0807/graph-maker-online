@@ -6,13 +6,17 @@ interface Props {
 	description?: string;
 	canonicalUrl?: string;
 	ogImage?: string;
+	keywords?: string;
+	ogImageAlt?: string;
 }
 
 const { 
 	title = "Graph Maker Online – Free Online Graph Paper, Plotter & Editor", 
 	description = "Graph Maker Online is a free online graph plotter and graph editor. Plot line graphs, xy coordinates, and mathematical functions on green graph paper, Cartesian grids, polar plots, and engineering graph paper. No signup needed — try the best free online graph maker now.",
 	canonicalUrl = "https://graphmakeronline.com/",
-	ogImage = "https://graphmakeronline.com/og-image.png"
+	ogImage = "https://graphmakeronline.com/og-image.png",
+	keywords = "graph maker online, online graph paper, green graph paper, graph maker, online graph maker, free graph maker, graph maker free, circle graph maker, graph editor, online graph editor, online graph sketcher, graph sketch online, line graph maker, bar graph maker, graph plotter, printable graph paper, engineering graph paper, area under curve calculator, cartesian graph maker, online graph plotter, graph plotter online, xy graph plotter, graph plotter with points, plot line graph online, function graph plotter, coordinate graph plotter, free online graph plotter, online graphing tool, polar graph paper, log graph paper, math graphing tool",
+	ogImageAlt = "Graph Maker Online – Free interactive graphing paper, graph plotter, and online graph editor"
 } = Astro.props;
 ---
 
@@ -44,7 +48,7 @@ const {
 		<!-- Primary SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="keywords" content="graph maker online, online graph paper, green graph paper, graph maker, online graph maker, free graph maker, graph maker free, circle graph maker, graph editor, online graph editor, online graph sketcher, graph sketch online, line graph maker, bar graph maker, graph plotter, printable graph paper, engineering graph paper, area under curve calculator, cartesian graph maker, online graph plotter, graph plotter online, xy graph plotter, graph plotter with points, plot line graph online, function graph plotter, coordinate graph plotter, free online graph plotter, online graphing tool, polar graph paper, log graph paper, math graphing tool" />
+		<meta name="keywords" content={keywords} />
 		<meta name="author" content="Graph Maker Online" />
 		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 		<link rel="canonical" href={canonicalUrl} />
@@ -57,7 +61,7 @@ const {
 		<meta property="og:image" content={ogImage} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content="Graph Maker Online – Free interactive graphing paper, graph plotter, and online graph editor" />
+		<meta property="og:image:alt" content={ogImageAlt} />
 		<meta property="og:site_name" content="Graph Maker Online" />
 		<meta property="og:locale" content="en_US" />
 
@@ -67,7 +71,7 @@ const {
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImage} />
-		<meta name="twitter:image:alt" content="Graph Maker Online – Free interactive graphing paper, graph plotter, and online graph editor" />
+		<meta name="twitter:image:alt" content={ogImageAlt} />
 
 		<!-- JSON-LD Structured Data: WebApplication -->
 		<script type="application/ld+json" set:html={JSON.stringify({
