@@ -1,0 +1,2885 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Print Graph Paper Online – Free Printable Graph Paper Generator"
+  description="Create and print customizable graph paper online. Generate A4, Letter, Engineering, Polar, Isometric, Log, Dot Grid and more. Export PDF, SVG and PNG for free."
+>
+  <div class="flex flex-col h-screen w-screen overflow-hidden bg-canvas text-ink transition-colors duration-150 print:h-auto print:overflow-visible print:bg-white" id="app-wrapper">
+    
+    <!-- Premium Header -->
+    <Header activeTab="generator" />
+
+    <!-- Split Screen Dashboard Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative print:block print:h-auto print:overflow-visible">
+      
+      <!-- Central Viewport & Paper Preview -->
+      <div class="flex-1 bg-[#121212] dark:bg-[#000000] relative flex items-center justify-center p-4 sm:p-8 overflow-hidden select-none print:bg-white print:p-0 print:block">
+        
+        <!-- Hover Zoom & Pan Navigation HUD Controls (Floating Bottom-Left) -->
+        <div class="absolute bottom-4 left-4 z-10 flex items-center gap-1 bg-canvas/90 border border-hairline p-1 rounded-md shadow-md backdrop-blur-xs pointer-events-auto no-print">
+          <button id="view-zoom-in" class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 transition-colors" title="Zoom In">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+          <button id="view-zoom-out" class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 transition-colors" title="Zoom Out">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+            </svg>
+          </button>
+          <button id="view-reset" class="h-7 px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-mono transition-colors" title="Reset Viewport">
+            Reset
+          </button>
+          <div class="h-4 w-px bg-hairline mx-0.5"></div>
+          <span id="zoom-hud-txt" class="text-[10px] font-mono font-medium text-mute px-1.5">100%</span>
+        </div>
+
+        <!-- Drawing Instruments Floating Hub (Floating Top-Center) -->
+        <div id="drawing-toolbar" class="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex flex-wrap items-center gap-1 bg-canvas/95 border border-hairline p-1.5 rounded-md shadow-md backdrop-blur-xs pointer-events-auto no-print max-w-[90vw] sm:max-w-none">
+          <button data-tool="move" class="draw-tool-btn active h-7 px-2.5 flex items-center gap-1.5 rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors" title="Pan and Move Paper">
+            <svg class="h-3.5 w-3.5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+            </svg>
+            <span class="hidden sm:inline">Move</span>
+          </button>
+          <div class="h-4 w-px bg-hairline mx-0.5"></div>
+          
+          <button data-tool="pen" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Smooth Pen Brush">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            <span class="hidden sm:inline">Pen</span>
+          </button>
+          <button data-tool="pencil" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Fine Pencil Line">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-2-9-7-2-2 7-7 2 9-2zm0 0L9 9" />
+            </svg>
+            <span class="hidden sm:inline">Pencil</span>
+          </button>
+          <button data-tool="line" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Straight Line">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 20L20 4" />
+            </svg>
+            <span class="hidden sm:inline">Line</span>
+          </button>
+          <button data-tool="arrow" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Directional Arrow">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+            <span class="hidden sm:inline">Arrow</span>
+          </button>
+          <button data-tool="rect" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Rectangle Shape">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+            </svg>
+            <span class="hidden sm:inline">Rect</span>
+          </button>
+          <button data-tool="circle" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Circle Shape">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+            <span class="hidden sm:inline">Circle</span>
+          </button>
+          <button data-tool="text" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1.5" title="Insert Text Labels">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M12 6v14m-3 0h6" />
+            </svg>
+            <span class="hidden sm:inline">Text</span>
+          </button>
+          <button data-tool="eraser" class="draw-tool-btn h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-error hover:bg-error-soft text-[10px] font-semibold transition-colors gap-1.5" title="Erase Drawn Items">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            <span class="hidden sm:inline">Eraser</span>
+          </button>
+
+          <div class="h-4 w-px bg-hairline mx-0.5"></div>
+
+          <!-- Undo/Redo/Clear -->
+          <button id="draw-undo" class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 disabled:opacity-30 disabled:hover:bg-transparent transition-colors" title="Undo (Ctrl+Z)" disabled>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+            </svg>
+          </button>
+          <button id="draw-redo" class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 disabled:opacity-30 disabled:hover:bg-transparent transition-colors" title="Redo (Ctrl+Y)" disabled>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 10H11a8 8 0 00-8 8v2m18-8l-6 6m6-6l-6-6" />
+            </svg>
+          </button>
+          <button id="draw-clear" class="h-7 px-2 flex items-center justify-center rounded-xs text-error hover:bg-error-soft text-[10px] font-semibold transition-colors" title="Clear Canvas Overlay">
+            Clear
+          </button>
+          
+          <div class="h-4 w-px bg-hairline mx-0.5"></div>
+
+          <!-- Toolbar Orientation Switcher -->
+          <button id="toggle-toolbar-orient" class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 transition-colors" title="Toggle Toolbar Layout (Horizontal/Vertical)">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Floating Text Editor Input overlay (renders dynamically during text creation) -->
+        <div id="text-editor-popup" class="absolute hidden bg-canvas border border-hairline shadow-md p-2 rounded z-20 max-w-xs">
+          <input type="text" id="text-editor-input" placeholder="Type text here..." class="h-8 w-full border border-hairline px-2 text-xs focus:outline-none focus:border-hairline-strong rounded-sm" />
+          <div class="flex justify-end gap-1.5 mt-2">
+            <button id="text-editor-cancel" class="text-[10px] text-mute hover:text-ink px-2 py-1 rounded">Cancel</button>
+            <button id="text-editor-ok" class="text-[10px] font-semibold text-white bg-primary px-3 py-1 rounded">Place</button>
+          </div>
+        </div>
+
+        <!-- Physical Grid Sheet Wrapper (CSS transformed zoom/pan container) -->
+        <div id="paper-shadow-wrapper" class="shadow-2xl bg-white origin-center border border-hairline relative transition-all duration-75 print:shadow-none print:border-none print:m-0 print:p-0 print:transform-none!">
+          <canvas id="paper-canvas" class="w-full h-full block bg-transparent print:w-full print:h-full"></canvas>
+          
+          <!-- Interactive Drawing Overlay Canvas (same size, overlays grid) -->
+          <canvas id="drawing-canvas" class="absolute inset-0 w-full h-full block bg-transparent pointer-events-auto print:w-full print:h-full"></canvas>
+        </div>
+
+        <!-- Print-only Hidden Vector Graphic Wrapper moved below layout boundary -->
+
+      </div>
+
+      <!-- Settings Configurations Sidebar (Panel Right) -->
+      <aside id="config-panel" class="w-full lg:w-[380px] h-[50vh] lg:h-full border-t lg:border-t-0 lg:border-l border-hairline bg-canvas-soft flex flex-col overflow-y-auto no-scrollbar shrink-0 select-none print:hidden z-10 shadow-2xl lg:shadow-none">
+        
+        <!-- Header status bar -->
+        <div class="px-6 py-4 border-b border-hairline flex flex-col gap-1.5 bg-canvas/30">
+          <span class="font-mono text-[10px] uppercase tracking-wider text-mute">Grid Configuration Panel</span>
+          <p class="text-xs text-body">Customize paper geometry, templates, colors, and export.</p>
+        </div>
+
+        <!-- Scrollable settings fields container -->
+        <div class="p-6 flex flex-col gap-6">
+
+          <!-- 1. Graph Paper Type Select -->
+          <div class="flex flex-col gap-2">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">1. Grid Paper Template</h4>
+            <div class="grid grid-cols-2 gap-2">
+              <button data-type="square" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Square Grid</span>
+                <span class="text-[9px] text-mute font-mono">Standard math</span>
+              </button>
+              <button data-type="green" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-primary bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-semibold text-ink">Univ Green</span>
+                <span class="text-[9px] text-mute font-mono">Engineering</span>
+              </button>
+              <button data-type="cartesian" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Cartesian XY</span>
+                <span class="text-[9px] text-mute font-mono">Numbered Axes</span>
+              </button>
+              <button data-type="dot" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Dot Grid</span>
+                <span class="text-[9px] text-mute font-mono">Bullet Journal</span>
+              </button>
+              <button data-type="isometric" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Isometric Grid</span>
+                <span class="text-[9px] text-mute font-mono">3D Drafting</span>
+              </button>
+              <button data-type="polar" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Polar Coordinates</span>
+                <span class="text-[9px] text-mute font-mono">Circular Bands</span>
+              </button>
+              <button data-type="loglog" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Log-Log Grid</span>
+                <span class="text-[9px] text-mute font-mono">Log Decades</span>
+              </button>
+              <button data-type="semilog" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Semi-Log Y</span>
+                <span class="text-[9px] text-mute font-mono">Linear X / Log Y</span>
+              </button>
+              <button data-type="hexagonal" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Hexagonal</span>
+                <span class="text-[9px] text-mute font-mono">Hex Tiling</span>
+              </button>
+              <button data-type="triangular" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Triangular Grid</span>
+                <span class="text-[9px] text-mute font-mono">3-Axis Triangles</span>
+              </button>
+              <button data-type="blank" class="grid-selector flex flex-col items-center justify-center rounded-sm border border-hairline bg-canvas p-2.5 text-center transition-all hover:bg-canvas-soft-2 focus:outline-none">
+                <span class="text-xs font-medium text-ink">Blank Paper</span>
+                <span class="text-[9px] text-mute font-mono">Margins only</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Paper Layout Settings -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">2. Paper Geometry</h4>
+            
+            <div class="flex flex-col gap-1.5">
+              <label for="paper-size" class="text-[10px] font-semibold text-body">Paper Size Format</label>
+              <select id="paper-size" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none">
+                <option value="A4">A4 (210 &times; 297 mm)</option>
+                <option value="A3">A3 (297 &times; 420 mm)</option>
+                <option value="A5">A5 (148 &times; 210 mm)</option>
+                <option value="A2">A2 (420 &times; 594 mm)</option>
+                <option value="letter">Letter (8.5 &times; 11 in)</option>
+                <option value="legal">Legal (8.5 &times; 14 in)</option>
+                <option value="tabloid">Tabloid (11 &times; 17 in)</option>
+                <option value="custom">Custom Dimensions...</option>
+              </select>
+            </div>
+
+            <!-- Custom width and height fields -->
+            <div id="custom-dims" class="hidden grid grid-cols-2 gap-2 mt-1">
+              <div>
+                <label for="custom-w" class="text-[9px] font-mono text-mute block mb-0.5">Width</label>
+                <input type="number" id="custom-w" value="210" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2 text-ink focus:outline-none" />
+              </div>
+              <div>
+                <label for="custom-h" class="text-[9px] font-mono text-mute block mb-0.5">Height</label>
+                <input type="number" id="custom-h" value="297" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2 text-ink focus:outline-none" />
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-1.5 mt-1">
+              <label class="text-[10px] font-semibold text-body">Orientation</label>
+              <div class="flex gap-2">
+                <button id="orient-portrait" class="orient-btn flex-1 py-1.5 text-center text-xs font-semibold rounded-sm border border-primary bg-canvas text-ink focus:outline-none">Portrait</button>
+                <button id="orient-landscape" class="orient-btn flex-1 py-1.5 text-center text-xs font-medium rounded-sm border border-hairline bg-canvas text-ink focus:outline-none">Landscape</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Grid Details (Spacing) -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">3. Grid Spacing</h4>
+            
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="spacing-unit" class="text-[10px] font-semibold text-body block mb-1">Unit</label>
+                <select id="spacing-unit" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none">
+                  <option value="mm">mm</option>
+                  <option value="cm">cm</option>
+                  <option value="in">inch</option>
+                </select>
+              </div>
+              <div>
+                <label for="grid-spacing-preset" class="text-[10px] font-semibold text-body block mb-1">Grid Spacing</label>
+                <select id="grid-spacing-preset" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5" selected>5</option>
+                  <option value="8">8</option>
+                  <option value="10">10</option>
+                  <option value="custom">Custom...</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Custom Spacing Input -->
+            <div id="custom-spacing-container" class="hidden flex-col gap-1">
+              <label for="custom-spacing-input" class="text-[9px] font-mono text-mute">Custom Spacing Value</label>
+              <input type="number" id="custom-spacing-input" step="any" value="5.0" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none" />
+            </div>
+
+            <div class="flex flex-col gap-1.5 mt-1">
+              <label for="major-interval" class="text-[10px] font-semibold text-body">Major Bold Line Interval</label>
+              <select id="major-interval" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none">
+                <option value="5" selected>Every 5th line</option>
+                <option value="10">Every 10th line</option>
+                <option value="0">None (Equal grid lines)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4. Grid Themes & Colors styling -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">4. Grid Appearance & Themes</h4>
+            
+            <div class="flex flex-col gap-1.5">
+              <label for="theme-preset" class="text-[10px] font-semibold text-body">Theme Presets</label>
+              <select id="theme-preset" class="w-full h-8 rounded-sm border border-hairline bg-canvas text-xs px-2.5 text-ink focus:outline-none">
+                <option value="classic">Classic (Gray & Blue)</option>
+                <option value="green">Traditional Green Sheet</option>
+                <option value="blueprint">Blueprint (Deep Blue & White)</option>
+                <option value="lightgray">Light Minimal Gray</option>
+                <option value="dark">Dark Theme Grid</option>
+                <option value="custom">Custom Color Profile...</option>
+              </select>
+            </div>
+
+            <!-- Custom Colors -->
+            <div id="custom-colors-wrapper" class="flex flex-col gap-2 mt-1 hidden">
+              <div class="flex justify-between items-center text-xs">
+                <span>Background Color</span>
+                <input type="color" id="color-bg" value="#ffffff" class="w-8 h-6 p-0 border border-hairline cursor-pointer" />
+              </div>
+              <div class="flex justify-between items-center text-xs">
+                <span>Minor Grid Color</span>
+                <input type="color" id="color-minor" value="#ebebeb" class="w-8 h-6 p-0 border border-hairline cursor-pointer" />
+              </div>
+              <div class="flex justify-between items-center text-xs">
+                <span>Major Grid Color</span>
+                <input type="color" id="color-major" value="#a1a1a1" class="w-8 h-6 p-0 border border-hairline cursor-pointer" />
+              </div>
+            </div>
+
+            <!-- Line sliders -->
+            <div class="flex flex-col gap-1 mt-2">
+              <div class="flex justify-between text-[9px] font-mono uppercase tracking-wider text-mute">
+                <span>Grid Opacity</span>
+                <span id="opacity-val-txt">60%</span>
+              </div>
+              <input type="range" id="grid-opacity-slider" min="10" max="100" value="60" class="w-full h-1 bg-hairline rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" />
+            </div>
+
+            <div class="flex flex-col gap-1 mt-2">
+              <div class="flex justify-between text-[9px] font-mono uppercase tracking-wider text-mute">
+                <span>Line Thickness</span>
+                <span id="thickness-val-txt">0.2mm</span>
+              </div>
+              <input type="range" id="grid-thickness-slider" min="10" max="100" value="20" class="w-full h-1 bg-hairline rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- 5. Margins -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">5. Margins (mm)</h4>
+            
+            <div class="flex items-center justify-between border-b border-hairline pb-2 mb-1">
+              <label for="margin-type" class="text-xs font-semibold text-ink">Margin Settings</label>
+              <select id="margin-type" class="h-7 border border-hairline bg-canvas text-xs px-1 focus:outline-none rounded-sm">
+                <option value="auto">Auto (10mm)</option>
+                <option value="custom">Custom...</option>
+              </select>
+            </div>
+
+            <div id="custom-margins-fields" class="grid grid-cols-4 gap-1.5 hidden">
+              <div>
+                <label for="m-top" class="text-[8px] uppercase text-mute block mb-0.5 text-center">Top</label>
+                <input type="number" id="m-top" value="10" class="w-full h-7 border border-hairline bg-canvas text-xs text-center focus:outline-none rounded-sm" />
+              </div>
+              <div>
+                <label for="m-bottom" class="text-[8px] uppercase text-mute block mb-0.5 text-center">Bottom</label>
+                <input type="number" id="m-bottom" value="10" class="w-full h-7 border border-hairline bg-canvas text-xs text-center focus:outline-none rounded-sm" />
+              </div>
+              <div>
+                <label for="m-left" class="text-[8px] uppercase text-mute block mb-0.5 text-center">Left</label>
+                <input type="number" id="m-left" value="10" class="w-full h-7 border border-hairline bg-canvas text-xs text-center focus:outline-none rounded-sm" />
+              </div>
+              <div>
+                <label for="m-right" class="text-[8px] uppercase text-mute block mb-0.5 text-center">Right</label>
+                <input type="number" id="m-right" value="10" class="w-full h-7 border border-hairline bg-canvas text-xs text-center focus:outline-none rounded-sm" />
+              </div>
+            </div>
+
+            <!-- Print Guides check -->
+            <div class="flex items-center justify-between text-xs mt-1">
+              <span>Show Print Margin Guide</span>
+              <input type="checkbox" id="check-print-guides" checked class="accent-primary cursor-pointer" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span>Show Crop Marks</span>
+              <input type="checkbox" id="check-crop-marks" class="accent-primary cursor-pointer" />
+            </div>
+          </div>
+
+          <!-- 6. Draw stroke brush size and colors -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">6. Brush & Annotation Colors</h4>
+            <div class="flex justify-between items-center text-xs">
+              <span>Brush Color</span>
+              <input type="color" id="draw-color" value="#0070f3" class="w-8 h-6 p-0 border border-hairline cursor-pointer" />
+            </div>
+            <div class="flex flex-col gap-1 mt-1">
+              <div class="flex justify-between text-[9px] font-mono uppercase tracking-wider text-mute">
+                <span>Brush Size</span>
+                <span id="brush-size-val">1.5mm</span>
+              </div>
+              <input type="range" id="brush-size-slider" min="5" max="50" value="15" class="w-full h-1 bg-hairline rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- 7. Print & Export actions -->
+          <div class="flex flex-col gap-3 rounded-md border border-hairline bg-canvas p-4 shadow-sm">
+            <h4 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute">7. Publish, Print &amp; Export</h4>
+            
+            <button id="main-print-btn" class="w-full py-2.5 rounded-sm bg-primary text-xs font-semibold text-white hover:bg-primary/95 flex items-center justify-center gap-2 shadow-xs transition-colors">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+              Print Graph Paper
+            </button>
+
+            <div class="grid grid-cols-2 gap-2 mt-1">
+              <button id="export-png" class="py-1.5 rounded-sm border border-hairline hover:bg-canvas-soft-2 text-[11px] text-ink font-medium transition-colors">Export PNG</button>
+              <button id="export-svg" class="py-1.5 rounded-sm border border-hairline hover:bg-canvas-soft-2 text-[11px] text-ink font-medium transition-colors">Export SVG</button>
+              <button id="export-pdf-raster" class="py-1.5 rounded-sm border border-hairline hover:bg-canvas-soft-2 text-[11px] text-ink font-medium transition-colors" title="PDF containing high-res raster layout">Raster PDF</button>
+              <button id="export-pdf-vector" class="py-1.5 rounded-sm border border-hairline hover:bg-canvas-soft-2 text-[11px] text-ink font-medium transition-colors" title="Vector PDF with infinite zoom capabilities">Vector PDF</button>
+            </div>
+
+            <button id="copy-url-btn" class="w-full py-1.5 border border-dashed border-hairline hover:bg-canvas-soft text-[10px] text-mute flex items-center justify-center gap-1.5 rounded-sm transition-colors mt-1">
+              <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 10.742l4.685-4.685a4.82 4.82 0 016.816 6.816l-5.43 5.43a4.82 4.82 0 01-6.816 0l-.348-.348M13.784 13.258l-4.686 4.686a4.82 4.82 0 01-6.816-6.816l5.43-5.43a4.82 4.82 0 016.816 0l.348.348" />
+              </svg>
+              Copy configuration link
+            </button>
+          </div>
+
+        </div>
+      </aside>
+
+    </main>
+
+    <!-- Sidebar Drawer Backdrop (Mobile only) -->
+    <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-primary/30 backdrop-blur-xs hidden lg:hidden print:hidden"></div>
+
+  </div>
+
+  <!-- SEO Text & Informative Content Section -->
+  <section id="seo-content" class="w-full bg-canvas-soft text-ink print:hidden border-t border-hairline">
+    <div class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      
+      <div class="w-full text-center max-w-3xl mx-auto mb-16">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-ink mb-4 leading-tight">
+          Print Graph Paper Online <span class="text-link-blue">— Customizable Paper Grid Generator</span>
+        </h1>
+        <p class="text-sm sm:text-base text-mute leading-relaxed">
+          Create, edit, draw, and print perfectly scaled graph sheets directly from your browser. Download vector-perfect PDF, high-res PNG, or raw SVG templates for engineering, math, journaling, and 3D drafting.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 text-sm text-body leading-relaxed">
+        
+        <div class="space-y-6">
+          <div class="rounded-md border border-hairline bg-canvas p-6 shadow-xs">
+            <h2 class="text-base sm:text-lg font-bold text-ink mb-3">All Major Grid Styles Supported</h2>
+            <p>
+              Our generator supports 11 printable paper templates. Choose from standard **Square grids** for basic maths, authentic **Traditional Green Engineering sheets** with double major margins, circular **Polar charts** for coordinate graphing, **Logarithmic grids** for multi-decade frequency tracking, **Isometric papers** for 3D drawing, and specialized **Hexagonal tiling** or **Triangular grids** for bullet journaling, crafts, and geometry.
+            </p>
+          </div>
+          <div class="rounded-md border border-hairline bg-canvas p-6 shadow-xs">
+            <h2 class="text-base sm:text-lg font-bold text-ink mb-3">Millimeter-Accurate Physical Layouts</h2>
+            <p>
+              Get perfectly scaled prints on A5, A4, A3, Letter, Legal, or Tabloid paper sizes. Choose your margins, toggle crop marks for precision trimming, and select custom spacings in mm, cm, or inches (e.g. 5mm, 1/4 inch, 1/10 inch). Toggle the "Show safe area guide" to see boundaries before printing to ensure no lines are cut off by your printer margins.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="rounded-md border border-hairline bg-canvas p-6 shadow-xs">
+            <h2 class="text-base sm:text-lg font-bold text-ink mb-3">Built-in Vector Drawing Canvas</h2>
+            <p>
+              Unlike static PDF downloads, our generator allows you to sketch, draw lines, add coordinate arrows, write text descriptions, and place geometric bounding boxes directly on the sheet before printing. The drawing tools scale with the grid, allowing you to create complete lab diagrams or plotting sheets online.
+            </p>
+          </div>
+          <div class="rounded-md border border-hairline bg-canvas p-6 shadow-xs">
+            <h2 class="text-base sm:text-lg font-bold text-ink mb-3">Vector-Perfect PDF &amp; SVG Exports</h2>
+            <p>
+              Download vector-grade PDFs and raw SVGs that render with sub-millimeter precision on physical paper. You can also export high-resolution PNGs or copy a direct shareable URL containing your exact settings hash parameter to reload your customized sheet configuration at any time.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    
+    <Footer />
+  </section>
+
+  <!-- Print-only Hidden Vector Graphic Wrapper -->
+  <div id="print-vector-container" class="hidden print:block print:fixed print:inset-0 print:w-full print:h-full print:bg-white print:z-[99999]"></div>
+</Layout>
+
+<!-- Core Application Client Script -->
+<script is:inline>
+  // Global holder to check libraries loading
+  window.addEventListener('load', () => {
+    // Dynamic jsPDF loader helper
+    async function getJsPDF() {
+      if (window.jspdf) return window.jspdf.jsPDF;
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        script.onload = () => resolve(null);
+        script.onerror = () => reject(new Error('Failed to load jsPDF'));
+        document.head.appendChild(script);
+      });
+      // @ts-ignore
+      return window.jspdf.jsPDF;
+    }
+
+    // DOM Elements
+    const paperCanvas = document.getElementById('paper-canvas');
+    const paperCtx = paperCanvas.getContext('2d');
+    
+    const drawingCanvas = document.getElementById('drawing-canvas');
+    const drawCtx = drawingCanvas.getContext('2d');
+
+    const shadowWrapper = document.getElementById('paper-shadow-wrapper');
+    const printVectorContainer = document.getElementById('print-vector-container');
+    
+    // HUD Elements
+    const zoomInHUD = document.getElementById('view-zoom-in');
+    const zoomOutHUD = document.getElementById('view-zoom-out');
+    const resetHUD = document.getElementById('view-reset');
+    const zoomHUDTxt = document.getElementById('zoom-hud-txt');
+    const textPopup = document.getElementById('text-editor-popup');
+    const textInput = document.getElementById('text-editor-input');
+    const textCancel = document.getElementById('text-editor-cancel');
+    const textOK = document.getElementById('text-editor-ok');
+
+    // Inputs & Sidebar controls
+    const sizeSelect = document.getElementById('paper-size');
+    const customDims = document.getElementById('custom-dims');
+    const customWInput = document.getElementById('custom-w');
+    const customHInput = document.getElementById('custom-h');
+    
+    const orientPortrait = document.getElementById('orient-portrait');
+    const orientLandscape = document.getElementById('orient-landscape');
+    
+    const unitSelect = document.getElementById('spacing-unit');
+    const spacingSelect = document.getElementById('grid-spacing-preset');
+    const customSpacingContainer = document.getElementById('custom-spacing-container');
+    const customSpacingInput = document.getElementById('custom-spacing-input');
+    const majorSelect = document.getElementById('major-interval');
+    
+    const themeSelect = document.getElementById('theme-preset');
+    const customColorsWrapper = document.getElementById('custom-colors-wrapper');
+    const colorBG = document.getElementById('color-bg');
+    const colorMinor = document.getElementById('color-minor');
+    const colorMajor = document.getElementById('color-major');
+    const opacitySlider = document.getElementById('grid-opacity-slider');
+    const thicknessSlider = document.getElementById('grid-thickness-slider');
+    
+    const marginSelect = document.getElementById('margin-type');
+    const customMarginsFields = document.getElementById('custom-margins-fields');
+    const mTopInput = document.getElementById('m-top');
+    const mBottomInput = document.getElementById('m-bottom');
+    const mLeftInput = document.getElementById('m-left');
+    const mRightInput = document.getElementById('m-right');
+    
+    const checkPrintGuides = document.getElementById('check-print-guides');
+    const checkCropMarks = document.getElementById('check-crop-marks');
+
+    const brushColorInput = document.getElementById('draw-color');
+    const brushSlider = document.getElementById('brush-size-slider');
+
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    
+    // Actions
+    const btnPrint = document.getElementById('main-print-btn');
+    const btnPNG = document.getElementById('export-png');
+    const btnSVG = document.getElementById('export-svg');
+    const btnPDFRaster = document.getElementById('export-pdf-raster');
+    const btnPDFVector = document.getElementById('export-pdf-vector');
+    const btnCopyURL = document.getElementById('copy-url-btn');
+
+    const btnUndo = document.getElementById('draw-undo');
+    const btnRedo = document.getElementById('draw-redo');
+    const btnClear = document.getElementById('draw-clear');
+
+    // Toolbar elements
+    const toolbar = document.getElementById('drawing-toolbar');
+    const toggleToolbarBtn = document.getElementById('toggle-toolbar-orient');
+
+    // Geometry Definitions
+    const sizesMm = {
+      A5: { w: 148, h: 210 },
+      A4: { w: 210, h: 297 },
+      A3: { w: 297, h: 420 },
+      A2: { w: 420, h: 594 },
+      letter: { w: 215.9, h: 279.4 },
+      legal: { w: 215.9, h: 355.6 },
+      tabloid: { w: 279.4, h: 431.8 }
+    };
+
+    const themes = {
+      classic: { bg: '#ffffff', minor: '#e2e8f0', major: '#94a3b8' },
+      green: { bg: '#fafdfa', minor: '#c2ebd0', major: '#4fa368' },
+      blueprint: { bg: '#0b2447', minor: '#1d5c96', major: '#a5f3fc' },
+      lightgray: { bg: '#fbfbfb', minor: '#e5e5e5', major: '#737373' },
+      dark: { bg: '#0e0e11', minor: '#27272a', major: '#52525b' }
+    };
+
+    let settings = {
+      gridType: 'green',
+      paperSize: 'A4',
+      customWidth: 210,
+      customHeight: 297,
+      orientation: 'portrait',
+      spacingUnit: 'mm',
+      gridSpacing: 5.0,
+      majorInterval: 5,
+      theme: 'green',
+      backgroundColor: '#fafdfa',
+      minorColor: '#c2ebd0',
+      majorColor: '#4fa368',
+      gridOpacity: 0.85,
+      gridThickness: 0.35,
+      marginType: 'auto',
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: 10,
+      marginRight: 10,
+      showPrintGuides: true,
+      showCropMarks: false,
+      activeTool: 'move',
+      drawColor: '#0070f3',
+      drawSize: 1.5
+    };
+
+    let viewportState = {
+      zoom: 1.0,
+      panX: 0,
+      panY: 0
+    };
+
+    let shapes = [];
+    let shapesRedoStack = [];
+
+    let isInteracting = false;
+    let lastX = 0;
+    let lastY = 0;
+    let textPopupPosition = { x: 0, y: 0 };
+    let currentStrokePoints = [];
+
+    // Touch variables for mobile
+    let lastTouchDist = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let touchCanceled = false;
+
+    const RENDER_DPI = 150;
+    const MM_TO_INCH = 25.4;
+    const pixelsPerMm = RENDER_DPI / MM_TO_INCH;
+
+    function init() {
+      loadFromUrl();
+      syncSidebarUi();
+      applyThemeColors();
+      updatePaperSize();
+      fitToContainer();
+      drawPaper();
+      setupEventListeners();
+    }
+
+    function syncSidebarUi() {
+      document.querySelectorAll('.grid-selector').forEach(btn => {
+        const type = btn.getAttribute('data-type');
+        if (type === settings.gridType) {
+          btn.classList.add('border-primary', 'bg-canvas-soft-2');
+          btn.classList.remove('border-hairline');
+        } else {
+          btn.classList.remove('border-primary', 'bg-canvas-soft-2');
+          btn.classList.add('border-hairline');
+        }
+      });
+
+      sizeSelect.value = settings.paperSize;
+      if (settings.paperSize === 'custom') {
+        customDims.classList.remove('hidden');
+        customWInput.value = settings.customWidth.toString();
+        customHInput.value = settings.customHeight.toString();
+      } else {
+        customDims.classList.add('hidden');
+      }
+
+      if (settings.orientation === 'portrait') {
+        orientPortrait.classList.add('border-primary', 'font-semibold');
+        orientPortrait.classList.remove('border-hairline', 'font-medium');
+        orientLandscape.classList.remove('border-primary', 'font-semibold');
+        orientLandscape.classList.add('border-hairline', 'font-medium');
+      } else {
+        orientLandscape.classList.add('border-primary', 'font-semibold');
+        orientLandscape.classList.remove('border-hairline', 'font-medium');
+        orientPortrait.classList.remove('border-primary', 'font-semibold');
+        orientPortrait.classList.add('border-hairline', 'font-medium');
+      }
+
+      unitSelect.value = settings.spacingUnit;
+      
+      let spacingVal = settings.gridSpacing;
+      if (settings.spacingUnit === 'cm') spacingVal = settings.gridSpacing / 10;
+      if (settings.spacingUnit === 'in') spacingVal = settings.gridSpacing / 25.4;
+
+      const presetOptions = Array.from(spacingSelect.options).map(o => o.value);
+      const closestPreset = presetOptions.find(val => Math.abs(Number(val) - spacingVal) < 1e-4);
+      
+      if (closestPreset && closestPreset !== 'custom') {
+        spacingSelect.value = closestPreset;
+        customSpacingContainer.classList.add('hidden');
+      } else {
+        spacingSelect.value = 'custom';
+        customSpacingContainer.classList.remove('hidden');
+        customSpacingInput.value = spacingVal.toString();
+      }
+
+      majorSelect.value = settings.majorInterval.toString();
+      themeSelect.value = settings.theme;
+      if (settings.theme === 'custom') {
+        customColorsWrapper.classList.remove('hidden');
+      } else {
+        customColorsWrapper.classList.add('hidden');
+      }
+      colorBG.value = settings.backgroundColor;
+      colorMinor.value = settings.minorColor;
+      colorMajor.value = settings.majorColor;
+      
+      opacitySlider.value = Math.round(settings.gridOpacity * 100).toString();
+      document.getElementById('opacity-val-txt').textContent = `${Math.round(settings.gridOpacity * 100)}%`;
+      
+      thicknessSlider.value = Math.round(settings.gridThickness * 100).toString();
+      document.getElementById('thickness-val-txt').textContent = `${settings.gridThickness.toFixed(2)}mm`;
+
+      marginSelect.value = settings.marginType;
+      if (settings.marginType === 'custom') {
+        customMarginsFields.classList.remove('hidden');
+        mTopInput.value = settings.marginTop.toString();
+        mBottomInput.value = settings.marginBottom.toString();
+        mLeftInput.value = settings.marginLeft.toString();
+        mRightInput.value = settings.marginRight.toString();
+      } else {
+        customMarginsFields.classList.add('hidden');
+      }
+
+      checkPrintGuides.checked = settings.showPrintGuides;
+      checkCropMarks.checked = settings.showCropMarks;
+
+      brushColorInput.value = settings.drawColor;
+      brushSlider.value = Math.round(settings.drawSize * 10).toString();
+      document.getElementById('brush-size-val').textContent = `${settings.drawSize.toFixed(1)}mm`;
+
+      document.querySelectorAll('.draw-tool-btn').forEach(btn => {
+        const tool = btn.getAttribute('data-tool');
+        if (tool === settings.activeTool) {
+          btn.classList.add('active', 'border-primary', 'bg-canvas-soft-2');
+          btn.classList.remove('border-hairline');
+        } else {
+          btn.classList.remove('active', 'border-primary', 'bg-canvas-soft-2');
+          btn.classList.add('border-hairline');
+        }
+      });
+
+      updateUndoRedoButtons();
+    }
+
+    function applyThemeColors() {
+      if (settings.theme === 'custom') return;
+      const colors = themes[settings.theme];
+      if (colors) {
+        settings.backgroundColor = colors.bg;
+        settings.minorColor = colors.minor;
+        settings.majorColor = colors.major;
+      }
+    }
+
+    function updatePaperSize() {
+      let w = 210;
+      let h = 297;
+      
+      if (settings.paperSize === 'custom') {
+        w = settings.customWidth;
+        h = settings.customHeight;
+      } else {
+        const def = sizesMm[settings.paperSize];
+        if (def) {
+          w = def.w;
+          h = def.h;
+        }
+      }
+
+      if (settings.orientation === 'landscape') {
+        const tmp = w;
+        w = h;
+        h = tmp;
+      }
+
+      const widthPx = Math.round(w * pixelsPerMm);
+      const heightPx = Math.round(h * pixelsPerMm);
+
+      paperCanvas.width = widthPx;
+      paperCanvas.height = heightPx;
+      drawingCanvas.width = widthPx;
+      drawingCanvas.height = heightPx;
+
+      const screenScale = 2.0;
+      shadowWrapper.style.width = `${Math.round(w * screenScale)}px`;
+      shadowWrapper.style.height = `${Math.round(h * screenScale)}px`;
+
+      paperCtx.resetTransform();
+      paperCtx.scale(pixelsPerMm, pixelsPerMm);
+      drawCtx.resetTransform();
+      drawCtx.scale(pixelsPerMm, pixelsPerMm);
+    }
+
+    function fitToContainer() {
+      const previewContainer = shadowWrapper.parentElement;
+      const pad = 64;
+      const availW = previewContainer.clientWidth - pad;
+      const availH = previewContainer.clientHeight - pad;
+
+      const paperW = parseFloat(shadowWrapper.style.width);
+      const paperH = parseFloat(shadowWrapper.style.height);
+
+      const scaleX = availW / paperW;
+      const scaleY = availH / paperH;
+      const finalZoom = Math.min(scaleX, scaleY, 1.5);
+
+      viewportState.zoom = finalZoom;
+      viewportState.panX = 0;
+      viewportState.panY = 0;
+
+      applyViewportTransform();
+    }
+
+    function applyViewportTransform() {
+      shadowWrapper.style.transform = `translate(${viewportState.panX}px, ${viewportState.panY}px) scale(${viewportState.zoom})`;
+      zoomHUDTxt.textContent = `${Math.round(viewportState.zoom * 100)}%`;
+    }
+
+    function drawPaper() {
+      drawGrid();
+      drawOverlayShapes();
+    }
+
+    function drawGrid() {
+      let W = paperCanvas.width / pixelsPerMm;
+      let H = paperCanvas.height / pixelsPerMm;
+
+      let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+      let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+      let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+      let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+
+      const left = mL;
+      const right = W - mR;
+      const top = mT;
+      const bottom = H - mB;
+
+      paperCtx.clearRect(0, 0, W, H);
+      paperCtx.fillStyle = settings.backgroundColor;
+      paperCtx.fillRect(0, 0, W, H);
+
+      paperCtx.save();
+      paperCtx.beginPath();
+      paperCtx.rect(left, top, right - left, bottom - top);
+      paperCtx.clip();
+
+      paperCtx.globalAlpha = settings.gridOpacity;
+      paperCtx.lineCap = 'round';
+      paperCtx.lineJoin = 'round';
+
+      const spacing = settings.gridSpacing;
+      const major = settings.majorInterval;
+
+      if (settings.gridType === 'square' || settings.gridType === 'green' || settings.gridType === 'cartesian') {
+        let col = 0;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          const isMajor = major > 0 && col % major === 0;
+          paperCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+          paperCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+          
+          paperCtx.beginPath();
+          paperCtx.moveTo(x, top);
+          paperCtx.lineTo(x, bottom);
+          paperCtx.stroke();
+          col++;
+        }
+
+        let row = 0;
+        for (let y = top; y <= bottom + 0.01; y += spacing) {
+          const isMajor = major > 0 && row % major === 0;
+          paperCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+          paperCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+          
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, y);
+          paperCtx.lineTo(right, y);
+          paperCtx.stroke();
+          row++;
+        }
+
+        if (settings.gridType === 'cartesian') {
+          const cx = left + (right - left) / 2;
+          const cy = top + (bottom - top) / 2;
+
+          paperCtx.strokeStyle = settings.majorColor;
+          paperCtx.lineWidth = settings.gridThickness * 1.5;
+
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, cy);
+          paperCtx.lineTo(right, cy);
+          paperCtx.stroke();
+
+          paperCtx.beginPath();
+          paperCtx.moveTo(cx, top);
+          paperCtx.lineTo(cx, bottom);
+          paperCtx.stroke();
+
+          paperCtx.fillStyle = settings.majorColor;
+          paperCtx.font = '2.5px sans-serif';
+          paperCtx.textAlign = 'center';
+          
+          let labelIndex = 0;
+          for (let x = cx + spacing; x <= right; x += spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) paperCtx.fillText(labelIndex.toString(), x, cy + 3.5);
+          }
+          labelIndex = 0;
+          for (let x = cx - spacing; x >= left; x -= spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) paperCtx.fillText(`-${labelIndex}`, x, cy + 3.5);
+          }
+
+          paperCtx.textAlign = 'right';
+          labelIndex = 0;
+          for (let y = cy - spacing; y >= top; y -= spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) paperCtx.fillText(labelIndex.toString(), cx - 1.5, y + 0.8);
+          }
+          labelIndex = 0;
+          for (let y = cy + spacing; y <= bottom; y += spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) paperCtx.fillText(`-${labelIndex}`, cx - 1.5, y + 0.8);
+          }
+        }
+      } else if (settings.gridType === 'dot') {
+        paperCtx.fillStyle = settings.minorColor;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          for (let y = top; y <= bottom + 0.01; y += spacing) {
+            paperCtx.beginPath();
+            paperCtx.arc(x, y, settings.gridThickness / 2, 0, 2 * Math.PI);
+            paperCtx.fill();
+          }
+        }
+      } else if (settings.gridType === 'isometric') {
+        const dy = spacing * Math.sqrt(3) / 2;
+        paperCtx.strokeStyle = settings.minorColor;
+        paperCtx.lineWidth = settings.gridThickness / 2;
+
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(x, top);
+          paperCtx.lineTo(x, bottom);
+          paperCtx.stroke();
+        }
+
+        const stepC = spacing * Math.sqrt(3);
+        const minC = top - 0.57735 * right;
+        const maxC = bottom - 0.57735 * left;
+        for (let c = minC; c <= maxC; c += stepC) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, 0.57735 * left + c);
+          paperCtx.lineTo(right, 0.57735 * right + c);
+          paperCtx.stroke();
+        }
+
+        const minC2 = top + 0.57735 * left;
+        const maxC2 = bottom + 0.57735 * right;
+        for (let c = minC2; c <= maxC2; c += stepC) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, -0.57735 * left + c);
+          paperCtx.lineTo(right, -0.57735 * right + c);
+          paperCtx.stroke();
+        }
+      } else if (settings.gridType === 'polar') {
+        const cx = left + (right - left) / 2;
+        const cy = top + (bottom - top) / 2;
+        const maxRadius = Math.sqrt((right - left) ** 2 + (bottom - top) ** 2) / 2;
+
+        paperCtx.strokeStyle = settings.minorColor;
+        paperCtx.lineWidth = settings.gridThickness / 2;
+
+        for (let r = spacing; r <= maxRadius; r += spacing) {
+          paperCtx.beginPath();
+          paperCtx.arc(cx, cy, r, 0, 2 * Math.PI);
+          paperCtx.stroke();
+        }
+
+        for (let angle = 0; angle < 360; angle += 15) {
+          const rad = (angle * Math.PI) / 180;
+          const x2 = cx + maxRadius * Math.cos(rad);
+          const y2 = cy + maxRadius * Math.sin(rad);
+          
+          paperCtx.beginPath();
+          paperCtx.moveTo(cx, cy);
+          paperCtx.lineTo(x2, y2);
+          paperCtx.stroke();
+        }
+      } else if (settings.gridType === 'loglog' || settings.gridType === 'semilog') {
+        const numDecadesX = settings.gridType === 'loglog' ? 3 : 5;
+        const numDecadesY = 4;
+        const decWidth = (right - left) / numDecadesX;
+        const decHeight = (bottom - top) / numDecadesY;
+
+        if (settings.gridType === 'loglog') {
+          for (let d = 0; d < numDecadesX; d++) {
+            const dStart = left + d * decWidth;
+            paperCtx.strokeStyle = settings.majorColor;
+            paperCtx.lineWidth = settings.gridThickness;
+            paperCtx.beginPath();
+            paperCtx.moveTo(dStart, top);
+            paperCtx.lineTo(dStart, bottom);
+            paperCtx.stroke();
+
+            paperCtx.strokeStyle = settings.minorColor;
+            paperCtx.lineWidth = settings.gridThickness / 2;
+            for (let k = 2; k <= 9; k++) {
+              const x = dStart + Math.log10(k) * decWidth;
+              paperCtx.beginPath();
+              paperCtx.moveTo(x, top);
+              paperCtx.lineTo(x, bottom);
+              paperCtx.stroke();
+            }
+          }
+          paperCtx.strokeStyle = settings.majorColor;
+          paperCtx.lineWidth = settings.gridThickness;
+          paperCtx.beginPath();
+          paperCtx.moveTo(right, top);
+          paperCtx.lineTo(right, bottom);
+          paperCtx.stroke();
+        } else {
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            paperCtx.strokeStyle = settings.minorColor;
+            paperCtx.lineWidth = settings.gridThickness / 2;
+            paperCtx.beginPath();
+            paperCtx.moveTo(x, top);
+            paperCtx.lineTo(x, bottom);
+            paperCtx.stroke();
+          }
+        }
+
+        for (let d = 0; d < numDecadesY; d++) {
+          const dStart = bottom - d * decHeight;
+          paperCtx.strokeStyle = settings.majorColor;
+          paperCtx.lineWidth = settings.gridThickness;
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, dStart);
+          paperCtx.lineTo(right, dStart);
+          paperCtx.stroke();
+
+          paperCtx.strokeStyle = settings.minorColor;
+          paperCtx.lineWidth = settings.gridThickness / 2;
+          for (let k = 2; k <= 9; k++) {
+            const y = dStart - Math.log10(k) * decHeight;
+            paperCtx.beginPath();
+            paperCtx.moveTo(left, y);
+            paperCtx.lineTo(right, y);
+            paperCtx.stroke();
+          }
+        }
+        paperCtx.strokeStyle = settings.majorColor;
+        paperCtx.lineWidth = settings.gridThickness;
+        paperCtx.beginPath();
+        paperCtx.moveTo(left, top);
+        paperCtx.lineTo(right, top);
+        paperCtx.stroke();
+      } else if (settings.gridType === 'hexagonal') {
+        const r = spacing;
+        const h = r * Math.sqrt(3);
+
+        paperCtx.strokeStyle = settings.minorColor;
+        paperCtx.lineWidth = settings.gridThickness / 2;
+
+        const cols = Math.ceil((right - left) / (r * 1.5)) + 1;
+        const rows = Math.ceil((bottom - top) / h) + 1;
+
+        for (let col = -1; col < cols; col++) {
+          for (let row = -1; row < rows; row++) {
+            const cx = left + col * r * 1.5;
+            const cy = top + row * h + (col % 2 === 0 ? 0 : h / 2);
+
+            paperCtx.beginPath();
+            for (let i = 0; i < 6; i++) {
+              const angle = (i * Math.PI) / 3;
+              const x = cx + r * Math.cos(angle);
+              const y = cy + r * Math.sin(angle);
+              if (i === 0) paperCtx.moveTo(x, y);
+              else paperCtx.lineTo(x, y);
+            }
+            paperCtx.closePath();
+            paperCtx.stroke();
+          }
+        }
+      } else if (settings.gridType === 'triangular') {
+        const dy = spacing * Math.sqrt(3) / 2;
+        paperCtx.strokeStyle = settings.minorColor;
+        paperCtx.lineWidth = settings.gridThickness / 2;
+
+        for (let y = top; y <= bottom + 0.01; y += dy) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, y);
+          paperCtx.lineTo(right, y);
+          paperCtx.stroke();
+        }
+
+        const stepC = spacing;
+        const minC = top - 1.73205 * right;
+        const maxC = bottom - 1.73205 * left;
+        for (let c = minC; c <= maxC; c += stepC) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, 1.73205 * left + c);
+          paperCtx.lineTo(right, 1.73205 * right + c);
+          paperCtx.stroke();
+        }
+
+        const minC2 = top + 1.73205 * left;
+        const maxC2 = bottom + 1.73205 * right;
+        for (let c = minC2; c <= maxC2; c += stepC) {
+          paperCtx.beginPath();
+          paperCtx.moveTo(left, -1.73205 * left + c);
+          paperCtx.lineTo(right, -1.73205 * right + c);
+          paperCtx.stroke();
+        }
+      }
+
+      paperCtx.restore();
+
+      if (settings.showPrintGuides) {
+        paperCtx.strokeStyle = settings.majorColor;
+        paperCtx.lineWidth = 0.25;
+        paperCtx.setLineDash([2, 2]);
+        paperCtx.beginPath();
+        paperCtx.rect(left, top, right - left, bottom - top);
+        paperCtx.stroke();
+        paperCtx.setLineDash([]);
+      }
+
+      if (settings.showCropMarks) {
+        paperCtx.strokeStyle = '#000000';
+        paperCtx.lineWidth = 0.25;
+        const size = 5;
+
+        paperCtx.beginPath();
+        paperCtx.moveTo(0, top); paperCtx.lineTo(size, top);
+        paperCtx.moveTo(left, 0); paperCtx.lineTo(left, size);
+        paperCtx.stroke();
+
+        paperCtx.beginPath();
+        paperCtx.moveTo(W, top); paperCtx.lineTo(W - size, top);
+        paperCtx.moveTo(right, 0); paperCtx.lineTo(right, size);
+        paperCtx.stroke();
+
+        paperCtx.beginPath();
+        paperCtx.moveTo(0, bottom); paperCtx.lineTo(size, bottom);
+        paperCtx.moveTo(left, H); paperCtx.lineTo(left, H - size);
+        paperCtx.stroke();
+
+        paperCtx.beginPath();
+        paperCtx.moveTo(W, bottom); paperCtx.lineTo(W - size, bottom);
+        paperCtx.moveTo(right, H); paperCtx.lineTo(right, H - size);
+        paperCtx.stroke();
+      }
+
+      paperCtx.globalAlpha = 1.0;
+    }
+
+    function drawOverlayShapes() {
+      const W = drawingCanvas.width / pixelsPerMm;
+      const H = drawingCanvas.height / pixelsPerMm;
+      
+      drawCtx.clearRect(0, 0, W, H);
+
+      shapes.forEach(shape => {
+        drawSingleShape(drawCtx, shape);
+      });
+
+      if (isInteracting && currentStrokePoints.length > 0) {
+        const activeShape = {
+          type: settings.activeTool,
+          points: currentStrokePoints,
+          color: settings.drawColor,
+          width: settings.drawSize
+        };
+        drawSingleShape(drawCtx, activeShape);
+      }
+    }
+
+    function drawSingleShape(ctx, shape) {
+      ctx.strokeStyle = shape.color;
+      ctx.lineWidth = shape.width;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.fillStyle = 'none';
+
+      if (shape.type === 'pencil' || shape.type === 'pen') {
+        if (shape.points.length < 1) return;
+        ctx.beginPath();
+        ctx.moveTo(shape.points[0].x, shape.points[0].y);
+        for (let i = 1; i < shape.points.length; i++) {
+          ctx.lineTo(shape.points[i].x, shape.points[i].y);
+        }
+        ctx.stroke();
+      } else if (shape.type === 'line') {
+        if (shape.points.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(shape.points[0].x, shape.points[0].y);
+        ctx.lineTo(shape.points[1].x, shape.points[1].y);
+        ctx.stroke();
+      } else if (shape.type === 'arrow') {
+        if (shape.points.length < 2) return;
+        const p0 = shape.points[0];
+        const p1 = shape.points[1];
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.stroke();
+
+        const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x);
+        const headlen = 4;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p1.x - headlen * Math.cos(angle - Math.PI / 6), p1.y - headlen * Math.sin(angle - Math.PI / 6));
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p1.x - headlen * Math.cos(angle + Math.PI / 6), p1.y - headlen * Math.sin(angle + Math.PI / 6));
+        ctx.stroke();
+      } else if (shape.type === 'rect') {
+        if (shape.points.length < 2) return;
+        const x = Math.min(shape.points[0].x, shape.points[1].x);
+        const y = Math.min(shape.points[0].y, shape.points[1].y);
+        const w = Math.abs(shape.points[0].x - shape.points[1].x);
+        const h = Math.abs(shape.points[0].y - shape.points[1].y);
+        ctx.strokeRect(x, y, w, h);
+      } else if (shape.type === 'circle') {
+        if (shape.points.length < 2) return;
+        const r = Math.hypot(shape.points[1].x - shape.points[0].x, shape.points[1].y - shape.points[0].y);
+        ctx.beginPath();
+        ctx.arc(shape.points[0].x, shape.points[0].y, r, 0, 2 * Math.PI);
+        ctx.stroke();
+      } else if (shape.type === 'text') {
+        if (shape.points.length < 1) return;
+        ctx.fillStyle = shape.color;
+        ctx.font = `${shape.width * 1.5}px sans-serif`;
+        ctx.fillText(shape.text || '', shape.points[0].x, shape.points[0].y);
+      }
+    }
+
+    function screenToPaper(clientX, clientY) {
+      const rect = drawingCanvas.getBoundingClientRect();
+      const scaleX = drawingCanvas.width / rect.width;
+      const scaleY = drawingCanvas.height / rect.height;
+      
+      const px = (clientX - rect.left) * scaleX;
+      const py = (clientY - rect.top) * scaleY;
+      
+      return {
+        x: px / pixelsPerMm,
+        y: py / pixelsPerMm
+      };
+    }
+
+    function setupEventListeners() {
+      zoomInHUD.addEventListener('click', () => {
+        viewportState.zoom = Math.min(3.0, viewportState.zoom * 1.2);
+        applyViewportTransform();
+      });
+      zoomOutHUD.addEventListener('click', () => {
+        viewportState.zoom = Math.max(0.2, viewportState.zoom / 1.2);
+        applyViewportTransform();
+      });
+      resetHUD.addEventListener('click', () => {
+        fitToContainer();
+      });
+
+      window.addEventListener('resize', () => {
+        fitToContainer();
+      });
+
+      document.querySelectorAll('.grid-selector').forEach(btn => {
+        btn.addEventListener('click', () => {
+          settings.gridType = btn.getAttribute('data-type');
+          syncSidebarUi();
+          drawPaper();
+        });
+      });
+
+      sizeSelect.addEventListener('change', () => {
+        settings.paperSize = sizeSelect.value;
+        if (settings.paperSize === 'custom') {
+          customDims.classList.remove('hidden');
+        } else {
+          customDims.classList.add('hidden');
+        }
+        updatePaperSize();
+        fitToContainer();
+        drawPaper();
+      });
+
+      customWInput.addEventListener('input', () => {
+        settings.customWidth = parseFloat(customWInput.value) || 210;
+        updatePaperSize();
+        fitToContainer();
+        drawPaper();
+      });
+
+      customHInput.addEventListener('input', () => {
+        settings.customHeight = parseFloat(customHInput.value) || 297;
+        updatePaperSize();
+        fitToContainer();
+        drawPaper();
+      });
+
+      orientPortrait.addEventListener('click', () => {
+        settings.orientation = 'portrait';
+        syncSidebarUi();
+        updatePaperSize();
+        fitToContainer();
+        drawPaper();
+      });
+
+      orientLandscape.addEventListener('click', () => {
+        settings.orientation = 'landscape';
+        syncSidebarUi();
+        updatePaperSize();
+        fitToContainer();
+        drawPaper();
+      });
+
+      unitSelect.addEventListener('change', () => {
+        settings.spacingUnit = unitSelect.value;
+        updateSpacing();
+      });
+
+      spacingSelect.addEventListener('change', () => {
+        updateSpacing();
+      });
+
+      customSpacingInput.addEventListener('input', () => {
+        updateSpacing();
+      });
+
+      majorSelect.addEventListener('change', () => {
+        settings.majorInterval = parseInt(majorSelect.value);
+        drawPaper();
+      });
+
+      themeSelect.addEventListener('change', () => {
+        settings.theme = themeSelect.value;
+        applyThemeColors();
+        syncSidebarUi();
+        drawPaper();
+      });
+
+      colorBG.addEventListener('input', () => {
+        settings.theme = 'custom';
+        settings.backgroundColor = colorBG.value;
+        themeSelect.value = 'custom';
+        drawPaper();
+      });
+
+      colorMinor.addEventListener('input', () => {
+        settings.theme = 'custom';
+        settings.minorColor = colorMinor.value;
+        themeSelect.value = 'custom';
+        drawPaper();
+      });
+
+      colorMajor.addEventListener('input', () => {
+        settings.theme = 'custom';
+        settings.majorColor = colorMajor.value;
+        themeSelect.value = 'custom';
+        drawPaper();
+      });
+
+      opacitySlider.addEventListener('input', () => {
+        settings.gridOpacity = parseInt(opacitySlider.value) / 100;
+        document.getElementById('opacity-val-txt').textContent = `${opacitySlider.value}%`;
+        drawPaper();
+      });
+
+      thicknessSlider.addEventListener('input', () => {
+        settings.gridThickness = parseInt(thicknessSlider.value) / 100;
+        document.getElementById('thickness-val-txt').textContent = `${settings.gridThickness.toFixed(2)}mm`;
+        drawPaper();
+      });
+
+      marginSelect.addEventListener('change', () => {
+        settings.marginType = marginSelect.value;
+        if (settings.marginType === 'custom') {
+          customMarginsFields.classList.remove('hidden');
+        } else {
+          customMarginsFields.classList.add('hidden');
+        }
+        drawPaper();
+      });
+
+      [mTopInput, mBottomInput, mLeftInput, mRightInput].forEach(inp => {
+        inp.addEventListener('input', () => {
+          settings.marginTop = parseFloat(mTopInput.value) || 0;
+          settings.marginBottom = parseFloat(mBottomInput.value) || 0;
+          settings.marginLeft = parseFloat(mLeftInput.value) || 0;
+          settings.marginRight = parseFloat(mRightInput.value) || 0;
+          drawPaper();
+        });
+      });
+
+      checkPrintGuides.addEventListener('change', () => {
+        settings.showPrintGuides = checkPrintGuides.checked;
+        drawPaper();
+      });
+
+      checkCropMarks.addEventListener('change', () => {
+        settings.showCropMarks = checkCropMarks.checked;
+        drawPaper();
+      });
+
+      brushColorInput.addEventListener('input', () => {
+        settings.drawColor = brushColorInput.value;
+      });
+
+      brushSlider.addEventListener('input', () => {
+        settings.drawSize = parseInt(brushSlider.value) / 10;
+        document.getElementById('brush-size-val').textContent = `${settings.drawSize.toFixed(1)}mm`;
+      });
+
+      document.querySelectorAll('.draw-tool-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          settings.activeTool = btn.getAttribute('data-tool');
+          syncSidebarUi();
+        });
+      });
+
+      btnUndo.addEventListener('click', undo);
+      btnRedo.addEventListener('click', redo);
+      
+      btnClear.addEventListener('click', () => {
+        if (confirm('Clear all drawings and annotations?')) {
+          saveHistory();
+          shapes = [];
+          shapesRedoStack = [];
+          drawPaper();
+          updateUndoRedoButtons();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (document.activeElement?.tagName === 'INPUT') return;
+        if (e.ctrlKey && e.key.toLowerCase() === 'z') {
+          e.preventDefault();
+          undo();
+        }
+        if (e.ctrlKey && e.key.toLowerCase() === 'y') {
+          e.preventDefault();
+          redo();
+        }
+      });
+
+      drawingCanvas.addEventListener('mousedown', (e) => {
+        if (e.button === 1 || settings.activeTool === 'move') {
+          isInteracting = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          drawingCanvas.style.cursor = 'grabbing';
+          return;
+        }
+        if (e.button !== 0) return;
+
+        isInteracting = true;
+        const pt = screenToPaper(e.clientX, e.clientY);
+        
+        if (settings.activeTool === 'text') {
+          textPopupPosition = { x: e.clientX, y: e.clientY };
+          showTextPopup(pt);
+        } else {
+          saveHistory();
+          currentStrokePoints = [pt];
+          if (settings.activeTool === 'pencil' || settings.activeTool === 'pen') {
+            currentStrokePoints.push(pt);
+          }
+          drawOverlayShapes();
+        }
+      });
+
+      drawingCanvas.addEventListener('mousemove', (e) => {
+        if (!isInteracting) return;
+        
+        if (drawingCanvas.style.cursor === 'grabbing') {
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          viewportState.panX += dx;
+          viewportState.panY += dy;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          applyViewportTransform();
+          return;
+        }
+
+        const pt = screenToPaper(e.clientX, e.clientY);
+        if (settings.activeTool === 'pencil' || settings.activeTool === 'pen') {
+          currentStrokePoints.push(pt);
+        } else if (['line', 'arrow', 'rect', 'circle'].includes(settings.activeTool)) {
+          currentStrokePoints[1] = pt;
+        }
+        drawOverlayShapes();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isInteracting) return;
+        isInteracting = false;
+        drawingCanvas.style.cursor = '';
+
+        if (currentStrokePoints.length > 0) {
+          shapes.push({
+            type: settings.activeTool,
+            points: [...currentStrokePoints],
+            color: settings.drawColor,
+            width: settings.drawSize
+          });
+          currentStrokePoints = [];
+          drawOverlayShapes();
+          updateUndoRedoButtons();
+        }
+      });
+
+      drawingCanvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0];
+          if (settings.activeTool === 'move') {
+            isInteracting = true;
+            lastX = touch.clientX;
+            lastY = touch.clientY;
+            return;
+          }
+          isInteracting = true;
+          const pt = screenToPaper(touch.clientX, touch.clientY);
+          if (settings.activeTool === 'text') {
+            textPopupPosition = { x: touch.clientX, y: touch.clientY };
+            showTextPopup(pt);
+          } else {
+            saveHistory();
+            currentStrokePoints = [pt];
+            if (settings.activeTool === 'pencil' || settings.activeTool === 'pen') {
+              currentStrokePoints.push(pt);
+            }
+            drawOverlayShapes();
+          }
+          e.preventDefault();
+        } else if (e.touches.length === 2) {
+          isInteracting = true;
+          touchCanceled = true;
+          lastMouseX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+          lastMouseY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+          lastTouchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      drawingCanvas.addEventListener('touchmove', (e) => {
+        if (!isInteracting) return;
+        if (e.touches.length === 1) {
+          const touch = e.touches[0];
+          if (settings.activeTool === 'move') {
+            const dx = touch.clientX - lastX;
+            const dy = touch.clientY - lastY;
+            viewportState.panX += dx;
+            viewportState.panY += dy;
+            lastX = touch.clientX;
+            lastY = touch.clientY;
+            applyViewportTransform();
+            return;
+          }
+          const pt = screenToPaper(touch.clientX, touch.clientY);
+          if (settings.activeTool === 'pencil' || settings.activeTool === 'pen') {
+            currentStrokePoints.push(pt);
+          } else if (['line', 'arrow', 'rect', 'circle'].includes(settings.activeTool)) {
+            currentStrokePoints[1] = pt;
+          }
+          drawOverlayShapes();
+          e.preventDefault();
+        } else if (e.touches.length === 2) {
+          const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+          const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+
+          viewportState.panX += midX - lastMouseX;
+          viewportState.panY += midY - lastMouseY;
+
+          if (lastTouchDist > 0 && dist > 0) {
+            const ratio = dist / lastTouchDist;
+            viewportState.zoom = Math.max(0.2, Math.min(3.0, viewportState.zoom * ratio));
+          }
+
+          lastMouseX = midX;
+          lastMouseY = midY;
+          lastTouchDist = dist;
+          applyViewportTransform();
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      drawingCanvas.addEventListener('touchend', () => {
+        if (!isInteracting) return;
+        isInteracting = false;
+        if (currentStrokePoints.length > 0) {
+          shapes.push({
+            type: settings.activeTool,
+            points: [...currentStrokePoints],
+            color: settings.drawColor,
+            width: settings.drawSize
+          });
+          currentStrokePoints = [];
+          drawOverlayShapes();
+          updateUndoRedoButtons();
+        }
+      });
+
+      drawingCanvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+        viewportState.zoom = Math.max(0.2, Math.min(3.0, viewportState.zoom * zoomFactor));
+        applyViewportTransform();
+      }, { passive: false });
+
+      btnPrint.addEventListener('click', () => {
+        preparePrintVector();
+        window.print();
+      });
+
+      btnPNG.addEventListener('click', exportPNG);
+      btnSVG.addEventListener('click', exportSVG);
+      btnPDFRaster.addEventListener('click', exportPDFRaster);
+      btnPDFVector.addEventListener('click', exportPDFVector);
+      
+      btnCopyURL.addEventListener('click', () => {
+        const shareUrl = getShareableUrl();
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('Configuration link copied to clipboard!');
+        }).catch(err => {
+          alert('Could not copy link: ' + err);
+        });
+      });
+
+      // Toolbar orientation toggler
+      let toolbarOrient = localStorage.getItem('gmo-toolbar-orient') || 'horizontal';
+
+      function applyToolbarOrient() {
+        if (!toolbar) return;
+        if (toolbarOrient === 'vertical') {
+          toolbar.classList.remove('top-4', 'left-1/2', '-translate-x-1/2', 'flex-row', 'flex-wrap');
+          toolbar.classList.add('left-4', 'top-1/2', '-translate-y-1/2', 'flex-col');
+        } else {
+          toolbar.classList.remove('left-4', 'top-1/2', '-translate-y-1/2', 'flex-col');
+          toolbar.classList.add('top-4', 'left-1/2', '-translate-x-1/2', 'flex-row', 'flex-wrap');
+        }
+      }
+
+      applyToolbarOrient();
+
+      toggleToolbarBtn?.addEventListener('click', () => {
+        toolbarOrient = toolbarOrient === 'horizontal' ? 'vertical' : 'horizontal';
+        localStorage.setItem('gmo-toolbar-orient', toolbarOrient);
+        applyToolbarOrient();
+      });
+
+      // Browser native printing hook
+      window.addEventListener('beforeprint', () => {
+        preparePrintVector();
+      });
+
+      const sidebarToggleBtn = document.getElementById('mobile-sidebar-toggle-btn');
+      const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+      const sidebarPanel = document.getElementById('config-panel');
+      
+      sidebarToggleBtn?.addEventListener('click', () => {
+        sidebarPanel.classList.remove('-translate-x-full');
+        sidebarPanel.classList.add('translate-x-0', 'fixed', 'inset-y-0', 'left-0', 'w-80', 'z-40');
+        sidebarBackdrop.classList.remove('hidden');
+      });
+
+      const closeSidebar = () => {
+        sidebarPanel.classList.add('-translate-x-full');
+        sidebarPanel.classList.remove('translate-x-0', 'fixed', 'inset-y-0', 'left-0', 'w-80', 'z-40');
+        sidebarBackdrop.classList.add('hidden');
+      };
+
+      closeSidebarBtn?.addEventListener('click', closeSidebar);
+      sidebarBackdrop.addEventListener('click', closeSidebar);
+    }
+
+    function updateSpacing() {
+      const unit = unitSelect.value;
+      const spacingPreset = spacingSelect.value;
+
+      let spacingVal = 5.0;
+      if (spacingPreset === 'custom') {
+        customSpacingContainer.classList.remove('hidden');
+        spacingVal = parseFloat(customSpacingInput.value) || 5.0;
+      } else {
+        customSpacingContainer.classList.add('hidden');
+        spacingVal = parseFloat(spacingPreset);
+      }
+
+      if (unit === 'cm') {
+        settings.gridSpacing = spacingVal * 10;
+      } else if (unit === 'in') {
+        settings.gridSpacing = spacingVal * 25.4;
+      } else {
+        settings.gridSpacing = spacingVal;
+      }
+
+      drawPaper();
+    }
+
+    let historyStack = [];
+    function saveHistory() {
+      const data = JSON.stringify(shapes);
+      if (historyStack.length > 30) historyStack.shift();
+      historyStack.push(data);
+      shapesRedoStack = [];
+    }
+
+    function undo() {
+      if (historyStack.length === 0) return;
+      shapesRedoStack.push(JSON.stringify(shapes));
+      const prev = JSON.parse(historyStack.pop());
+      shapes = prev;
+      drawPaper();
+      updateUndoRedoButtons();
+    }
+
+    function redo() {
+      if (shapesRedoStack.length === 0) return;
+      historyStack.push(JSON.stringify(shapes));
+      const next = JSON.parse(shapesRedoStack.pop());
+      shapes = next;
+      drawPaper();
+      updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+      btnUndo.disabled = historyStack.length === 0;
+      btnRedo.disabled = shapesRedoStack.length === 0;
+    }
+
+    let activeTextPoint = null;
+    function showTextPopup(pt) {
+      activeTextPoint = pt;
+      textInput.value = '';
+      
+      textPopup.style.left = `${textPopupPosition.x}px`;
+      textPopup.style.top = `${textPopupPosition.y}px`;
+      textPopup.classList.remove('hidden');
+      textInput.focus();
+    }
+
+    textCancel.addEventListener('click', () => {
+      textPopup.classList.add('hidden');
+      activeTextPoint = null;
+    });
+
+    textOK.addEventListener('click', submitText);
+    textInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitText();
+    });
+
+    function submitText() {
+      const text = textInput.value.trim();
+      if (text && activeTextPoint) {
+        saveHistory();
+        shapes.push({
+          type: 'text',
+          points: [activeTextPoint],
+          color: settings.drawColor,
+          width: settings.drawSize,
+          text
+        });
+        drawOverlayShapes();
+        updateUndoRedoButtons();
+      }
+      textPopup.classList.add('hidden');
+      activeTextPoint = null;
+    }
+
+    function preparePrintVector() {
+      let W = paperCanvas.width / pixelsPerMm;
+      let H = paperCanvas.height / pixelsPerMm;
+
+      let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+      let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+      let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+      let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+
+      const svgStr = generateSVGString(W, H, mL, mR, mT, mB, settings, shapes);
+      printVectorContainer.innerHTML = svgStr;
+    }
+
+    function exportPNG() {
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      
+      const wMm = paperCanvas.width / pixelsPerMm;
+      const hMm = paperCanvas.height / pixelsPerMm;
+      const dpiScale = 300 / 25.4;
+
+      tempCanvas.width = Math.round(wMm * dpiScale);
+      tempCanvas.height = Math.round(hMm * dpiScale);
+      tempCtx.scale(dpiScale, dpiScale);
+
+      tempCtx.fillStyle = settings.backgroundColor;
+      tempCtx.fillRect(0, 0, wMm, hMm);
+
+      let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+      let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+      let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+      let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+      const left = mL;
+      const right = wMm - mR;
+      const top = mT;
+      const bottom = hMm - mB;
+
+      tempCtx.save();
+      tempCtx.beginPath();
+      tempCtx.rect(left, top, right - left, bottom - top);
+      tempCtx.clip();
+
+      const spacing = settings.gridSpacing;
+      const major = settings.majorInterval;
+
+      tempCtx.globalAlpha = settings.gridOpacity;
+      tempCtx.lineCap = 'round';
+      tempCtx.lineJoin = 'round';
+
+      if (settings.gridType === 'square' || settings.gridType === 'green' || settings.gridType === 'cartesian') {
+        let col = 0;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          const isMajor = major > 0 && col % major === 0;
+          tempCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+          tempCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+          tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+          col++;
+        }
+        let row = 0;
+        for (let y = top; y <= bottom + 0.01; y += spacing) {
+          const isMajor = major > 0 && row % major === 0;
+          tempCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+          tempCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+          tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+          row++;
+        }
+        if (settings.gridType === 'cartesian') {
+          const cx = left + (right - left) / 2;
+          const cy = top + (bottom - top) / 2;
+          tempCtx.strokeStyle = settings.majorColor;
+          tempCtx.lineWidth = settings.gridThickness * 1.5;
+          tempCtx.beginPath(); tempCtx.moveTo(left, cy); tempCtx.lineTo(right, cy); tempCtx.stroke();
+          tempCtx.beginPath(); tempCtx.moveTo(cx, top); tempCtx.lineTo(cx, bottom); tempCtx.stroke();
+
+          tempCtx.fillStyle = settings.majorColor;
+          tempCtx.font = '2.5px sans-serif';
+          tempCtx.textAlign = 'center';
+          let labelIndex = 0;
+          for (let x = cx + spacing; x <= right; x += spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) tempCtx.fillText(labelIndex.toString(), x, cy + 3.5);
+          }
+          labelIndex = 0;
+          for (let x = cx - spacing; x >= left; x -= spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) tempCtx.fillText(`-${labelIndex}`, x, cy + 3.5);
+          }
+          tempCtx.textAlign = 'right';
+          labelIndex = 0;
+          for (let y = cy - spacing; y >= top; y -= spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) tempCtx.fillText(labelIndex.toString(), cx - 1.5, y + 0.8);
+          }
+          labelIndex = 0;
+          for (let y = cy + spacing; y <= bottom; y += spacing) {
+            labelIndex++;
+            if (labelIndex % 2 === 0) tempCtx.fillText(`-${labelIndex}`, cx - 1.5, y + 0.8);
+          }
+        }
+      } else if (settings.gridType === 'dot') {
+        tempCtx.fillStyle = settings.minorColor;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          for (let y = top; y <= bottom + 0.01; y += spacing) {
+            tempCtx.beginPath(); tempCtx.arc(x, y, settings.gridThickness / 2, 0, 2 * Math.PI); tempCtx.fill();
+          }
+        }
+      } else if (settings.gridType === 'isometric') {
+        tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+        }
+        const stepC = spacing * Math.sqrt(3);
+        const minC = top - 0.57735 * right;
+        const maxC = bottom - 0.57735 * left;
+        for (let c = minC; c <= maxC; c += stepC) {
+          tempCtx.beginPath(); tempCtx.moveTo(left, 0.57735 * left + c); tempCtx.lineTo(right, 0.57735 * right + c); tempCtx.stroke();
+        }
+        const minC2 = top + 0.57735 * left;
+        const maxC2 = bottom + 0.57735 * right;
+        for (let c = minC2; c <= maxC2; c += stepC) {
+          tempCtx.beginPath(); tempCtx.moveTo(left, -0.57735 * left + c); tempCtx.lineTo(right, -0.57735 * right + c); tempCtx.stroke();
+        }
+      } else if (settings.gridType === 'polar') {
+        const cx = left + (right - left) / 2;
+        const cy = top + (bottom - top) / 2;
+        const maxRadius = Math.sqrt((right - left) ** 2 + (bottom - top) ** 2) / 2;
+        tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+        for (let r = spacing; r <= maxRadius; r += spacing) {
+          tempCtx.beginPath(); tempCtx.arc(cx, cy, r, 0, 2 * Math.PI); tempCtx.stroke();
+        }
+        for (let angle = 0; angle < 360; angle += 15) {
+          const rad = (angle * Math.PI) / 180;
+          tempCtx.beginPath(); tempCtx.moveTo(cx, cy); tempCtx.lineTo(cx + maxRadius * Math.cos(rad), cy + maxRadius * Math.sin(rad)); tempCtx.stroke();
+        }
+      } else if (settings.gridType === 'loglog' || settings.gridType === 'semilog') {
+        const numDecadesX = settings.gridType === 'loglog' ? 3 : 5;
+        const numDecadesY = 4;
+        const decWidth = (right - left) / numDecadesX;
+        const decHeight = (bottom - top) / numDecadesY;
+        if (settings.gridType === 'loglog') {
+          for (let d = 0; d < numDecadesX; d++) {
+            const dStart = left + d * decWidth;
+            tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+            tempCtx.beginPath(); tempCtx.moveTo(dStart, top); tempCtx.lineTo(dStart, bottom); tempCtx.stroke();
+            tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+            for (let k = 2; k <= 9; k++) {
+              const x = dStart + Math.log10(k) * decWidth;
+              tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+            }
+          }
+          tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+          tempCtx.beginPath(); tempCtx.moveTo(right, top); tempCtx.lineTo(right, bottom); tempCtx.stroke();
+        } else {
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+            tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+          }
+        }
+        for (let d = 0; d < numDecadesY; d++) {
+          const dStart = bottom - d * decHeight;
+          tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+          tempCtx.beginPath(); tempCtx.moveTo(left, dStart); tempCtx.lineTo(right, dStart); tempCtx.stroke();
+          tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+          for (let k = 2; k <= 9; k++) {
+            const y = dStart - Math.log10(k) * decHeight;
+            tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+          }
+        }
+        tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+        tempCtx.beginPath(); tempCtx.moveTo(left, top); tempCtx.lineTo(right, top); tempCtx.stroke();
+      } else if (settings.gridType === 'hexagonal') {
+        const r = spacing; const h = r * Math.sqrt(3);
+        tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+        const cols = Math.ceil((right - left) / (r * 1.5)) + 1;
+        const rows = Math.ceil((bottom - top) / h) + 1;
+        for (let col = -1; col < cols; col++) {
+          for (let row = -1; row < rows; row++) {
+            const cx = left + col * r * 1.5;
+            const cy = top + row * h + (col % 2 === 0 ? 0 : h / 2);
+            tempCtx.beginPath();
+            for (let i = 0; i < 6; i++) {
+              const angle = (i * Math.PI) / 3;
+              tempCtx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+            }
+            tempCtx.closePath(); tempCtx.stroke();
+          }
+        }
+      } else if (settings.gridType === 'triangular') {
+        const dy = spacing * Math.sqrt(3) / 2;
+        tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+        for (let y = top; y <= bottom + 0.01; y += dy) {
+          tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+        }
+        const stepC = spacing;
+        const minC = top - 1.73205 * right;
+        const maxC = bottom - 1.73205 * left;
+        for (let c = minC; c <= maxC; c += stepC) {
+          tempCtx.beginPath(); tempCtx.moveTo(left, 1.73205 * left + c); tempCtx.lineTo(right, 1.73205 * right + c); tempCtx.stroke();
+        }
+        const minC2 = top + 1.73205 * left;
+        const maxC2 = bottom + 1.73205 * right;
+        for (let c = minC2; c <= maxC2; c += stepC) {
+          tempCtx.beginPath(); tempCtx.moveTo(left, -1.73205 * left + c); tempCtx.lineTo(right, -1.73205 * right + c); tempCtx.stroke();
+        }
+      }
+
+      tempCtx.restore();
+
+      if (settings.showPrintGuides) {
+        tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = 0.25; tempCtx.setLineDash([2, 2]);
+        tempCtx.beginPath(); tempCtx.rect(left, top, right - left, bottom - top); tempCtx.stroke();
+        tempCtx.setLineDash([]);
+      }
+
+      if (settings.showCropMarks) {
+        tempCtx.strokeStyle = '#000000'; tempCtx.lineWidth = 0.25;
+        const size = 5;
+        tempCtx.beginPath();
+        tempCtx.moveTo(0, top); tempCtx.lineTo(size, top); tempCtx.moveTo(left, 0); tempCtx.lineTo(left, size);
+        tempCtx.moveTo(wMm, top); tempCtx.lineTo(wMm - size, top); tempCtx.moveTo(right, 0); tempCtx.lineTo(right, size);
+        tempCtx.moveTo(0, bottom); tempCtx.lineTo(size, bottom); tempCtx.moveTo(left, hMm); tempCtx.lineTo(left, hMm - size);
+        tempCtx.moveTo(wMm, bottom); tempCtx.lineTo(wMm - size, bottom); tempCtx.moveTo(right, hMm); tempCtx.lineTo(right, hMm - size);
+        tempCtx.stroke();
+      }
+
+      shapes.forEach(shape => {
+        drawSingleShape(tempCtx, shape);
+      });
+
+      const url = tempCanvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.download = `graph-paper-${settings.gridType}-${settings.paperSize.toLowerCase()}.png`;
+      a.href = url;
+      a.click();
+    }
+
+    function exportSVG() {
+      const wMm = paperCanvas.width / pixelsPerMm;
+      const hMm = paperCanvas.height / pixelsPerMm;
+      
+      let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+      let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+      let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+      let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+
+      const svgStr = generateSVGString(wMm, hMm, mL, mR, mT, mB, settings, shapes);
+      const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.download = `graph-paper-${settings.gridType}-${settings.paperSize.toLowerCase()}.svg`;
+      a.href = url;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function exportPDFRaster() {
+      try {
+        const jsPDFClass = await getJsPDF();
+        
+        const wMm = paperCanvas.width / pixelsPerMm;
+        const hMm = paperCanvas.height / pixelsPerMm;
+
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        const dpiScale = 300 / 25.4;
+        
+        tempCanvas.width = Math.round(wMm * dpiScale);
+        tempCanvas.height = Math.round(hMm * dpiScale);
+        tempCtx.scale(dpiScale, dpiScale);
+
+        tempCtx.fillStyle = settings.backgroundColor;
+        tempCtx.fillRect(0, 0, wMm, hMm);
+        
+        let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+        let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+        let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+        let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+        const left = mL;
+        const right = wMm - mR;
+        const top = mT;
+        const bottom = hMm - mB;
+
+        tempCtx.save();
+        tempCtx.beginPath();
+        tempCtx.rect(left, top, right - left, bottom - top);
+        tempCtx.clip();
+
+        const spacing = settings.gridSpacing;
+        const major = settings.majorInterval;
+
+        tempCtx.globalAlpha = settings.gridOpacity;
+        tempCtx.lineCap = 'round';
+        tempCtx.lineJoin = 'round';
+
+        if (settings.gridType === 'square' || settings.gridType === 'green' || settings.gridType === 'cartesian') {
+          let col = 0;
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            const isMajor = major > 0 && col % major === 0;
+            tempCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+            tempCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+            tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+            col++;
+          }
+          let row = 0;
+          for (let y = top; y <= bottom + 0.01; y += spacing) {
+            const isMajor = major > 0 && row % major === 0;
+            tempCtx.strokeStyle = isMajor ? settings.majorColor : settings.minorColor;
+            tempCtx.lineWidth = isMajor ? settings.gridThickness : settings.gridThickness / 2;
+            tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+            row++;
+          }
+        } else if (settings.gridType === 'dot') {
+          tempCtx.fillStyle = settings.minorColor;
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            for (let y = top; y <= bottom + 0.01; y += spacing) {
+              tempCtx.beginPath(); tempCtx.arc(x, y, settings.gridThickness / 2, 0, 2 * Math.PI); tempCtx.fill();
+            }
+          }
+        } else if (settings.gridType === 'isometric') {
+          tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+          }
+          const stepC = spacing * Math.sqrt(3);
+          const minC = top - 0.57735 * right;
+          const maxC = bottom - 0.57735 * left;
+          for (let c = minC; c <= maxC; c += stepC) {
+            tempCtx.beginPath(); tempCtx.moveTo(left, 0.57735 * left + c); tempCtx.lineTo(right, 0.57735 * right + c); tempCtx.stroke();
+          }
+          const minC2 = top + 0.57735 * left;
+          const maxC2 = bottom + 0.57735 * right;
+          for (let c = minC2; c <= maxC2; c += stepC) {
+            tempCtx.beginPath(); tempCtx.moveTo(left, -0.57735 * left + c); tempCtx.lineTo(right, -0.57735 * right + c); tempCtx.stroke();
+          }
+        } else if (settings.gridType === 'polar') {
+          const cx = left + (right - left) / 2;
+          const cy = top + (bottom - top) / 2;
+          const maxRadius = Math.sqrt((right - left) ** 2 + (bottom - top) ** 2) / 2;
+          tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+          for (let r = spacing; r <= maxRadius; r += spacing) {
+            tempCtx.beginPath(); tempCtx.arc(cx, cy, r, 0, 2 * Math.PI); tempCtx.stroke();
+          }
+          for (let angle = 0; angle < 360; angle += 15) {
+            const rad = (angle * Math.PI) / 180;
+            tempCtx.beginPath(); tempCtx.moveTo(cx, cy); tempCtx.lineTo(cx + maxRadius * Math.cos(rad), cy + maxRadius * Math.sin(rad)); tempCtx.stroke();
+          }
+        } else if (settings.gridType === 'loglog' || settings.gridType === 'semilog') {
+          const numDecadesX = settings.gridType === 'loglog' ? 3 : 5;
+          const numDecadesY = 4;
+          const decWidth = (right - left) / numDecadesX;
+          const decHeight = (bottom - top) / numDecadesY;
+          if (settings.gridType === 'loglog') {
+            for (let d = 0; d < numDecadesX; d++) {
+              const dStart = left + d * decWidth;
+              tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+              tempCtx.beginPath(); tempCtx.moveTo(dStart, top); tempCtx.lineTo(dStart, bottom); tempCtx.stroke();
+              tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+              for (let k = 2; k <= 9; k++) {
+                const x = dStart + Math.log10(k) * decWidth;
+                tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+              }
+            }
+            tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+            tempCtx.beginPath(); tempCtx.moveTo(right, top); tempCtx.lineTo(right, bottom); tempCtx.stroke();
+          } else {
+            for (let x = left; x <= right + 0.01; x += spacing) {
+              tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+              tempCtx.beginPath(); tempCtx.moveTo(x, top); tempCtx.lineTo(x, bottom); tempCtx.stroke();
+            }
+          }
+          for (let d = 0; d < numDecadesY; d++) {
+            const dStart = bottom - d * decHeight;
+            tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+            tempCtx.beginPath(); tempCtx.moveTo(left, dStart); tempCtx.lineTo(right, dStart); tempCtx.stroke();
+            tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+            for (let k = 2; k <= 9; k++) {
+              const y = dStart - Math.log10(k) * decHeight;
+              tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+            }
+          }
+          tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = settings.gridThickness;
+          tempCtx.beginPath(); tempCtx.moveTo(left, top); tempCtx.lineTo(right, top); tempCtx.stroke();
+        } else if (settings.gridType === 'hexagonal') {
+          const r = spacing; const h = r * Math.sqrt(3);
+          tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+          const cols = Math.ceil((right - left) / (r * 1.5)) + 1;
+          const rows = Math.ceil((bottom - top) / h) + 1;
+          for (let col = -1; col < cols; col++) {
+            for (let row = -1; row < rows; row++) {
+              const cx = left + col * r * 1.5;
+              const cy = top + row * h + (col % 2 === 0 ? 0 : h / 2);
+              tempCtx.beginPath();
+              for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                tempCtx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+              }
+              tempCtx.closePath(); tempCtx.stroke();
+            }
+          }
+        } else if (settings.gridType === 'triangular') {
+          const dy = spacing * Math.sqrt(3) / 2;
+          tempCtx.strokeStyle = settings.minorColor; tempCtx.lineWidth = settings.gridThickness / 2;
+          for (let y = top; y <= bottom + 0.01; y += dy) {
+            tempCtx.beginPath(); tempCtx.moveTo(left, y); tempCtx.lineTo(right, y); tempCtx.stroke();
+          }
+          const stepC = spacing;
+          const minC = top - 1.73205 * right;
+          const maxC = bottom - 1.73205 * left;
+          for (let c = minC; c <= maxC; c += stepC) {
+            tempCtx.beginPath(); tempCtx.moveTo(left, 1.73205 * left + c); tempCtx.lineTo(right, 1.73205 * right + c); tempCtx.stroke();
+          }
+          const minC2 = top + 1.73205 * left;
+          const maxC2 = bottom + 1.73205 * right;
+          for (let c = minC2; c <= maxC2; c += stepC) {
+            tempCtx.beginPath(); tempCtx.moveTo(left, -1.73205 * left + c); tempCtx.lineTo(right, -1.73205 * right + c); tempCtx.stroke();
+          }
+        }
+
+        tempCtx.restore();
+
+        if (settings.showPrintGuides) {
+          tempCtx.strokeStyle = settings.majorColor; tempCtx.lineWidth = 0.25; tempCtx.setLineDash([2, 2]);
+          tempCtx.beginPath(); tempCtx.rect(left, top, right - left, bottom - top); tempCtx.stroke();
+          tempCtx.setLineDash([]);
+        }
+
+        if (settings.showCropMarks) {
+          tempCtx.strokeStyle = '#000000'; tempCtx.lineWidth = 0.25;
+          const size = 5;
+          tempCtx.beginPath();
+          tempCtx.moveTo(0, top); tempCtx.lineTo(size, top); tempCtx.moveTo(left, 0); tempCtx.lineTo(left, size);
+          tempCtx.moveTo(wMm, top); tempCtx.lineTo(wMm - size, top); tempCtx.moveTo(right, 0); tempCtx.lineTo(right, size);
+          tempCtx.moveTo(0, bottom); tempCtx.lineTo(size, bottom); tempCtx.moveTo(left, hMm); tempCtx.lineTo(left, hMm - size);
+          tempCtx.moveTo(wMm, bottom); tempCtx.lineTo(wMm - size, bottom); tempCtx.moveTo(right, hMm); tempCtx.lineTo(right, hMm - size);
+          tempCtx.stroke();
+        }
+
+        shapes.forEach(shape => {
+          drawSingleShape(tempCtx, shape);
+        });
+
+        const doc = new jsPDFClass({
+          orientation: settings.orientation === 'portrait' ? 'portrait' : 'landscape',
+          unit: 'mm',
+          format: settings.paperSize === 'custom' ? [settings.customWidth, settings.customHeight] : settings.paperSize
+        });
+
+        const imgData = tempCanvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', 0, 0, wMm, hMm);
+        doc.save(`graph-paper-${settings.gridType}-${settings.paperSize.toLowerCase()}.pdf`);
+      } catch (e) {
+        alert('Error generating PDF: ' + e);
+      }
+    }
+
+    async function exportPDFVector() {
+      try {
+        const jsPDFClass = await getJsPDF();
+        
+        const wMm = paperCanvas.width / pixelsPerMm;
+        const hMm = paperCanvas.height / pixelsPerMm;
+
+        const doc = new jsPDFClass({
+          orientation: settings.orientation === 'portrait' ? 'portrait' : 'landscape',
+          unit: 'mm',
+          format: settings.paperSize === 'custom' ? [settings.customWidth, settings.customHeight] : settings.paperSize
+        });
+
+        doc.setFillColor(settings.backgroundColor);
+        doc.rect(0, 0, wMm, hMm, 'F');
+
+        let mL = settings.marginType === 'auto' ? 10 : settings.marginLeft;
+        let mR = settings.marginType === 'auto' ? 10 : settings.marginRight;
+        let mT = settings.marginType === 'auto' ? 10 : settings.marginTop;
+        let mB = settings.marginType === 'auto' ? 10 : settings.marginBottom;
+        const left = mL;
+        const right = wMm - mR;
+        const top = mT;
+        const bottom = hMm - mB;
+
+        function clipLine(x1, y1, x2, y2) {
+          let t0 = 0, t1 = 1;
+          const dx = x2 - x1, dy = y2 - y1;
+          
+          const edges = [
+            { p: -dx, q: x1 - left },
+            { p: dx, q: right - x1 },
+            { p: -dy, q: y1 - top },
+            { p: dy, q: bottom - y1 }
+          ];
+
+          for (let i = 0; i < 4; i++) {
+            const { p, q } = edges[i];
+            if (p === 0) {
+              if (q < 0) return null;
+            } else {
+              const r = q / p;
+              if (p < 0) {
+                if (r > t1) return null;
+                if (r > t0) t0 = r;
+              } else {
+                if (r < t0) return null;
+                if (r < t1) t1 = r;
+              }
+            }
+          }
+
+          return {
+            x1: x1 + t0 * dx,
+            y1: y1 + t0 * dy,
+            x2: x1 + t1 * dx,
+            y2: y1 + t1 * dy
+          };
+        }
+
+        function drawVectorLine(x1, y1, x2, y2, isMajor) {
+          const clipped = clipLine(x1, y1, x2, y2);
+          if (!clipped) return;
+          
+          doc.setDrawColor(isMajor ? settings.majorColor : settings.minorColor);
+          doc.setLineWidth(isMajor ? settings.gridThickness : settings.gridThickness / 2);
+          doc.line(clipped.x1, clipped.y1, clipped.x2, clipped.y2);
+        }
+
+        const spacing = settings.gridSpacing;
+        const major = settings.majorInterval;
+
+        if (settings.gridType === 'square' || settings.gridType === 'green' || settings.gridType === 'cartesian') {
+          let col = 0;
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            const isMajor = major > 0 && col % major === 0;
+            drawVectorLine(x, top, x, bottom, isMajor);
+            col++;
+          }
+          let row = 0;
+          for (let y = top; y <= bottom + 0.01; y += spacing) {
+            const isMajor = major > 0 && row % major === 0;
+            drawVectorLine(left, y, right, y, isMajor);
+            row++;
+          }
+        } else if (settings.gridType === 'dot') {
+          doc.setFillColor(settings.minorColor);
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            for (let y = top; y <= bottom + 0.01; y += spacing) {
+              doc.circle(x, y, settings.gridThickness / 2, 'F');
+            }
+          }
+        } else if (settings.gridType === 'isometric') {
+          for (let x = left; x <= right + 0.01; x += spacing) {
+            drawVectorLine(x, top, x, bottom, false);
+          }
+          const stepC = spacing * Math.sqrt(3);
+          const minC = top - 0.57735 * right;
+          const maxC = bottom - 0.57735 * left;
+          for (let c = minC; c <= maxC; c += stepC) {
+            drawVectorLine(left, 0.57735 * left + c, right, 0.57735 * right + c, false);
+          }
+          const minC2 = top + 0.57735 * left;
+          const maxC2 = bottom + 0.57735 * right;
+          for (let c = minC2; c <= maxC2; c += stepC) {
+            drawVectorLine(left, -0.57735 * left + c, right, -0.57735 * right + c, false);
+          }
+        } else if (settings.gridType === 'polar') {
+          const cx = left + (right - left) / 2;
+          const cy = top + (bottom - top) / 2;
+          const maxRadius = Math.sqrt((right - left) ** 2 + (bottom - top) ** 2) / 2;
+          
+          doc.setDrawColor(settings.minorColor);
+          doc.setLineWidth(settings.gridThickness / 2);
+
+          for (let r = spacing; r <= maxRadius; r += spacing) {
+            doc.circle(cx, cy, r, 'S');
+          }
+          for (let angle = 0; angle < 360; angle += 15) {
+            const rad = (angle * Math.PI) / 180;
+            drawVectorLine(cx, cy, cx + maxRadius * Math.cos(rad), cy + maxRadius * Math.sin(rad), false);
+          }
+        } else if (settings.gridType === 'loglog' || settings.gridType === 'semilog') {
+          const numDecadesX = settings.gridType === 'loglog' ? 3 : 5;
+          const numDecadesY = 4;
+          const decWidth = (right - left) / numDecadesX;
+          const decHeight = (bottom - top) / numDecadesY;
+
+          if (settings.gridType === 'loglog') {
+            for (let d = 0; d < numDecadesX; d++) {
+              const dStart = left + d * decWidth;
+              drawVectorLine(dStart, top, dStart, bottom, true);
+              for (let k = 2; k <= 9; k++) {
+                const x = dStart + Math.log10(k) * decWidth;
+                drawVectorLine(x, top, x, bottom, false);
+              }
+            }
+            drawVectorLine(right, top, right, bottom, true);
+          } else {
+            for (let x = left; x <= right + 0.01; x += spacing) {
+              drawVectorLine(x, top, x, bottom, false);
+            }
+          }
+
+          for (let d = 0; d < numDecadesY; d++) {
+            const dStart = bottom - d * decHeight;
+            drawVectorLine(left, dStart, right, dStart, true);
+            for (let k = 2; k <= 9; k++) {
+              const y = dStart - Math.log10(k) * decHeight;
+              drawVectorLine(left, y, right, y, false);
+            }
+          }
+          drawVectorLine(left, top, right, top, true);
+        } else if (settings.gridType === 'hexagonal') {
+          const r = spacing; const h = r * Math.sqrt(3);
+          const cols = Math.ceil((right - left) / (r * 1.5)) + 1;
+          const rows = Math.ceil((bottom - top) / h) + 1;
+          
+          doc.setDrawColor(settings.minorColor);
+          doc.setLineWidth(settings.gridThickness / 2);
+          for (let col = -1; col < cols; col++) {
+            for (let row = -1; row < rows; row++) {
+              const cx = left + col * r * 1.5;
+              const cy = top + row * h + (col % 2 === 0 ? 0 : h / 2);
+              for (let i = 0; i < 6; i++) {
+                const angle1 = (i * Math.PI) / 3;
+                const angle2 = (((i + 1) % 6) * Math.PI) / 3;
+                drawVectorLine(cx + r * Math.cos(angle1), cy + r * Math.sin(angle1), cx + r * Math.cos(angle2), cy + r * Math.sin(angle2), false);
+              }
+            }
+          }
+        } else if (settings.gridType === 'triangular') {
+          const dy = spacing * Math.sqrt(3) / 2;
+          for (let y = top; y <= bottom + 0.01; y += dy) {
+            drawVectorLine(left, y, right, y, false);
+          }
+          const stepC = spacing;
+          const minC = top - 1.73205 * right;
+          const maxC = bottom - 1.73205 * left;
+          for (let c = minC; c <= maxC; c += stepC) {
+            drawVectorLine(left, 1.73205 * left + c, right, 1.73205 * right + c, false);
+          }
+          const minC2 = top + 1.73205 * left;
+          const maxC2 = bottom + 1.73205 * right;
+          for (let c = minC2; c <= maxC2; c += stepC) {
+            drawVectorLine(left, -1.73205 * left + c, right, -1.73205 * right + c, false);
+          }
+        }
+
+        if (settings.showPrintGuides) {
+          doc.setDrawColor(settings.majorColor);
+          doc.setLineWidth(0.25);
+          doc.setLineDashPattern([2, 2], 0);
+          doc.rect(left, top, right - left, bottom - top, 'S');
+          doc.setLineDashPattern([], 0);
+        }
+
+        if (settings.showCropMarks) {
+          doc.setDrawColor('#000000');
+          doc.setLineWidth(0.25);
+          const size = 5;
+          doc.line(0, top, size, top); doc.line(left, 0, left, size);
+          doc.line(wMm, top, wMm - size, top); doc.line(right, 0, right, size);
+          doc.line(0, bottom, size, bottom); doc.line(left, hMm, left, hMm - size);
+          doc.line(wMm, bottom, wMm - size, bottom); doc.line(right, hMm, right, hMm - size);
+        }
+
+        shapes.forEach(shape => {
+          doc.setDrawColor(shape.color);
+          doc.setLineWidth(shape.width);
+          doc.setLineCap('round');
+          
+          if (shape.type === 'pencil' || shape.type === 'pen') {
+            for (let i = 0; i < shape.points.length - 1; i++) {
+              doc.line(shape.points[i].x, shape.points[i].y, shape.points[i+1].x, shape.points[i+1].y);
+            }
+          } else if (shape.type === 'line') {
+            if (shape.points.length < 2) return;
+            doc.line(shape.points[0].x, shape.points[0].y, shape.points[1].x, shape.points[1].y);
+          } else if (shape.type === 'arrow') {
+            if (shape.points.length < 2) return;
+            const p0 = shape.points[0];
+            const p1 = shape.points[1];
+            doc.line(p0.x, p0.y, p1.x, p1.y);
+            const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x);
+            const headlen = 4;
+            doc.line(p1.x, p1.y, p1.x - headlen * Math.cos(angle - Math.PI / 6), p1.y - headlen * Math.sin(angle - Math.PI / 6));
+            doc.line(p1.x, p1.y, p1.x - headlen * Math.cos(angle + Math.PI / 6), p1.y - headlen * Math.sin(angle + Math.PI / 6));
+          } else if (shape.type === 'rect') {
+            if (shape.points.length < 2) return;
+            const x = Math.min(shape.points[0].x, shape.points[1].x);
+            const y = Math.min(shape.points[0].y, shape.points[1].y);
+            const w = Math.abs(shape.points[0].x - shape.points[1].x);
+            const h = Math.abs(shape.points[0].y - shape.points[1].y);
+            doc.rect(x, y, w, h, 'S');
+          } else if (shape.type === 'circle') {
+            if (shape.points.length < 2) return;
+            const r = Math.hypot(shape.points[1].x - shape.points[0].x, shape.points[1].y - shape.points[0].y);
+            doc.circle(shape.points[0].x, shape.points[0].y, r, 'S');
+          } else if (shape.type === 'text') {
+            if (shape.points.length < 1) return;
+            doc.setTextColor(shape.color);
+            doc.setFontSize(shape.width * 4.5);
+            doc.text(shape.text || '', shape.points[0].x, shape.points[0].y);
+          }
+        });
+
+        doc.save(`graph-paper-${settings.gridType}-${settings.paperSize.toLowerCase()}-vector.pdf`);
+      } catch (e) {
+        alert('Error generating Vector PDF: ' + e);
+      }
+    }
+
+    function getShareableUrl() {
+      const params = new URLSearchParams();
+      params.set('type', settings.gridType);
+      params.set('size', settings.paperSize);
+      params.set('w', settings.customWidth.toString());
+      params.set('h', settings.customHeight.toString());
+      params.set('orient', settings.orientation);
+      params.set('unit', settings.spacingUnit);
+      params.set('spacing', settings.gridSpacing.toString());
+      params.set('major', settings.majorInterval.toString());
+      params.set('theme', settings.theme);
+      params.set('bg', settings.backgroundColor);
+      params.set('minorColor', settings.minorColor);
+      params.set('majorColor', settings.majorColor);
+      params.set('opacity', settings.gridOpacity.toString());
+      params.set('thickness', settings.gridThickness.toString());
+      params.set('marginTop', settings.marginTop.toString());
+      params.set('marginBottom', settings.marginBottom.toString());
+      params.set('marginLeft', settings.marginLeft.toString());
+      params.set('marginRight', settings.marginRight.toString());
+      
+      return window.location.origin + window.location.pathname + '#' + params.toString();
+    }
+
+    function loadFromUrl() {
+      const hash = window.location.hash.substring(1);
+      if (!hash) return;
+      try {
+        const params = new URLSearchParams(hash);
+        if (params.has('type')) settings.gridType = params.get('type');
+        if (params.has('size')) settings.paperSize = params.get('size');
+        if (params.has('w')) settings.customWidth = parseFloat(params.get('w'));
+        if (params.has('h')) settings.customHeight = parseFloat(params.get('h'));
+        if (params.has('orient')) settings.orientation = params.get('orient');
+        if (params.has('unit')) settings.spacingUnit = params.get('unit');
+        if (params.has('spacing')) settings.gridSpacing = parseFloat(params.get('spacing'));
+        if (params.has('major')) settings.majorInterval = parseInt(params.get('major'));
+        if (params.has('theme')) settings.theme = params.get('theme');
+        if (params.has('bg')) settings.backgroundColor = params.get('bg');
+        if (params.has('minorColor')) settings.minorColor = params.get('minorColor');
+        if (params.has('majorColor')) settings.majorColor = params.get('majorColor');
+        if (params.has('opacity')) settings.gridOpacity = parseFloat(params.get('opacity'));
+        if (params.has('thickness')) settings.gridThickness = parseFloat(params.get('thickness'));
+        if (params.has('marginTop')) settings.marginTop = parseFloat(params.get('marginTop'));
+        if (params.has('marginBottom')) settings.marginBottom = parseFloat(params.get('marginBottom'));
+        if (params.has('marginLeft')) settings.marginLeft = parseFloat(params.get('marginLeft'));
+        if (params.has('marginRight')) settings.marginRight = parseFloat(params.get('marginRight'));
+      } catch (e) {
+        console.warn('Could not parse shared URL hash parameters:', e);
+      }
+    }
+
+    window.addEventListener('gmo-theme-changed', (e) => {
+      const isDark = e.detail.theme === 'dark';
+      settings.theme = isDark ? 'dark' : 'classic';
+      applyThemeColors();
+      syncSidebarUi();
+      drawPaper();
+    });
+
+    init();
+  });
+
+  function generateSVGString(W, H, mL, mR, mT, mB, settings, shapes) {
+    const left = mL;
+    const right = W - mR;
+    const top = mT;
+    const bottom = H - mB;
+    
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}mm" height="${H}mm" xmlns="http://www.w3.org/2000/svg" style="background-color: ${settings.backgroundColor}">`;
+    
+    const minorStyle = `stroke="${settings.minorColor}" stroke-width="${settings.gridThickness / 2}" opacity="${settings.gridOpacity}"`;
+    const majorStyle = `stroke="${settings.majorColor}" stroke-width="${settings.gridThickness}" opacity="${settings.gridOpacity}"`;
+    
+    svg += `<defs><clipPath id="grid-clip"><rect x="${left}" y="${top}" width="${right - left}" height="${bottom - top}" /></clipPath></defs>`;
+    svg += `<g clip-path="url(#grid-clip)">`;
+    
+    if (settings.gridType === 'square' || settings.gridType === 'green' || settings.gridType === 'cartesian') {
+      const spacing = settings.gridSpacing;
+      const major = settings.majorInterval;
+      
+      let pathMinor = '';
+      let pathMajor = '';
+      
+      let col = 0;
+      for (let x = left; x <= right + 0.01; x += spacing) {
+        const isMajor = major > 0 && col % major === 0;
+        if (isMajor) {
+          pathMajor += `M ${x} ${top} L ${x} ${bottom} `;
+        } else {
+          pathMinor += `M ${x} ${top} L ${x} ${bottom} `;
+        }
+        col++;
+      }
+      
+      let row = 0;
+      for (let y = top; y <= bottom + 0.01; y += spacing) {
+        const isMajor = major > 0 && row % major === 0;
+        if (isMajor) {
+          pathMajor += `M ${left} ${y} L ${right} ${y} `;
+        } else {
+          pathMinor += `M ${left} ${y} L ${right} ${y} `;
+        }
+        row++;
+      }
+      
+      if (pathMinor) svg += `<path d="${pathMinor}" ${minorStyle} fill="none" />`;
+      if (pathMajor) svg += `<path d="${pathMajor}" ${majorStyle} fill="none" />`;
+      
+      if (settings.gridType === 'cartesian') {
+        const cx = left + (right - left) / 2;
+        const cy = top + (bottom - top) / 2;
+        
+        svg += `<line x1="${left}" y1="${cy}" x2="${right}" y2="${cy}" stroke="${settings.majorColor}" stroke-width="${settings.gridThickness * 1.5}" />`;
+        svg += `<line x1="${cx}" y1="${top}" x2="${cx}" y2="${bottom}" stroke="${settings.majorColor}" stroke-width="${settings.gridThickness * 1.5}" />`;
+        
+        svg += `<g font-family="sans-serif" font-size="2.5" fill="${settings.majorColor}" text-anchor="middle">`;
+        let idx = 0;
+        for (let x = cx + spacing; x <= right; x += spacing) {
+          idx++;
+          if (idx % 2 === 0) svg += `<text x="${x}" y="${cy + 3.5}">${idx}</text>`;
+        }
+        idx = 0;
+        for (let x = cx - spacing; x >= left; x -= spacing) {
+          idx++;
+          if (idx % 2 === 0) svg += `<text x="${x}" y="${cy + 3.5}">-${idx}</text>`;
+        }
+        idx = 0;
+        for (let y = cy - spacing; y >= top; y -= spacing) {
+          idx++;
+          if (idx % 2 === 0) svg += `<text x="${cx - 1.5}" y="${y + 0.8}" text-anchor="end">${idx}</text>`;
+        }
+        idx = 0;
+        for (let y = cy + spacing; y <= bottom; y += spacing) {
+          idx++;
+          if (idx % 2 === 0) svg += `<text x="${cx - 1.5}" y="${y + 0.8}" text-anchor="end">-${idx}</text>`;
+        }
+        svg += `</g>`;
+      }
+    } else if (settings.gridType === 'dot') {
+      const spacing = settings.gridSpacing;
+      let dots = '';
+      for (let x = left; x <= right + 0.01; x += spacing) {
+        for (let y = top; y <= bottom + 0.01; y += spacing) {
+          dots += `<circle cx="${x}" cy="${y}" r="${settings.gridThickness / 2}" fill="${settings.minorColor}" opacity="${settings.gridOpacity}" />`;
+        }
+      }
+      svg += dots;
+    } else if (settings.gridType === 'isometric') {
+      const spacing = settings.gridSpacing;
+      
+      let pathV = '';
+      for (let x = left; x <= right + 0.01; x += spacing) {
+        pathV += `M ${x} ${top} L ${x} ${bottom} `;
+      }
+      svg += `<path d="${pathV}" ${minorStyle} fill="none" />`;
+      
+      let path30 = '';
+      const stepC = spacing * Math.sqrt(3);
+      const minC = top - 0.57735 * right;
+      const maxC = bottom - 0.57735 * left;
+      for (let c = minC; c <= maxC; c += stepC) {
+        path30 += `M ${left} ${0.57735 * left + c} L ${right} ${0.57735 * right + c} `;
+      }
+      svg += `<path d="${path30}" ${minorStyle} fill="none" />`;
+      
+      let path150 = '';
+      const minC2 = top + 0.57735 * left;
+      const maxC2 = bottom + 0.57735 * right;
+      for (let c = minC2; c <= maxC2; c += stepC) {
+        path150 += `M ${left} ${-0.57735 * left + c} L ${right} ${-0.57735 * right + c} `;
+      }
+      svg += `<path d="${path150}" ${minorStyle} fill="none" />`;
+    } else if (settings.gridType === 'polar') {
+      const spacing = settings.gridSpacing;
+      const cx = left + (right - left) / 2;
+      const cy = top + (bottom - top) / 2;
+      const maxRadius = Math.sqrt((right - left) ** 2 + (bottom - top) ** 2) / 2;
+      
+      let circles = '';
+      for (let r = spacing; r <= maxRadius; r += spacing) {
+        circles += `<circle cx="${cx}" cy="${cy}" r="${r}" ${minorStyle} fill="none" />`;
+      }
+      svg += circles;
+      
+      let rads = '';
+      for (let angle = 0; angle < 360; angle += 15) {
+        const rad = (angle * Math.PI) / 180;
+        const x2 = cx + maxRadius * Math.cos(rad);
+        const y2 = cy + maxRadius * Math.sin(rad);
+        rads += `M ${cx} ${cy} L ${x2} ${y2} `;
+      }
+      svg += `<path d="${rads}" ${minorStyle} fill="none" />`;
+    } else if (settings.gridType === 'loglog' || settings.gridType === 'semilog') {
+      const numDecadesX = settings.gridType === 'loglog' ? 3 : 5;
+      const numDecadesY = 4;
+      const decWidth = (right - left) / numDecadesX;
+      const decHeight = (bottom - top) / numDecadesY;
+      
+      let pathGrid = '';
+      let pathMajor = '';
+      
+      if (settings.gridType === 'loglog') {
+        for (let d = 0; d < numDecadesX; d++) {
+          const dStart = left + d * decWidth;
+          pathMajor += `M ${dStart} ${top} L ${dStart} ${bottom} `;
+          for (let k = 1; k <= 10; k++) {
+            const x = dStart + Math.log10(k) * decWidth;
+            pathGrid += `M ${x} ${top} L ${x} ${bottom} `;
+          }
+        }
+        pathMajor += `M ${right} ${top} L ${right} ${bottom} `;
+      } else {
+        const spacing = settings.gridSpacing;
+        for (let x = left; x <= right + 0.01; x += spacing) {
+          pathGrid += `M ${x} ${top} L ${x} ${bottom} `;
+        }
+      }
+      
+      for (let d = 0; d < numDecadesY; d++) {
+        const dStart = bottom - d * decHeight;
+        pathMajor += `M ${left} ${dStart} L ${right} ${dStart} `;
+        for (let k = 1; k <= 10; k++) {
+          const y = dStart - Math.log10(k) * decHeight;
+          pathGrid += `M ${left} ${y} L ${right} ${y} `;
+        }
+      }
+      pathMajor += `M ${left} ${top} L ${right} ${top} `;
+      
+      svg += `<path d="${pathGrid}" ${minorStyle} fill="none" />`;
+      svg += `<path d="${pathMajor}" ${majorStyle} fill="none" />`;
+    } else if (settings.gridType === 'hexagonal') {
+      const r = spacing; const h = r * Math.sqrt(3);
+      let hexPath = '';
+      
+      const cols = Math.ceil((right - left) / (r * 1.5)) + 1;
+      const rows = Math.ceil((bottom - top) / h) + 1;
+      
+      for (let col = -1; col < cols; col++) {
+        for (let row = -1; row < rows; row++) {
+          const cx = left + col * r * 1.5;
+          const cy = top + row * h + (col % 2 === 0 ? 0 : h / 2);
+          
+          for (let i = 0; i < 6; i++) {
+            const angle = (i * Math.PI) / 3;
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            if (i === 0) hexPath += `M ${x} ${y} `;
+            else hexPath += `L ${x} ${y} `;
+          }
+          hexPath += `Z `;
+        }
+      }
+      svg += `<path d="${hexPath}" ${minorStyle} fill="none" />`;
+    } else if (settings.gridType === 'triangular') {
+      const spacing = settings.gridSpacing;
+      const dy = spacing * Math.sqrt(3) / 2;
+      
+      let pathH = '';
+      for (let y = top; y <= bottom + 0.01; y += dy) {
+        pathH += `M ${left} ${y} L ${right} ${y} `;
+      }
+      svg += `<path d="${pathH}" ${minorStyle} fill="none" />`;
+      
+      let path60 = '';
+      const stepC = spacing;
+      const minC = top - 1.73205 * right;
+      const maxC = bottom - 1.73205 * left;
+      for (let c = minC; c <= maxC; c += stepC) {
+        path60 += `M ${left} ${1.73205 * left + c} L ${right} ${1.73205 * right + c} `;
+      }
+      svg += `<path d="${path60}" ${minorStyle} fill="none" />`;
+      
+      let path120 = '';
+      const minC2 = top + 1.73205 * left;
+      const maxC2 = bottom + 1.73205 * right;
+      for (let c = minC2; c <= maxC2; c += stepC) {
+        path120 += `M ${left} ${-1.73205 * left + c} L ${right} ${-1.73205 * right + c} `;
+      }
+      svg += `<path d="${path120}" ${minorStyle} fill="none" />`;
+    }
+    
+    svg += `</g>`;
+    
+    if (settings.showPrintGuides) {
+      svg += `<rect x="${left}" y="${top}" width="${right - left}" height="${bottom - top}" stroke="${settings.majorColor}" stroke-width="0.3" stroke-dasharray="2,2" fill="none" />`;
+    }
+    
+    if (settings.showCropMarks) {
+      const size = 5;
+      svg += `<path d="M 0 ${top} L ${size} ${top} M ${left} 0 L ${left} ${size}" stroke="#000" stroke-width="0.3" />`;
+      svg += `<path d="M ${W} ${top} L ${W - size} ${top} M ${right} 0 L ${right} ${size}" stroke="#000" stroke-width="0.3" />`;
+      svg += `<path d="M 0 ${bottom} L ${size} ${bottom} M ${left} ${H} L ${left} ${H - size}" stroke="#000" stroke-width="0.3" />`;
+      svg += `<path d="M ${W} ${bottom} L ${W - size} ${bottom} M ${right} ${H} L ${right} ${H - size}" stroke="#000" stroke-width="0.3" />`;
+    }
+    
+    shapes.forEach(shape => {
+      const strokeStyle = `stroke="${shape.color}" stroke-width="${shape.width}" stroke-linecap="round" stroke-linejoin="round" fill="none"`;
+      if (shape.type === 'pencil' || shape.type === 'pen') {
+        if (shape.points.length < 1) return;
+        let path = `M ${shape.points[0].x} ${shape.points[0].y} `;
+        for (let i = 1; i < shape.points.length; i++) {
+          path += `L ${shape.points[i].x} ${shape.points[i].y} `;
+        }
+        svg += `<path d="${path}" ${strokeStyle} />`;
+      } else if (shape.type === 'line') {
+        if (shape.points.length < 2) return;
+        svg += `<line x1="${shape.points[0].x}" y1="${shape.points[0].y}" x2="${shape.points[1].x}" y2="${shape.points[1].y}" ${strokeStyle} />`;
+      } else if (shape.type === 'arrow') {
+        if (shape.points.length < 2) return;
+        const p0 = shape.points[0];
+        const p1 = shape.points[1];
+        svg += `<line x1="${p0.x}" y1="${p0.y}" x2="${p1.x}" y2="${p1.y}" ${strokeStyle} />`;
+        const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x);
+        const headlen = 4;
+        const xA = p1.x - headlen * Math.cos(angle - Math.PI / 6);
+        const yA = p1.y - headlen * Math.sin(angle - Math.PI / 6);
+        const xB = p1.x - headlen * Math.cos(angle + Math.PI / 6);
+        const yB = p1.y - headlen * Math.sin(angle + Math.PI / 6);
+        svg += `<path d="M ${xA} ${yA} L ${p1.x} ${p1.y} L ${xB} ${yB}" stroke="${shape.color}" stroke-width="${shape.width}" stroke-linecap="round" fill="none" />`;
+      } else if (shape.type === 'rect') {
+        if (shape.points.length < 2) return;
+        const x = Math.min(shape.points[0].x, shape.points[1].x);
+        const y = Math.min(shape.points[0].y, shape.points[1].y);
+        const w = Math.abs(shape.points[0].x - shape.points[1].x);
+        const h = Math.abs(shape.points[0].y - shape.points[1].y);
+        svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" ${strokeStyle} />`;
+      } else if (shape.type === 'circle') {
+        if (shape.points.length < 2) return;
+        const r = Math.hypot(shape.points[1].x - shape.points[0].x, shape.points[1].y - shape.points[0].y);
+        svg += `<circle cx="${shape.points[0].x}" cy="${shape.points[0].y}" r="${r}" ${strokeStyle} />`;
+      } else if (shape.type === 'text') {
+        if (shape.points.length < 1) return;
+        svg += `<text x="${shape.points[0].x}" y="${shape.points[0].y}" fill="${shape.color}" font-family="sans-serif" font-size="${shape.width * 1.5}" text-anchor="start">${shape.text || ''}</text>`;
+      }
+    });
+    
+    svg += `</svg>`;
+    return svg;
+  }
+</script>
+
+<style is:global>
+  @media print {
+    html, body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      height: 100% !important;
+      overflow: visible !important;
+    }
+    #app-wrapper, header, aside, footer, #seo-content, .no-print {
+      display: none !important;
+    }
+    #print-vector-container {
+      display: block !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      z-index: 99999 !important;
+      page-break-inside: avoid;
+      background: #ffffff !important;
+    }
+    #print-vector-container svg {
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+    }
+    @page {
+      margin: 0;
+      size: auto;
+    }
+  }
+</style>

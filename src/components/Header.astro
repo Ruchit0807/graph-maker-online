@@ -1,11 +1,12 @@
 ---
 interface Props {
   isEditor?: boolean;
+  activeTab?: 'plotter' | 'generator' | 'none';
 }
 
-const { isEditor = true } = Astro.props;
+const { isEditor = true, activeTab = 'plotter' } = Astro.props;
 ---
-<header class="sticky top-0 z-50 h-14 w-full border-b border-hairline bg-canvas/80 backdrop-blur-md transition-colors duration-150 ease-in-out">
+<header class="sticky top-0 z-50 h-14 w-full border-b border-hairline bg-canvas/80 backdrop-blur-md transition-colors duration-150 ease-in-out print:hidden">
   <div class="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6">
     <!-- Brand / Logo -->
     <a href="/" class="flex items-center gap-2.5 group focus:outline-none shrink-0">
@@ -16,6 +17,22 @@ const { isEditor = true } = Astro.props;
         <span class="hidden sm:inline font-mono text-[9px] uppercase tracking-wider text-mute">online graph paper</span>
       </div>
     </a>
+
+    <!-- Navigation Tabs -->
+    <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-mute mx-4">
+      <a 
+        href="/" 
+        class={`transition-colors py-1.5 border-b-2 hover:text-ink ${activeTab === 'plotter' ? 'border-primary text-ink font-semibold' : 'border-transparent text-mute'}`}
+      >
+        Interactive Plotter
+      </a>
+      <a 
+        href="/print-graph-paper" 
+        class={`transition-colors py-1.5 border-b-2 hover:text-ink ${activeTab === 'generator' ? 'border-primary text-ink font-semibold' : 'border-transparent text-mute'}`}
+      >
+        Graph Paper Generator
+      </a>
+    </nav>
 
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-3">
