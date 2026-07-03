@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="About Us – Graph Maker Online"
+  description="Learn about Graph Maker Online, a free browser-based coordinate plotter, function sketcher, and math paper editor designed for educational and professional use."
+  canonicalUrl="https://graphmakeronline.com/about"
+>
+  <div class="flex flex-col min-h-screen bg-canvas-soft text-ink transition-colors duration-150">
+    <Header isEditor={false} />
+
+    <main class="flex-1 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+      <!-- Title & Subtitle -->
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold bg-canvas border border-hairline shadow-xs mb-6 select-none text-ink">
+          Our Mission &amp; Tool
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6">
+          About <span class="bg-gradient-to-r from-violet via-highlight-pink to-link-blue bg-clip-text text-transparent">Graph Maker Online</span>
+        </h1>
+        <p class="text-base sm:text-lg text-mute leading-relaxed">
+          Making mathematical graphing, precision drawing, and laboratory sketching accessible, free, and intuitive on any device.
+        </p>
+      </div>
+
+      <!-- Main Content Cards -->
+      <div class="space-y-12">
+        <!-- What we are section -->
+        <div class="rounded-md border border-hairline bg-canvas p-6 sm:p-10 shadow-xs">
+          <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+            <span class="h-5 w-1 bg-violet rounded-full"></span>
+            What is Graph Maker Online?
+          </h2>
+          <p class="text-body leading-relaxed text-sm sm:text-base mb-4">
+            Graph Maker Online is an interactive mathematical toolkit created for students, researchers, engineers, and teachers. It provides an immediate, browser-based graphing board that replaces the need for desktop charting utilities, physical green graph sheets, or paid scientific calculators.
+          </p>
+          <p class="text-body leading-relaxed text-sm sm:text-base">
+            Our app operates entirely client-side. This means that everything you plot, draw, calculate, or import happens directly inside your web browser. We do not require account registration, and your data remains private on your local device.
+          </p>
+        </div>
+
+        <!-- Core features grid -->
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-ink mb-8 text-center">Built with Key Graphing Instruments</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Card 1 -->
+            <div class="rounded-md border border-hairline bg-canvas p-6 hover:border-hairline-strong transition-all">
+              <div class="h-8 w-8 rounded-sm bg-violet-soft/20 flex items-center justify-center text-violet font-bold mb-4 font-mono">01</div>
+              <h3 class="font-semibold text-base mb-2">Multiple Grid Layouts</h3>
+              <p class="text-xs text-mute leading-relaxed">
+                Toggle between standard Cartesian coordinates, signature green laboratory graph paper, polar vectors, and logarithmic logarithmic/semi-log sheets.
+              </p>
+            </div>
+            <!-- Card 2 -->
+            <div class="rounded-md border border-hairline bg-canvas p-6 hover:border-hairline-strong transition-all">
+              <div class="h-8 w-8 rounded-sm bg-violet-soft/20 flex items-center justify-center text-violet font-bold mb-4 font-mono">02</div>
+              <h3 class="font-semibold text-base mb-2">Coordinate Table Plotting</h3>
+              <p class="text-xs text-mute leading-relaxed">
+                Add nodes manually by coordinate input or load dataset CSV tables. Real-time stats HUD computes bounding limits and simple linear regressions instantly.
+              </p>
+            </div>
+            <!-- Card 3 -->
+            <div class="rounded-md border border-hairline bg-canvas p-6 hover:border-hairline-strong transition-all">
+              <div class="h-8 w-8 rounded-sm bg-violet-soft/20 flex items-center justify-center text-violet font-bold mb-4 font-mono">03</div>
+              <h3 class="font-semibold text-base mb-2">Mathematical Parser</h3>
+              <p class="text-xs text-mute leading-relaxed">
+                Render functions such as polynomials, trigonometry (sin, cos, tan), and exponential curves. Calculate area under curves using definite integrals.
+              </p>
+            </div>
+            <!-- Card 4 -->
+            <div class="rounded-md border border-hairline bg-canvas p-6 hover:border-hairline-strong transition-all">
+              <div class="h-8 w-8 rounded-sm bg-violet-soft/20 flex items-center justify-center text-violet font-bold mb-4 font-mono">04</div>
+              <h3 class="font-semibold text-base mb-2">Pencil &amp; Vector Drawing</h3>
+              <p class="text-xs text-mute leading-relaxed">
+                Sketch curves, drop midpoints, measure segment distances, draw shapes, or add descriptive text labels right on the vector canvas grid.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vision Section -->
+        <div class="rounded-md border border-hairline bg-canvas p-6 sm:p-10 shadow-xs">
+          <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+            <span class="h-5 w-1 bg-link-blue rounded-full"></span>
+            Why we built this tool
+          </h2>
+          <p class="text-body leading-relaxed text-sm sm:text-base mb-4">
+            Educational tools should be fast, highly responsive, and simple. Existing online calculators are often either too complex for simple assignments or require heavy subscription payments. We built Graph Maker Online to provide a sleek, streamlined, and completely free alternative that works as well on a mobile device as it does on a laboratory desktop.
+          </p>
+          <div class="mt-8 flex justify-center">
+            <a href="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-primary text-xs font-semibold text-on-primary hover:bg-primary/90 transition-colors shadow-xs">
+              <span>Start Plotting Now</span>
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>

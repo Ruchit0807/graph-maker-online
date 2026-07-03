@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Terms & Conditions – Graph Maker Online"
+  description="Read the terms of service and conditions for using Graph Maker Online. Learn about our free-to-use plotting services, intellectual property rights, and user responsibilities."
+  canonicalUrl="https://graphmakeronline.com/terms"
+>
+  <div class="flex flex-col min-h-screen bg-canvas-soft text-ink transition-colors duration-150">
+    <Header isEditor={false} />
+
+    <main class="flex-1 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+      <!-- Title Section -->
+      <div class="max-w-3xl mx-auto mb-12">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          Terms &amp; Conditions
+        </h1>
+        <p class="text-xs text-mute font-mono uppercase tracking-wider">
+          Last Updated: June 29, 2026
+        </p>
+        <div class="h-px bg-hairline w-full mt-6"></div>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        
+        <!-- On-Page Links -->
+        <div class="md:col-span-4 md:sticky md:top-20 space-y-4 hidden md:block">
+          <div class="rounded-md border border-hairline bg-canvas p-4 shadow-xs">
+            <h3 class="text-[10px] font-semibold uppercase tracking-wider text-mute mb-3">Terms Chapters</h3>
+            <nav class="flex flex-col gap-2">
+              <a href="#acceptance" class="text-xs text-mute hover:text-ink transition-colors">1. Acceptance of Terms</a>
+              <a href="#permitted-use" class="text-xs text-mute hover:text-ink transition-colors">2. Permitted Use</a>
+              <a href="#intellectual-prop" class="text-xs text-mute hover:text-ink transition-colors">3. Intellectual Property</a>
+              <a href="#disclaimers" class="text-xs text-mute hover:text-ink transition-colors">4. Disclaimers</a>
+              <a href="#liabilities" class="text-xs text-mute hover:text-ink transition-colors">5. Limitation of Liability</a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Terms Content -->
+        <div class="md:col-span-8 space-y-8 text-body text-sm leading-relaxed">
+          <section id="introduction">
+            <p class="mb-4">
+              Welcome to <strong>Graph Maker Online</strong>. These Terms &amp; Conditions govern your access to and use of our website located at <a href="https://graphmakeronline.com" class="text-link-blue hover:underline">graphmakeronline.com</a>.
+            </p>
+            <p>
+              By visiting or using our website, you agree to comply with and be bound by these Terms. If you do not agree to these Terms, please do not access or use Graph Maker Online.
+            </p>
+          </section>
+
+          <section id="acceptance" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">1. Acceptance of Terms</h2>
+            <p>
+              We reserve the right to review, update, or modify these Terms &amp; Conditions at any time. When changes are made, we will adjust the "Last Updated" date at the top of this document. Your continued use of the website following any updates indicates your consent to the revised terms.
+            </p>
+          </section>
+
+          <section id="permitted-use" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">2. Permitted Use &amp; User Behavior</h2>
+            <p class="mb-3">
+              Graph Maker Online is provided entirely free of charge for personal, educational, scientific, research, and commercial purposes. You agree to use the website only for lawful activities and in compliance with these Terms.
+            </p>
+            <p class="mb-3">
+              You agree NOT to:
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>
+                Deploy automated scripts, bots, spiders, or scraper tools to extract data from the site, attempt to overload our hosting infrastructure, or disrupt the rendering of our application.
+              </li>
+              <li>
+                Reverse-engineer, bypass, or alter the vector plotting mechanisms, coordinate parsers, or math calculations embedded in our source files.
+              </li>
+              <li>
+                Host or republish our tool framework as a standalone service under a separate domain name without explicit licensing permission.
+              </li>
+            </ul>
+          </section>
+
+          <section id="intellectual-prop" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">3. Intellectual Property Rights &amp; Graph Ownership</h2>
+            <p class="mb-3">
+              <strong>Your Creations:</strong> You retain complete ownership and intellectual property rights over any mathematical plots, line charts, polar charts, drawings, coordinate datasets, and exported PDF or PNG file configurations that you build using Graph Maker Online. You are free to distribute, publish, print, or sell your exported layouts for any educational, academic, or commercial project.
+            </p>
+            <p>
+              <strong>Our Materials:</strong> The design interfaces, source code files, graphic assets, proprietary styling templates, text guides, and logos of Graph Maker Online are owned by us and are protected by applicable trademark and copyright legislation.
+            </p>
+          </section>
+
+          <section id="disclaimers" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">4. Disclaimers of Warranties</h2>
+            <p class="mb-3">
+              Graph Maker Online is provided on an "as is" and "as available" basis without warranties or representations of any kind, whether express or implied.
+            </p>
+            <p>
+              While we strive to maintain the precision of our mathematical coordinate plotters, formula solvers, statistics consoles, and integration calculators, we do not warrant that calculations are free of mathematical rounding errors or that the application will run without interruption. We recommend cross-verifying complex scientific calculations for high-stakes professional applications.
+            </p>
+          </section>
+
+          <section id="liabilities" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">5. Limitation of Liability</h2>
+            <p>
+              To the maximum extent permitted by applicable law, Graph Maker Online and its creators shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from your use of or inability to use the site, errors in graph exports, or loss of progress datasets stored in your browser's local cache.
+            </p>
+          </section>
+
+          <section id="governing-law" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">6. Governing Law</h2>
+            <p>
+              These Terms &amp; Conditions are governed by and construed in accordance with standard international web regulations. Any legal disputes arising from your use of the website shall be resolved in accordance with relevant regional guidelines.
+            </p>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>

@@ -1,0 +1,2471 @@
+---
+---
+<div class="relative flex-1 h-full w-full bg-canvas overflow-hidden flex flex-col select-none print:h-screen print:w-screen print:bg-white print:border-0">
+  
+  <!-- Canvas Toolbar Overlay (Floating Top Panel) -->
+  <div class="absolute top-4 left-4 right-4 z-10 flex flex-wrap gap-2 items-center justify-between pointer-events-none print:hidden">
+    <div class="flex items-center gap-1.5 rounded-md border border-hairline bg-canvas/90 shadow-md p-1 backdrop-blur-xs pointer-events-auto">
+      <!-- Mobile Sidebar Drawer Toggle -->
+      <button 
+        id="mobile-sidebar-toggle-btn" 
+        class="lg:hidden h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-semibold transition-colors gap-1"
+        title="Open Instruments & Settings"
+      >
+        <svg class="h-3.5 w-3.5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="hidden sm:inline">Instruments</span>
+      </button>
+
+      <div class="lg:hidden h-4 w-px bg-hairline mx-0.5"></div>
+
+      <!-- Undo -->
+      <button 
+        id="canvas-undo-btn" 
+        class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+        title="Undo (Ctrl+Z)"
+        disabled
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+        </svg>
+      </button>
+
+      <!-- Redo -->
+      <button 
+        id="canvas-redo-btn" 
+        class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+        title="Redo (Ctrl+Y)"
+        disabled
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 10H11a8 8 0 00-8 8v2m18-8l-6 6m6-6l-6-6" />
+        </svg>
+      </button>
+      
+      <div class="h-4 w-px bg-hairline mx-1"></div>
+
+      <!-- Zoom In -->
+      <button 
+        id="canvas-zoomin-btn" 
+        class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 transition-colors"
+        title="Zoom In"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+
+      <!-- Zoom Out -->
+      <button 
+        id="canvas-zoomout-btn" 
+        class="h-7 w-7 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 transition-colors"
+        title="Zoom Out"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+        </svg>
+      </button>
+
+      <!-- Toggle Coordinates -->
+      <button 
+        id="canvas-toggle-coords-btn" 
+        class="h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-mono tracking-tight transition-colors gap-1 border border-hairline/40 bg-canvas/30"
+        title="Toggle Point Coordinates on Graph"
+      >
+        <svg class="h-3.5 w-3.5 text-mute animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        <span id="canvas-coords-status-txt" class="hidden sm:inline">Coords: On</span>
+      </button>
+
+      <!-- Center / Reset View -->
+      <button 
+        id="canvas-resetview-btn" 
+        class="h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-mono tracking-tight transition-colors gap-1"
+        title="Reset Origin"
+      >
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        <span class="hidden sm:inline">Reset</span>
+      </button>
+
+      <div class="h-4 w-px bg-hairline mx-1"></div>
+
+      <!-- Clear Canvas -->
+      <button 
+        id="canvas-clear-btn" 
+        class="h-7 w-7 sm:w-auto sm:px-2 flex items-center justify-center rounded-xs text-error hover:bg-error-soft hover:text-error-deep text-[10px] font-semibold transition-colors gap-1"
+        title="Clear All Drawings & Points"
+      >
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        <span class="hidden sm:inline">Clear All</span>
+      </button>
+    </div>
+
+    <!-- Export Menu -->
+    <div class="flex items-center gap-1.5 rounded-md border border-hairline bg-canvas/90 shadow-md p-1 backdrop-blur-xs pointer-events-auto">
+      <button 
+        id="export-png-btn"
+        class="h-7 px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-medium transition-colors"
+      >
+        PNG
+      </button>
+      <button 
+        id="export-svg-btn"
+        class="h-7 px-2 flex items-center justify-center rounded-xs text-ink hover:bg-canvas-soft-2 text-[10px] font-medium transition-colors"
+      >
+        SVG
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawing Canvas Area -->
+  <div class="flex-1 w-full h-full relative cursor-crosshair bg-canvas-soft print:bg-white">
+    <!-- Lab Report Title Info (Visible only during printing) -->
+    <div class="hidden print:flex flex-col gap-1 w-full border-b-2 border-slate-900 pb-4 mb-6">
+      <div class="flex justify-between items-end">
+        <h1 class="text-2xl font-bold text-slate-900">LABORATORY EXPERIMENT GRAPH</h1>
+        <div class="text-right font-mono text-sm text-slate-800">
+          <p>Date: ____________________</p>
+          <p>Experiment: ____________________</p>
+        </div>
+      </div>
+      <div class="flex justify-between items-center text-xs text-slate-700 font-mono mt-2">
+        <span>Plotter: graphmakeronline.com</span>
+        <span>Scale: <span id="print-scale-label">1 unit = 1 square</span></span>
+        <span>Name: ____________________</span>
+      </div>
+    </div>
+
+    <canvas id="graph-canvas" class="w-full h-full block bg-transparent print:w-full print:h-[600px] print:mx-auto"></canvas>
+  </div>
+
+  <!-- Bottom Coordinate Bar Overlay -->
+  <div class="h-10 border-t border-hairline bg-canvas flex items-center justify-between px-4 text-xs select-none print:hidden">
+    <!-- Active Tool Status & Instructions -->
+    <div class="flex items-center gap-4 min-w-0">
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="inline-block h-2 w-2 rounded-full bg-success"></span>
+        <span class="text-body font-sans" id="status-tool-label">Tool: Point Plotter</span>
+      </div>
+
+      <!-- Instructions / Tips -->
+      <div class="hidden xl:block text-mute font-sans text-[11px] truncate max-w-xs border-l border-hairline pl-4">
+        <span id="canvas-tip-label">Click anywhere on the paper to place a named point. Hold mouse wheel / shift to pan.</span>
+      </div>
+    </div>
+
+    <!-- Quick Navigation Links -->
+    <div class="hidden md:flex items-center gap-4 text-[11px] font-sans text-mute">
+      <a href="/about" class="hover:text-ink hover:underline transition-colors">About Us</a>
+      <span class="h-2.5 w-px bg-hairline"></span>
+      <a href="/contact" class="hover:text-ink hover:underline transition-colors">Contact Us</a>
+      <span class="h-2.5 w-px bg-hairline"></span>
+      <a href="/privacy" class="hover:text-ink hover:underline transition-colors">Privacy Policy</a>
+      <span class="h-2.5 w-px bg-hairline"></span>
+      <a href="/terms" class="hover:text-ink hover:underline transition-colors">Terms & Conditions</a>
+    </div>
+
+    <!-- Active Coordinates Display -->
+    <div class="flex items-center gap-4 font-mono font-medium text-ink bg-canvas-soft-2 px-3 py-1 rounded-sm border border-hairline shrink-0">
+      <div>X = <span id="coords-x-label" class="text-success">0.00</span></div>
+      <div class="h-3 w-px bg-hairline-strong/40"></div>
+      <div>Y = <span id="coords-y-label" class="text-success">0.00</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // DOM Elements
+  const canvas = document.getElementById('graph-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  const coordsXLabel = document.getElementById('coords-x-label')!;
+  const coordsYLabel = document.getElementById('coords-y-label')!;
+  const toolLabel = document.getElementById('status-tool-label')!;
+  const tipLabel = document.getElementById('canvas-tip-label')!;
+
+  const undoBtn = document.getElementById('canvas-undo-btn') as HTMLButtonElement;
+  const redoBtn = document.getElementById('canvas-redo-btn') as HTMLButtonElement;
+  const zoomInBtn = document.getElementById('canvas-zoomin-btn')!;
+  const zoomOutBtn = document.getElementById('canvas-zoomout-btn')!;
+  const resetViewBtn = document.getElementById('canvas-resetview-btn')!;
+  const clearBtn = document.getElementById('canvas-clear-btn')!;
+  const exportPngBtn = document.getElementById('export-png-btn')!;
+  const exportSvgBtn = document.getElementById('export-svg-btn')!;
+  const printScaleLabel = document.getElementById('print-scale-label')!;
+  
+  const toggleCoordsBtn = document.getElementById('canvas-toggle-coords-btn')!;
+  const coordsStatusTxt = document.getElementById('canvas-coords-status-txt')!;
+
+  // Application State
+  const isDarkInitial = document.documentElement.classList.contains('dark');
+  let state = {
+    gridType: isDarkInitial ? 'cartesian' : 'green',     // green, cartesian, polar, semilog, loglog, blank
+    tool: 'point',          // pencil, pen, eraser, point, line, polyline, curve, area, distance, midpoint, angle
+    snap: true,
+    scaleType: 1,           // 1 unit per major grid, 2 units, 5 units, custom
+    customScale: 1.0,
+    zoom: 1.0,
+    offsetX: 0,            // pan offsets in screen pixels
+    offsetY: 0,
+    theme: isDarkInitial ? 'dark' : 'light',
+    drawColor: '#0070f3',   // default Vercel blue
+    pointSize: 4,
+    lineThickness: 2,
+    showCoordinates: true
+  };
+
+  // Dispatch initial grid type to UI on load
+  setTimeout(() => {
+    window.dispatchEvent(new CustomEvent('gmo-update-grid-ui', { detail: { grid: state.gridType } }));
+  }, 50);
+
+  // Undo/Redo Stacks
+  let history: Array<string> = [];
+  let redoStack: Array<string> = [];
+
+  // Drawing Objects
+  let points: Array<{ id: string; name: string; x: number; y: number; color: string }> = [];
+  let freehandStrokes: Array<{ type: 'pencil' | 'pen'; color: string; width: number; path: Array<{ x: number; y: number }> }> = [];
+  let connections: Array<{ type: 'line' | 'polyline' | 'curve'; pointIds: string[]; color: string }> = [];
+  let equations: Array<{ expr: string; color: string; id: string }> = [];
+  let activeMeasurements: Array<{ type: 'distance' | 'midpoint' | 'angle' | 'radius'; pointIds: string[]; result: string }> = [];
+  let areaUnderCurve: { curveId: string; equationIndex: number; startX: number; endX: number; area: number } | null = null;
+
+  // Active inputs
+  let isDrawing = false;
+  let isPanning = false;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+  let strokeBuffer: Array<{ x: number; y: number }> = [];
+  let strokeLastTime = 0;
+
+  // Touch specific state variables for gestures & mobile support
+  let lastTouchDist = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+  let touchCanceled = false;
+
+  // Tool specific selection state
+  let selectedPointIdsForTools: string[] = [];
+  let areaSelectionPhase = 0; // 0 = not active, 1 = curve chosen (need start), 2 = start chosen (need end)
+  let areaTargetType = ''; // 'equation' or 'points'
+  let areaTargetId = ''; // index or curve id
+
+  // Canvas scaling parameters
+  const BASE_GRID_PIXELS = 50; // Distance between major grid lines in screen pixels at zoom 1.0
+
+  // Point names alphabet
+  const pointAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let pointCounter = 0;
+
+  // Active magnetic target snap info (CAD style)
+  let activeMagneticTarget: { x: number; y: number; lx: number; ly: number; type: 'point' | 'grid'; label?: string } | null = null;
+
+  // Initialize Canvas sizing
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    draw();
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  // Wait a frame to size correctly
+  setTimeout(resizeCanvas, 50);
+
+  // Save state for undo
+  function saveHistory() {
+    const data = JSON.stringify({
+      points,
+      freehandStrokes,
+      connections,
+      equations,
+      activeMeasurements,
+      areaUnderCurve,
+      pointCounter
+    });
+    // Limit history stack size
+    if (history.length > 50) history.shift();
+    history.push(data);
+    redoStack = [];
+    updateUndoRedoButtons();
+  }
+
+  function updateUndoRedoButtons() {
+    undoBtn.disabled = history.length === 0;
+    redoBtn.disabled = redoStack.length === 0;
+  }
+
+  function undo() {
+    if (history.length === 0) return;
+    const currentState = JSON.stringify({
+      points,
+      freehandStrokes,
+      connections,
+      equations,
+      activeMeasurements,
+      areaUnderCurve,
+      pointCounter
+    });
+    redoStack.push(currentState);
+    
+    const previousStateStr = history.pop()!;
+    const prev = JSON.parse(previousStateStr);
+    points = prev.points || [];
+    freehandStrokes = prev.freehandStrokes || [];
+    connections = prev.connections || [];
+    equations = prev.equations || [];
+    activeMeasurements = prev.activeMeasurements || [];
+    areaUnderCurve = prev.areaUnderCurve || null;
+    pointCounter = prev.pointCounter || 0;
+    
+    updateUndoRedoButtons();
+    notifySidebarUpdates();
+    draw();
+  }
+
+  function redo() {
+    if (redoStack.length === 0) return;
+    const previousStateStr = JSON.stringify({
+      points,
+      freehandStrokes,
+      connections,
+      equations,
+      activeMeasurements,
+      areaUnderCurve,
+      pointCounter
+    });
+    history.push(previousStateStr);
+    
+    const nextStateStr = redoStack.pop()!;
+    const next = JSON.parse(nextStateStr);
+    points = next.points || [];
+    freehandStrokes = next.freehandStrokes || [];
+    connections = next.connections || [];
+    equations = next.equations || [];
+    activeMeasurements = next.activeMeasurements || [];
+    areaUnderCurve = next.areaUnderCurve || null;
+    pointCounter = next.pointCounter || 0;
+    
+    updateUndoRedoButtons();
+    notifySidebarUpdates();
+    draw();
+  }
+
+  // Coordinate conversion helper functions
+  // Screen space pixels to logical coordinate space units
+  function screenToLogical(sx: number, sy: number) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    const originX = (canvas.width / (2 * (window.devicePixelRatio || 1))) + state.offsetX;
+    const originY = (canvas.height / (2 * (window.devicePixelRatio || 1))) + state.offsetY;
+
+    let lx = 0;
+    let ly = 0;
+
+    if (state.gridType === 'loglog') {
+      // Logarithmic scaling (X and Y are powers of 10)
+      // center is 10^0 = 1. Left of center is < 1, right of center is > 1.
+      lx = Math.pow(10, (sx - originX) / scale);
+      ly = Math.pow(10, (originY - sy) / scale);
+    } else if (state.gridType === 'semilog') {
+      // Semi-logarithmic scaling (X is linear, Y is log)
+      lx = ((sx - originX) / scale) * getScaleValue();
+      ly = Math.pow(10, (originY - sy) / scale);
+    } else {
+      // Linear coordinate systems (Cartesian, green, polar, blank)
+      lx = ((sx - originX) / scale) * getScaleValue();
+      ly = ((originY - sy) / scale) * getScaleValue();
+    }
+
+    return { x: lx, y: ly };
+  }
+
+  // Logical coordinate space units to screen space pixels
+  function logicalToScreen(lx: number, ly: number) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    const originX = (canvas.width / (2 * (window.devicePixelRatio || 1))) + state.offsetX;
+    const originY = (canvas.height / (2 * (window.devicePixelRatio || 1))) + state.offsetY;
+
+    let sx = 0;
+    let sy = 0;
+
+    if (state.gridType === 'loglog') {
+      sx = originX + Math.log10(Math.max(1e-10, lx)) * scale;
+      sy = originY - Math.log10(Math.max(1e-10, ly)) * scale;
+    } else if (state.gridType === 'semilog') {
+      sx = originX + (lx / getScaleValue()) * scale;
+      sy = originY - Math.log10(Math.max(1e-10, ly)) * scale;
+    } else {
+      sx = originX + (lx / getScaleValue()) * scale;
+      sy = originY - (ly / getScaleValue()) * scale;
+    }
+
+    return { x: sx, y: sy };
+  }
+
+  // Get active scale unit multiplier
+  function getScaleValue() {
+    if (state.scaleType === 'custom') {
+      return state.customScale;
+    }
+    return Number(state.scaleType);
+  }
+
+  // Snapping function
+  function snapToGrid(logicalX: number, logicalY: number) {
+    if (!state.snap) return { x: logicalX, y: logicalY };
+
+    if (state.gridType === 'polar') {
+      // Snap to concentric radial divisions or angular divisions
+      const r = Math.sqrt(logicalX * logicalX + logicalY * logicalY);
+      const theta = Math.atan2(logicalY, logicalX);
+      
+      const stepValue = getScaleValue();
+      // Snap radius to nearest integer/step multiplier
+      const snappedR = Math.round(r / (stepValue / 5)) * (stepValue / 5);
+      
+      // Snap angle to nearest 15 degrees (pi/12 radians)
+      const angleStep = Math.PI / 12;
+      const snappedTheta = Math.round(theta / angleStep) * angleStep;
+
+      return {
+        x: snappedR * Math.cos(snappedTheta),
+        y: snappedR * Math.sin(snappedTheta)
+      };
+    } else if (state.gridType === 'loglog' || state.gridType === 'semilog') {
+      // Log coordinates are trickier to snap. Snap to fractional power lines
+      // Let's snap to nearest major decade or log subdivision line (1, 2, 5 scale subdivisions)
+      let snapX = logicalX;
+      let snapY = logicalY;
+
+      if (state.gridType === 'loglog') {
+        const decX = Math.floor(Math.log10(logicalX));
+        const fractionX = logicalX / Math.pow(10, decX);
+        const snappedFractionX = snapLogFraction(fractionX);
+        snapX = snappedFractionX * Math.pow(10, decX);
+      }
+
+      const decY = Math.floor(Math.log10(logicalY));
+      const fractionY = logicalY / Math.pow(10, decY);
+      const snappedFractionY = snapLogFraction(fractionY);
+      snapY = snappedFractionY * Math.pow(10, decY);
+
+      if (state.gridType === 'semilog') {
+        const stepValue = getScaleValue() / 10; // snap to minor grid division
+        snapX = Math.round(logicalX / stepValue) * stepValue;
+      }
+
+      return { x: snapX, y: snapY };
+    } else {
+      // Standard linear snapping (Green paper, Cartesian, Blank)
+      // University green paper has 10 minor subdivisions inside 1 major division.
+      const majorStep = getScaleValue();
+      const minorStep = majorStep / 10;
+      
+      return {
+        x: Math.round(logicalX / minorStep) * minorStep,
+        y: Math.round(logicalY / minorStep) * minorStep
+      };
+    }
+  }
+
+  function snapLogFraction(val: number) {
+    // Standard logarithmic major subdivision marks: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    const ticks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let minDiff = Infinity;
+    let snapped = 1;
+    for (let t of ticks) {
+      const diff = Math.abs(val - t);
+      if (diff < minDiff) {
+        minDiff = diff;
+        snapped = t;
+      }
+    }
+    return snapped;
+  }
+
+  // Custom Recursive Descent Math Expression Parser
+  function evaluateMathExpression(exprStr: string, xVal: number) {
+    let s = exprStr.toLowerCase().replace(/\s+/g, '');
+    
+    // Strip leading y=, f(x)=, or y(x)= prefix if present
+    if (s.startsWith('y=')) {
+      s = s.substring(2);
+    } else if (s.startsWith('f(x)=')) {
+      s = s.substring(5);
+    } else if (s.startsWith('y(x)=')) {
+      s = s.substring(5);
+    }
+    
+    // Replace constants
+    s = s.replace(/pi/g, Math.PI.toString());
+    s = s.replace(/\be\b/g, Math.E.toString());
+    
+    // Handle implicit multiplication (e.g., 2x -> 2*x, )x -> )*x)
+    s = s.replace(/(\d)(x)/g, '$1*$2');
+    s = s.replace(/(\d)(\()/g, '$1*$2');
+    s = s.replace(/(\))(x)/g, '$1*$2');
+    s = s.replace(/(\))(\d)/g, '$1*$2');
+    s = s.replace(/(x)(\()/g, '$1*$2');
+    s = s.replace(/(\))(\()/g, '$1*$2');
+    
+    const functions: Record<string, (v: number) => number> = {
+      'asin': Math.asin,
+      'acos': Math.acos,
+      'atan': Math.atan,
+      'acsc': (x) => Math.asin(1 / x),
+      'asec': (x) => Math.acos(1 / x),
+      'acot': (x) => Math.atan(1 / x),
+      'sin': Math.sin,
+      'cos': Math.cos,
+      'tan': Math.tan,
+      'csc': (x) => 1 / Math.sin(x),
+      'sec': (x) => 1 / Math.cos(x),
+      'cot': (x) => 1 / Math.tan(x),
+      'sqrt': Math.sqrt,
+      'log': Math.log10,
+      'ln': Math.log,
+      'exp': Math.exp,
+      'abs': Math.abs
+    };
+
+    let pos = 0;
+    
+    function parseExpression(): number {
+      let val = parseTerm();
+      while (pos < s.length) {
+        const op = s[pos];
+        if (op === '+' || op === '-') {
+          pos++;
+          const nextVal = parseTerm();
+          val = op === '+' ? val + nextVal : val - nextVal;
+        } else {
+          break;
+        }
+      }
+      return val;
+    }
+    
+    function parseTerm(): number {
+      let val = parseFactor();
+      while (pos < s.length) {
+        const op = s[pos];
+        if (op === '*' || op === '/') {
+          pos++;
+          const nextVal = parseFactor();
+          val = op === '*' ? val * nextVal : val / nextVal;
+        } else {
+          break;
+        }
+      }
+      return val;
+    }
+    
+    function parseFactor(): number {
+      if (pos < s.length && s[pos] === '+') {
+        pos++;
+        return parseFactor();
+      }
+      if (pos < s.length && s[pos] === '-') {
+        pos++;
+        return -parseFactor();
+      }
+      
+      let val = parseBase();
+      
+      if (pos < s.length && s[pos] === '^') {
+        pos++;
+        const exponent = parseFactor();
+        val = Math.pow(val, exponent);
+      }
+      return val;
+    }
+    
+    function parseBase(): number {
+      if (pos >= s.length) return 0;
+      
+      if (s[pos] === '(') {
+        pos++;
+        const val = parseExpression();
+        if (s[pos] === ')') pos++; 
+        return val;
+      }
+      
+      if (s[pos] === 'x') {
+        pos++;
+        return xVal;
+      }
+      
+      const sortedFuncNames = Object.keys(functions).sort((a, b) => b.length - a.length);
+      for (let name of sortedFuncNames) {
+        if (s.startsWith(name, pos)) {
+          pos += name.length;
+          if (s[pos] === '(') {
+            pos++;
+            const arg = parseExpression();
+            if (s[pos] === ')') pos++;
+            return functions[name](arg);
+          }
+        }
+      }
+      
+      let start = pos;
+      while (pos < s.length && (/[0-9\.]/).test(s[pos])) {
+        pos++;
+      }
+      if (start === pos) {
+        pos++;
+        return 0;
+      }
+      return parseFloat(s.substring(start, pos));
+    }
+    
+    try {
+      return parseExpression();
+    } catch {
+      return NaN;
+    }
+  }
+
+  // Draw Spline curve
+  function drawCatmullRomSpline(pointsList: Array<{ x: number; y: number }>, strokeColor: string, strokeWidth: number) {
+    if (pointsList.length < 2) return;
+    ctx.beginPath();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = strokeWidth;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    if (pointsList.length === 2) {
+      ctx.moveTo(pointsList[0].x, pointsList[0].y);
+      ctx.lineTo(pointsList[1].x, pointsList[1].y);
+      ctx.stroke();
+      return;
+    }
+    
+    // Extrapolate start and end control points
+    const pts = [];
+    pts.push({
+      x: pointsList[0].x - (pointsList[1].x - pointsList[0].x),
+      y: pointsList[0].y - (pointsList[1].y - pointsList[0].y)
+    });
+    for (let p of pointsList) {
+      pts.push(p);
+    }
+    pts.push({
+      x: pointsList[pointsList.length - 1].x + (pointsList[pointsList.length - 1].x - pointsList[pointsList.length - 2].x),
+      y: pointsList[pointsList.length - 1].y + (pointsList[pointsList.length - 1].y - pointsList[pointsList.length - 2].y)
+    });
+    
+    ctx.moveTo(pointsList[0].x, pointsList[0].y);
+    
+    for (let i = 1; i < pts.length - 2; i++) {
+      const p0 = pts[i - 1];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2];
+      
+      const steps = 16;
+      for (let t = 1; t <= steps; t++) {
+        const u = t / steps;
+        const u2 = u * u;
+        const u3 = u2 * u;
+        
+        const x = 0.5 * (
+          (2 * p1.x) +
+          (-p0.x + p2.x) * u +
+          (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * u2 +
+          (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * u3
+        );
+        
+        const y = 0.5 * (
+          (2 * p1.y) +
+          (-p0.y + p2.y) * u +
+          (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * u2 +
+          (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * u3
+        );
+        
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.stroke();
+  }
+
+  // Core Drawing Loop
+  function draw() {
+    const isDark = state.theme === 'dark';
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Apply color definitions depending on dark mode state
+    const colors = {
+      bg: isDark ? '#0a0a0a' : '#fafafa',
+      gridMajor: isDark ? 'rgba(57, 255, 20, 0.45)' : 'rgba(9, 121, 105, 0.5)',
+      gridMinor: isDark ? 'rgba(57, 255, 20, 0.08)' : 'rgba(9, 121, 105, 0.1)',
+      axis: isDark ? '#ffffff' : '#171717',
+      axisMute: isDark ? '#404040' : '#ebebeb',
+      text: isDark ? '#a1a1a1' : '#4d4d4d',
+      textStrong: isDark ? '#ffffff' : '#171717',
+      pencil: isDark ? 'rgba(240, 240, 240, 0.85)' : 'rgba(55, 55, 55, 0.8)',
+      pen: isDark ? '#00e5ff' : '#0070f3',
+      point: '#ff0080'
+    };
+
+    // Override colors for non-green grid papers
+    if (state.gridType !== 'green') {
+      colors.gridMajor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(23, 23, 23, 0.12)';
+      colors.gridMinor = isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(23, 23, 23, 0.03)';
+    }
+
+    // Set background
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Grids
+    const width = canvas.width / (window.devicePixelRatio || 1);
+    const height = canvas.height / (window.devicePixelRatio || 1);
+    const originX = (width / 2) + state.offsetX;
+    const originY = (height / 2) + state.offsetY;
+
+    if (state.gridType === 'polar') {
+      drawPolarGrid(originX, originY, width, height, colors);
+    } else if (state.gridType === 'loglog') {
+      drawLogLogGrid(originX, originY, width, height, colors);
+    } else if (state.gridType === 'semilog') {
+      drawSemiLogGrid(originX, originY, width, height, colors);
+    } else {
+      drawStandardLinearGrid(originX, originY, width, height, colors);
+    }
+
+    // Draw Shaded Area Under Curve (if active)
+    drawShadedArea(colors);
+
+    // Draw Equation Curves
+    drawEquations(colors);
+
+    // Draw Connections between points (Lines/Curves)
+    drawPointConnections(colors);
+
+    // Draw Freehand strokes (pencil/pen)
+    drawFreehand(colors);
+
+    // Draw Plotted Points
+    drawPlottedPoints(colors);
+
+    // Draw Active measurements annotations
+    drawMeasurements(colors);
+
+    // Draw temporary drawing line/curve overlays
+    drawActiveDrawingBuffer(colors);
+
+    // Draw magnetic target snap ring (CAD style)
+    if (activeMagneticTarget && !isPanning && !isDrawing && 
+        state.tool !== 'pencil' && state.tool !== 'pen' && state.tool !== 'eraser') {
+      
+      const snapX = activeMagneticTarget.x;
+      const snapY = activeMagneticTarget.y;
+      
+      ctx.lineWidth = 1.0;
+      
+      if (activeMagneticTarget.type === 'point') {
+        // Plotted Point Snap (Pink CAD indicator)
+        ctx.strokeStyle = '#ff0080';
+        ctx.fillStyle = '#ff0080';
+        
+        ctx.strokeRect(snapX - 5, snapY - 5, 10, 10);
+        
+        ctx.beginPath();
+        ctx.arc(snapX, snapY, 8, 0, 2 * Math.PI);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(snapX - 11, snapY); ctx.lineTo(snapX - 3, snapY);
+        ctx.moveTo(snapX + 3, snapY); ctx.lineTo(snapX + 11, snapY);
+        ctx.moveTo(snapX, snapY - 11); ctx.lineTo(snapX, snapY - 3);
+        ctx.moveTo(snapX, snapY + 3); ctx.lineTo(snapX, snapY + 11);
+        ctx.stroke();
+
+        ctx.fillStyle = isDark ? '#ffffff' : '#171717';
+        ctx.font = '9px ui-monospace, SFMono-Regular, Menlo, Monaco, monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Snap: Point ${activeMagneticTarget.label || ''}`, snapX + 14, snapY + 3);
+      } else {
+        // Grid Corner Intersection Snap (Blue CAD indicator)
+        ctx.strokeStyle = '#0070f3';
+        ctx.fillStyle = '#0070f3';
+        
+        ctx.strokeRect(snapX - 4, snapY - 4, 8, 8);
+        
+        ctx.beginPath();
+        ctx.arc(snapX, snapY, 6, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(snapX - 8, snapY); ctx.lineTo(snapX - 2, snapY);
+        ctx.moveTo(snapX + 2, snapY); ctx.lineTo(snapX + 8, snapY);
+        ctx.moveTo(snapX, snapY - 8); ctx.lineTo(snapX, snapY - 2);
+        ctx.moveTo(snapX, snapY + 2); ctx.lineTo(snapX, snapY + 8);
+        ctx.stroke();
+        
+        ctx.fillStyle = isDark ? '#a1a1a1' : '#4d4d4d';
+        ctx.font = '8px ui-monospace, SFMono-Regular, Menlo, Monaco, monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Snap: Grid Corner`, snapX + 12, snapY + 3);
+      }
+    }
+
+    // Draw margin border for university green sheet to look authentic (on screen only when not in full bleed)
+    if (state.gridType === 'green') {
+      ctx.strokeStyle = colors.gridMajor;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(10, 10, width - 20, height - 20);
+    }
+
+    // Update Print Metadata values
+    printScaleLabel.textContent = `1 square = ${getScaleValue()} unit`;
+  }
+
+  // --- GRID RENDERERS ---
+
+  function drawStandardLinearGrid(originX: number, originY: number, width: number, height: number, colors: any) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    
+    // Choose step dynamically based on zoom to maintain comfortable grid density
+    const targetMajorPixels = 80;
+    const rawStep = (targetMajorPixels / scale) * getScaleValue();
+    const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    const ratio = rawStep / magnitude;
+    
+    let stepUnits = 1.0;
+    if (ratio < 1.5) stepUnits = magnitude * 1;
+    else if (ratio < 3.5) stepUnits = magnitude * 2;
+    else if (ratio < 7.5) stepUnits = magnitude * 5;
+    else stepUnits = magnitude * 10;
+
+    const stepStr = stepUnits.toString();
+    const dotIdx = stepStr.indexOf('.');
+    const decimalPlaces = dotIdx !== -1 ? stepStr.length - dotIdx - 1 : 0;
+
+    const scaleFactor = getScaleValue();
+    const majorStepPixels = (stepUnits / scaleFactor) * scale;
+    const minorStepPixels = majorStepPixels / 10; // 10 divisions
+
+    ctx.lineWidth = 0.5;
+
+    // Draw minor grid lines
+    ctx.strokeStyle = colors.gridMinor;
+    
+    // Vertical minor
+    let startX = originX % minorStepPixels;
+    for (let x = startX; x < width; x += minorStepPixels) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    
+    // Horizontal minor
+    let startY = originY % minorStepPixels;
+    for (let y = startY; y < height; y += minorStepPixels) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+
+    // Draw major grid lines
+    ctx.strokeStyle = colors.gridMajor;
+    ctx.fillStyle = colors.text;
+    ctx.font = '9px ui-monospace, SFMono-Regular, Menlo, monospace';
+    ctx.textAlign = 'center';
+    
+    // Vertical major
+    let startMajorX = originX % majorStepPixels;
+    for (let x = startMajorX; x < width; x += majorStepPixels) {
+      // Skip drawing on the Y axis itself (we draw axis stronger later)
+      if (Math.abs(x - originX) < 1) continue;
+      
+      ctx.beginPath();
+      ctx.lineWidth = 1.0;
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+
+      // Labels on X axis
+      const lx = ((x - originX) / scale) * scaleFactor;
+      const labelY = Math.min(height - 12, Math.max(16, originY + 12));
+      ctx.fillText(lx.toFixed(decimalPlaces), x, labelY);
+    }
+
+    // Horizontal major
+    let startMajorY = originY % majorStepPixels;
+    for (let y = startMajorY; y < height; y += majorStepPixels) {
+      if (Math.abs(y - originY) < 1) continue;
+
+      ctx.beginPath();
+      ctx.lineWidth = 1.0;
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+
+      // Labels on Y axis
+      const ly = ((originY - y) / scale) * scaleFactor;
+      const labelX = Math.min(width - 16, Math.max(16, originX - 12));
+      ctx.textAlign = 'right';
+      ctx.fillText(ly.toFixed(decimalPlaces), labelX, y + 3);
+    }
+
+    // Draw main XY axes
+    if (state.gridType !== 'blank') {
+      ctx.strokeStyle = colors.axis;
+      ctx.lineWidth = 1.5;
+
+      // X Axis
+      if (originY >= 0 && originY <= height) {
+        ctx.beginPath();
+        ctx.moveTo(0, originY);
+        ctx.lineTo(width, originY);
+        ctx.stroke();
+      }
+
+      // Y Axis
+      if (originX >= 0 && originX <= width) {
+        ctx.beginPath();
+        ctx.moveTo(originX, 0);
+        ctx.lineTo(originX, height);
+        ctx.stroke();
+      }
+
+      // Draw Origin label
+      if (originX >= 0 && originX <= width && originY >= 0 && originY <= height) {
+        ctx.fillStyle = colors.textStrong;
+        ctx.textAlign = 'right';
+        ctx.fillText('0', originX - 6, originY + 12);
+      }
+    }
+  }
+
+  function drawPolarGrid(originX: number, originY: number, width: number, height: number, colors: any) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    const maxRadius = Math.sqrt(width * width + height * height);
+    
+    // Concentric rings
+    const ringSpacing = (getScaleValue() / 5) * (scale / getScaleValue()); // Rings every 0.2 scale steps
+    ctx.lineWidth = 0.5;
+
+    for (let r = ringSpacing; r < maxRadius; r += ringSpacing) {
+      const isMajor = Math.round(r / ringSpacing) % 5 === 0;
+      ctx.strokeStyle = isMajor ? colors.gridMajor : colors.gridMinor;
+      ctx.beginPath();
+      ctx.arc(originX, originY, r, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      if (isMajor) {
+        // Label the ring units
+        ctx.fillStyle = colors.text;
+        ctx.font = '8px ui-monospace, monospace';
+        ctx.textAlign = 'left';
+        const ringValue = (r / scale) * getScaleValue();
+        ctx.fillText(ringValue.toFixed(1), originX + r + 3, originY - 3);
+      }
+    }
+
+    // Radial lines every 15 degrees
+    for (let angle = 0; angle < 360; angle += 15) {
+      const isMajor = angle % 45 === 0;
+      ctx.strokeStyle = isMajor ? colors.gridMajor : colors.gridMinor;
+      ctx.beginPath();
+      ctx.moveTo(originX, originY);
+      
+      const rad = (angle * Math.PI) / 180;
+      const targetX = originX + maxRadius * Math.cos(rad);
+      const targetY = originY - maxRadius * Math.sin(rad);
+      ctx.lineTo(targetX, targetY);
+      ctx.stroke();
+
+      // Angle labels
+      if (isMajor && angle !== 0 && angle !== 180) {
+        const textDist = 120 * state.zoom;
+        const textX = originX + textDist * Math.cos(rad);
+        const textY = originY - textDist * Math.sin(rad);
+        ctx.fillStyle = colors.text;
+        ctx.font = '8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${angle}°`, textX, textY);
+      }
+    }
+
+    // Strong vertical and horizontal lines through center
+    ctx.strokeStyle = colors.axis;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, originY); ctx.lineTo(width, originY);
+    ctx.moveTo(originX, 0); ctx.lineTo(originX, height);
+    ctx.stroke();
+  }
+
+  function drawLogLogGrid(originX: number, originY: number, width: number, height: number, colors: any) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+
+    // Draw logarithmic lines for X and Y directions
+    // X and Y lines are mapped at 10^k boundaries
+    ctx.font = '8px ui-monospace, monospace';
+    
+    // We will scan decades from 10^-5 to 10^5
+    for (let dec = -5; dec <= 5; dec++) {
+      // Draw decade grid lines
+      const xMajor = originX + dec * scale;
+      const yMajor = originY - dec * scale;
+
+      // X lines (vertical)
+      if (xMajor >= 0 && xMajor <= width) {
+        ctx.strokeStyle = colors.gridMajor;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(xMajor, 0);
+        ctx.lineTo(xMajor, height);
+        ctx.stroke();
+
+        // Decade labels (e.g. 10^-1, 10^0, 10^1)
+        ctx.fillStyle = colors.textStrong;
+        ctx.textAlign = 'center';
+        ctx.fillText(`10^${dec}`, xMajor, height - 10);
+      }
+
+      // Y lines (horizontal)
+      if (yMajor >= 0 && yMajor <= height) {
+        ctx.strokeStyle = colors.gridMajor;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, yMajor);
+        ctx.lineTo(width, yMajor);
+        ctx.stroke();
+
+        ctx.fillStyle = colors.textStrong;
+        ctx.textAlign = 'left';
+        ctx.fillText(`10^${dec}`, 10, yMajor - 4);
+      }
+
+      // Draw sub-divisions (10^dec * k for k = 2..9)
+      ctx.strokeStyle = colors.gridMinor;
+      ctx.lineWidth = 0.5;
+      for (let k = 2; k <= 9; k++) {
+        const offset = Math.log10(k) * scale;
+        
+        const xSub = xMajor + offset;
+        if (xSub >= 0 && xSub <= width) {
+          ctx.beginPath();
+          ctx.moveTo(xSub, 0);
+          ctx.lineTo(xSub, height);
+          ctx.stroke();
+        }
+
+        const ySub = yMajor - offset;
+        if (ySub >= 0 && ySub <= height) {
+          ctx.beginPath();
+          ctx.moveTo(0, ySub);
+          ctx.lineTo(width, ySub);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function drawSemiLogGrid(originX: number, originY: number, width: number, height: number, colors: any) {
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    
+    // X direction (vertical lines) is linear
+    const targetMajorPixels = 80;
+    const rawStep = (targetMajorPixels / scale) * getScaleValue();
+    const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    const ratio = rawStep / magnitude;
+    let stepUnits = 1.0;
+    if (ratio < 1.5) stepUnits = magnitude * 1;
+    else if (ratio < 3.5) stepUnits = magnitude * 2;
+    else if (ratio < 7.5) stepUnits = magnitude * 5;
+    else stepUnits = magnitude * 10;
+
+    const stepStr = stepUnits.toString();
+    const dotIdx = stepStr.indexOf('.');
+    const decimalPlaces = dotIdx !== -1 ? stepStr.length - dotIdx - 1 : 0;
+
+    const scaleFactor = getScaleValue();
+    const majorStepPixels = (stepUnits / scaleFactor) * scale;
+    const minorStepPixels = majorStepPixels / 10;
+
+    // Linear X-axis minor lines
+    ctx.strokeStyle = colors.gridMinor;
+    ctx.lineWidth = 0.5;
+    let startX = originX % minorStepPixels;
+    for (let x = startX; x < width; x += minorStepPixels) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+
+    // Linear X-axis major lines
+    ctx.strokeStyle = colors.gridMajor;
+    ctx.lineWidth = 1.0;
+    ctx.fillStyle = colors.text;
+    ctx.font = '9px ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    let startMajorX = originX % majorStepPixels;
+    for (let x = startMajorX; x < width; x += majorStepPixels) {
+      if (Math.abs(x - originX) < 1) continue;
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+
+      const lx = ((x - originX) / scale) * scaleFactor;
+      ctx.fillText(lx.toFixed(decimalPlaces), x, height - 10);
+    }
+
+    // Log Y direction (horizontal lines)
+    for (let dec = -5; dec <= 5; dec++) {
+      const yMajor = originY - dec * scale;
+
+      // Decade major horizontal line
+      if (yMajor >= 0 && yMajor <= height) {
+        ctx.strokeStyle = colors.gridMajor;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, yMajor);
+        ctx.lineTo(width, yMajor);
+        ctx.stroke();
+
+        ctx.fillStyle = colors.textStrong;
+        ctx.textAlign = 'left';
+        ctx.fillText(`10^${dec}`, 10, yMajor - 4);
+      }
+
+      // Minor log lines
+      ctx.strokeStyle = colors.gridMinor;
+      ctx.lineWidth = 0.5;
+      for (let k = 2; k <= 9; k++) {
+        const ySub = yMajor - Math.log10(k) * scale;
+        if (ySub >= 0 && ySub <= height) {
+          ctx.beginPath();
+          ctx.moveTo(0, ySub);
+          ctx.lineTo(width, ySub);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Base Y Axis
+    ctx.strokeStyle = colors.axis;
+    ctx.lineWidth = 1.5;
+    if (originX >= 0 && originX <= width) {
+      ctx.beginPath();
+      ctx.moveTo(originX, 0);
+      ctx.lineTo(originX, height);
+      ctx.stroke();
+    }
+  }
+
+  // --- PLOTTING DATA RENDERERS ---
+
+  function drawPlottedPoints(colors: any) {
+    ctx.font = '10px ui-monospace, monospace';
+    points.forEach(pt => {
+      const screenPos = logicalToScreen(pt.x, pt.y);
+      const r = state.pointSize || 4;
+      
+      // Draw point dot
+      ctx.fillStyle = pt.color || colors.point;
+      ctx.beginPath();
+      ctx.arc(screenPos.x, screenPos.y, r, 0, 2 * Math.PI);
+      ctx.fill();
+      
+      // Border circle on active/selected point
+      if (selectedPointIdsForTools.includes(pt.id)) {
+        ctx.strokeStyle = colors.textStrong;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(screenPos.x, screenPos.y, r + 3, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+
+      // Draw point label (e.g. A (2, 3))
+      ctx.fillStyle = colors.textStrong;
+      ctx.textAlign = 'left';
+      const labelText = state.showCoordinates 
+        ? `${pt.name} (${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})` 
+        : pt.name;
+      ctx.fillText(labelText, screenPos.x + 8, screenPos.y - 4);
+    });
+  }
+
+  function drawPointConnections(colors: any) {
+    connections.forEach(conn => {
+      const connectedPts = conn.pointIds
+        .map(id => points.find(p => p.id === id))
+        .filter(p => p !== undefined) as Array<{ x: number; y: number }>;
+
+      if (connectedPts.length < 2) return;
+
+      const screenPts = connectedPts.map(pt => logicalToScreen(pt.x, pt.y));
+
+      ctx.strokeStyle = conn.color || colors.pen;
+      ctx.lineWidth = state.lineThickness || 2.0;
+
+      if (conn.type === 'line' && screenPts.length >= 2) {
+        // Draw straight line between first two
+        ctx.beginPath();
+        ctx.moveTo(screenPts[0].x, screenPts[0].y);
+        ctx.lineTo(screenPts[1].x, screenPts[1].y);
+        ctx.stroke();
+      } else if (conn.type === 'polyline') {
+        ctx.beginPath();
+        ctx.moveTo(screenPts[0].x, screenPts[0].y);
+        for (let i = 1; i < screenPts.length; i++) {
+          ctx.lineTo(screenPts[i].x, screenPts[i].y);
+        }
+        ctx.stroke();
+      } else if (conn.type === 'curve') {
+        // Spline curve fitting
+        drawCatmullRomSpline(screenPts, conn.color || colors.pen, state.lineThickness || 2.0);
+      }
+    });
+  }
+
+  function drawEquations(colors: any) {
+    const width = canvas.width / (window.devicePixelRatio || 1);
+    
+    equations.forEach(eq => {
+      ctx.beginPath();
+      ctx.strokeStyle = eq.color;
+      ctx.lineWidth = 2.0;
+
+      let first = true;
+      
+      // Sample 300 points across screen width
+      for (let sx = 0; sx <= width; sx += 2) {
+        // Convert screen X to logical X
+        const logX = screenToLogical(sx, 0).x;
+        
+        // Evaluate expression
+        const logY = evaluateMathExpression(eq.expr, logX);
+        
+        if (!isNaN(logY) && isFinite(logY)) {
+          const screenPos = logicalToScreen(logX, logY);
+          
+          // Prevent drawing vertical asymptotes or wild jumps
+          if (screenPos.y >= -100 && screenPos.y <= canvas.height + 100) {
+            if (first) {
+              ctx.moveTo(screenPos.x, screenPos.y);
+              first = false;
+            } else {
+              ctx.lineTo(screenPos.x, screenPos.y);
+            }
+          } else {
+            first = true;
+          }
+        } else {
+          first = true;
+        }
+      }
+      ctx.stroke();
+    });
+  }
+
+  function drawFreehand(colors: any) {
+    freehandStrokes.forEach(stroke => {
+      if (stroke.path.length < 2) return;
+      
+      ctx.strokeStyle = stroke.color;
+      ctx.lineWidth = stroke.width;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      ctx.beginPath();
+      const startPos = logicalToScreen(stroke.path[0].x, stroke.path[0].y);
+      ctx.moveTo(startPos.x, startPos.y);
+      
+      for (let i = 1; i < stroke.path.length; i++) {
+        const pos = logicalToScreen(stroke.path[i].x, stroke.path[i].y);
+        ctx.lineTo(pos.x, pos.y);
+      }
+      ctx.stroke();
+    });
+  }
+
+  function drawShadedArea(colors: any) {
+    if (!areaUnderCurve) return;
+    
+    ctx.fillStyle = 'rgba(0, 112, 244, 0.25)'; // Highlighted cyan-blue region
+    ctx.beginPath();
+
+    const startPosScreen = logicalToScreen(areaUnderCurve.startX, 0);
+    const endPosScreen = logicalToScreen(areaUnderCurve.endX, 0);
+
+    let first = true;
+    
+    // Draw polygon starting at (startX, 0)
+    ctx.moveTo(startPosScreen.x, startPosScreen.y);
+
+    // If equation integration
+    if (areaUnderCurve.curveId === 'equation') {
+      const eq = equations[areaUnderCurve.equationIndex];
+      if (!eq) return;
+      
+      const width = canvas.width / (window.devicePixelRatio || 1);
+      const startSx = Math.max(0, logicalToScreen(areaUnderCurve.startX, 0).x);
+      const endSx = Math.min(width, logicalToScreen(areaUnderCurve.endX, 0).x);
+      
+      for (let sx = startSx; sx <= endSx; sx += 2) {
+        const logX = screenToLogical(sx, 0).x;
+        const logY = evaluateMathExpression(eq.expr, logX);
+        if (!isNaN(logY) && isFinite(logY)) {
+          const screenPos = logicalToScreen(logX, logY);
+          ctx.lineTo(screenPos.x, screenPos.y);
+        }
+      }
+    } else {
+      // If point-based curve integration
+      const conn = connections.find(c => c.pointIds.join(',') === areaUnderCurve!.curveId);
+      if (!conn) return;
+
+      const connectedPts = conn.pointIds
+        .map(id => points.find(p => p.id === id))
+        .filter(p => p !== undefined) as Array<{ x: number; y: number }>;
+      
+      // Sort points by X coordinate
+      const sortedPts = [...connectedPts].sort((a, b) => a.x - b.x);
+
+      // Add interpolated points along curve
+      sortedPts.forEach(pt => {
+        if (pt.x >= areaUnderCurve!.startX && pt.x <= areaUnderCurve!.endX) {
+          const screenPos = logicalToScreen(pt.x, pt.y);
+          ctx.lineTo(screenPos.x, screenPos.y);
+        }
+      });
+    }
+
+    ctx.lineTo(endPosScreen.x, endPosScreen.y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Border line around shaded area
+    ctx.strokeStyle = '#0070f3';
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
+
+    // Show calculated area text label
+    const labelX = (startPosScreen.x + endPosScreen.x) / 2;
+    const labelY = startPosScreen.y - 15;
+    ctx.fillStyle = colors.textStrong;
+    ctx.font = 'bold 11px ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Area = ${areaUnderCurve.area.toFixed(2)} sq. units`, labelX, labelY);
+  }
+
+  function drawMeasurements(colors: any) {
+    ctx.font = '10px ui-monospace, monospace';
+    ctx.fillStyle = colors.textStrong;
+    ctx.strokeStyle = colors.text;
+    ctx.lineWidth = 1.0;
+
+    activeMeasurements.forEach(m => {
+      const activePts = m.pointIds
+        .map(id => points.find(p => p.id === id))
+        .filter(p => p !== undefined) as Array<{ x: number; y: number; name: string }>;
+
+      if (activePts.length < 2) return;
+
+      const p0Screen = logicalToScreen(activePts[0].x, activePts[0].y);
+      const p1Screen = logicalToScreen(activePts[1].x, activePts[1].y);
+
+      if (m.type === 'distance') {
+        // Draw dimension line between two points
+        ctx.strokeStyle = colors.textStrong;
+        ctx.beginPath();
+        ctx.moveTo(p0Screen.x, p0Screen.y);
+        ctx.lineTo(p1Screen.x, p1Screen.y);
+        ctx.stroke();
+
+        // Label distance value in middle
+        const midX = (p0Screen.x + p1Screen.x) / 2;
+        const midY = (p0Screen.y + p1Screen.y) / 2 - 6;
+        ctx.textAlign = 'center';
+        ctx.fillText(m.result, midX, midY);
+      } else if (m.type === 'midpoint') {
+        // Midpoint marker (custom color circle)
+        const midX = (activePts[0].x + activePts[1].x) / 2;
+        const midY = (activePts[0].y + activePts[1].y) / 2;
+        const midScreen = logicalToScreen(midX, midY);
+
+        ctx.fillStyle = '#00dfd8';
+        ctx.beginPath();
+        ctx.arc(midScreen.x, midScreen.y, 5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.fillStyle = colors.textStrong;
+        ctx.textAlign = 'left';
+        ctx.fillText(`Midpoint (${midX.toFixed(2)}, ${midY.toFixed(2)})`, midScreen.x + 8, midScreen.y - 4);
+      } else if (m.type === 'angle' && activePts.length >= 3) {
+        const p2Screen = logicalToScreen(activePts[2].x, activePts[2].y);
+        // Draw lines from vertex (p1) to p0 and p2
+        ctx.beginPath();
+        ctx.moveTo(p0Screen.x, p0Screen.y);
+        ctx.lineTo(p1Screen.x, p1Screen.y);
+        ctx.lineTo(p2Screen.x, p2Screen.y);
+        ctx.stroke();
+
+        // Draw small angle arc
+        const dx0 = activePts[0].x - activePts[1].x;
+        const dy0 = activePts[0].y - activePts[1].y;
+        const dx2 = activePts[2].x - activePts[1].x;
+        const dy2 = activePts[2].y - activePts[1].y;
+
+        const a0 = Math.atan2(dy0, dx0);
+        const a2 = Math.atan2(dy2, dx2);
+
+        ctx.beginPath();
+        ctx.arc(p1Screen.x, p1Screen.y, 20, -a0, -a2, a2 < a0);
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillText(m.result, p1Screen.x + 25 * Math.cos((a0+a2)/2), p1Screen.y - 25 * Math.sin((a0+a2)/2));
+      }
+    });
+  }
+
+  function drawActiveDrawingBuffer(colors: any) {
+    if (!isDrawing || strokeBuffer.length < 2) return;
+
+    ctx.strokeStyle = state.tool === 'pencil' ? colors.pencil : state.drawColor;
+    ctx.lineWidth = state.tool === 'pencil' ? Math.max(1, state.lineThickness / 2) : state.lineThickness;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+    ctx.moveTo(strokeBuffer[0].x, strokeBuffer[0].y);
+    
+    // Draw smooth curve using quadratic interpolation on screen buffer
+    for (let i = 1; i < strokeBuffer.length - 1; i++) {
+      const xc = (strokeBuffer[i].x + strokeBuffer[i + 1].x) / 2;
+      const yc = (strokeBuffer[i].y + strokeBuffer[i + 1].y) / 2;
+      ctx.quadraticCurveTo(strokeBuffer[i].x, strokeBuffer[i].y, xc, yc);
+    }
+    ctx.lineTo(strokeBuffer[strokeBuffer.length - 1].x, strokeBuffer[strokeBuffer.length - 1].y);
+    ctx.stroke();
+  }
+
+  // --- MOUSE & INPUT HANDLERS ---
+
+  canvas.addEventListener('mousedown', (e) => {
+    // Left click draws or plots, middle click pans
+    if (e.button === 1 || e.shiftKey) {
+      isPanning = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      canvas.style.cursor = 'grabbing';
+      return;
+    }
+
+    if (e.button !== 0) return; // Only respond to left clicks
+
+    const rect = canvas.getBoundingClientRect();
+    const sx = e.clientX - rect.left;
+    const sy = e.clientY - rect.top;
+
+    const logical = screenToLogical(sx, sy);
+    const snapped = snapToGrid(logical.x, logical.y);
+
+    // Snapping coordinates (with magnetic CAD pull support)
+    const targetX = activeMagneticTarget ? activeMagneticTarget.lx : snapped.x;
+    const targetY = activeMagneticTarget ? activeMagneticTarget.ly : snapped.y;
+    const targetSx = activeMagneticTarget ? activeMagneticTarget.x : sx;
+    const targetSy = activeMagneticTarget ? activeMagneticTarget.y : sy;
+
+    if (state.tool === 'pencil' || state.tool === 'pen') {
+      isDrawing = true;
+      // Pen/pencil starting point snaps to intersection if magnetic pull is active
+      strokeBuffer = [{ x: targetSx, y: targetSy }];
+      strokeLastTime = Date.now();
+    } else if (state.tool === 'point') {
+      // Create a named point
+      saveHistory();
+      const pointName = pointAlphabet[pointCounter % 26] + (pointCounter >= 26 ? Math.floor(pointCounter / 26) : '');
+      points.push({
+        id: crypto.randomUUID(),
+        name: pointName,
+        x: targetX,
+        y: targetY,
+        color: state.drawColor
+      });
+      pointCounter++;
+      notifySidebarUpdates();
+      draw();
+    } else if (state.tool === 'eraser') {
+      // Erase points or drawings clicked near
+      saveHistory();
+      eraseAtPosition(sx, sy);
+    } else {
+      // Interactive geometry tools (require point selections)
+      const clickedPt = findPointNear(targetSx, targetSy);
+      if (clickedPt) {
+        handlePointSelectionForTools(clickedPt.id);
+      }
+    }
+  });
+
+  // Helper to calculate coordinates and snap target (with support for touch targets)
+  function updateMagneticTarget(sx: number, sy: number, isTouch = false) {
+    const logical = screenToLogical(sx, sy);
+    const snapped = snapToGrid(logical.x, logical.y);
+    
+    let magTarget = null;
+    const pointSnapRadius = isTouch ? 28 : 18;
+    const gridSnapRadius = isTouch ? 24 : 15;
+    
+    let minPtDist = pointSnapRadius;
+    let snappedX = snapped.x;
+    let snappedY = snapped.y;
+
+    // 1. Check existing plotted points
+    points.forEach(pt => {
+      const sPos = logicalToScreen(pt.x, pt.y);
+      const dist = Math.hypot(sPos.x - sx, sPos.y - sy);
+      if (dist < minPtDist) {
+        minPtDist = dist;
+        magTarget = {
+          x: sPos.x,
+          y: sPos.y,
+          lx: pt.x,
+          ly: pt.y,
+          type: 'point',
+          label: pt.name
+        };
+      }
+    });
+
+    // 2. Check grid intersections (only if snap is active and we didn't snap to a plotted point)
+    if (!magTarget && state.snap) {
+      const gridSnappedScr = logicalToScreen(snapped.x, snapped.y);
+      const gridDist = Math.hypot(gridSnappedScr.x - sx, gridSnappedScr.y - sy);
+      if (gridDist < gridSnapRadius) {
+        magTarget = {
+          x: gridSnappedScr.x,
+          y: gridSnappedScr.y,
+          lx: snapped.x,
+          ly: snapped.y,
+          type: 'grid'
+        };
+      }
+    }
+
+    activeMagneticTarget = magTarget;
+
+    if (activeMagneticTarget) {
+      snappedX = activeMagneticTarget.lx;
+      snappedY = activeMagneticTarget.ly;
+    }
+
+    // Update labels using the snapped coords
+    coordsXLabel.textContent = snappedX.toFixed(2);
+    coordsYLabel.textContent = snappedY.toFixed(2);
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const sx = e.clientX - rect.left;
+    const sy = e.clientY - rect.top;
+
+    const prevMagTarget = activeMagneticTarget;
+    
+    updateMagneticTarget(sx, sy, false);
+
+    // Check if the magnetic snap target has changed (for hover rings redraw)
+    const magChanged = (prevMagTarget === null && activeMagneticTarget !== null) ||
+                       (prevMagTarget !== null && activeMagneticTarget === null) ||
+                       (prevMagTarget !== null && activeMagneticTarget !== null && 
+                        (prevMagTarget.x !== activeMagneticTarget.x || prevMagTarget.y !== activeMagneticTarget.y));
+
+    if (isPanning) {
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      state.offsetX += dx;
+      state.offsetY += dy;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      draw();
+    } else if (isDrawing && (state.tool === 'pencil' || state.tool === 'pen')) {
+      // Virtual pen/pencil speed variations
+      const now = Date.now();
+      const dt = now - strokeLastTime;
+      
+      // Freehand drawing does not snap while moving so drawing stays fluid
+      strokeBuffer.push({ x: sx, y: sy });
+      strokeLastTime = now;
+      
+      draw();
+    } else if (e.buttons === 1 && state.tool === 'eraser') {
+      // Dragging eraser
+      eraseAtPosition(sx, sy);
+    } else if (magChanged) {
+      // Trigger canvas redrawing to display the new snap CAD ring indicator
+      draw();
+    }
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    if (activeMagneticTarget) {
+      activeMagneticTarget = null;
+      draw();
+    }
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isPanning) {
+      isPanning = false;
+      canvas.style.cursor = '';
+    }
+
+    if (isDrawing) {
+      isDrawing = false;
+      if (strokeBuffer.length >= 2) {
+        saveHistory();
+        
+        // Convert screen strokes buffer to logical coordinates for zoom retention
+        const logicalPath = strokeBuffer.map(pt => screenToLogical(pt.x, pt.y));
+        
+        freehandStrokes.push({
+          type: state.tool === 'pencil' ? 'pencil' : 'pen',
+          color: state.tool === 'pencil' ? (state.theme === 'dark' ? 'rgba(240, 240, 240, 0.75)' : 'rgba(77, 77, 77, 0.7)') : state.drawColor,
+          width: state.tool === 'pencil' ? Math.max(1, state.lineThickness / 2) : state.lineThickness,
+          path: logicalPath
+        });
+      }
+      strokeBuffer = [];
+      draw();
+    }
+  });
+
+  // Touch Event Listeners mapping to mouse equivalents for mobile compatibility
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const sx = touch.clientX - rect.left;
+      const sy = touch.clientY - rect.top;
+      
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+      touchCanceled = false;
+
+      // Update magnetic target immediately at the touch start position (using touch snap radius)
+      updateMagneticTarget(sx, sy, true);
+
+      // If the tool is pencil, pen, or eraser, we want to start drawing/erasing immediately!
+      if (state.tool === 'pencil' || state.tool === 'pen' || state.tool === 'eraser') {
+        touchCanceled = true; // Skip tap detection for drawing tools
+        const mouseEvent = new MouseEvent('mousedown', {
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+          button: 0
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }
+      
+      if (state.tool !== 'none') {
+        e.preventDefault();
+      }
+    } else if (e.touches.length === 2) {
+      // Two-finger gesture starts: cancel any single-finger point placement
+      touchCanceled = true;
+      isPanning = true;
+      
+      lastMouseX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      lastMouseY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      lastTouchDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const sx = touch.clientX - rect.left;
+      const sy = touch.clientY - rect.top;
+      
+      // Update magnetic target
+      updateMagneticTarget(sx, sy, true);
+
+      // If they move too far, cancel the tap/point placement (unless it's drawing)
+      const dist = Math.hypot(touch.clientX - touchStartX, touch.clientY - touchStartY);
+      if (dist > 10) {
+        if (state.tool !== 'pencil' && state.tool !== 'pen' && state.tool !== 'eraser') {
+          touchCanceled = true;
+        }
+      }
+
+      // If pencil, pen, or eraser, dispatch move event immediately
+      if (state.tool === 'pencil' || state.tool === 'pen' || state.tool === 'eraser') {
+        const mouseEvent = new MouseEvent('mousemove', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }
+      
+      if (state.tool !== 'none') {
+        e.preventDefault();
+      }
+    } else if (e.touches.length === 2 && isPanning) {
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+
+      // Pan offset
+      const dx = midX - lastMouseX;
+      const dy = midY - lastMouseY;
+      state.offsetX += dx;
+      state.offsetY += dy;
+
+      // Pinch zoom
+      if (lastTouchDist > 0 && dist > 0) {
+        const zoomFactor = dist / lastTouchDist;
+        const midLogical = screenToLogical(midX, midY);
+        
+        state.zoom = Math.max(0.1, Math.min(30.0, state.zoom * zoomFactor));
+        
+        // Shift offset to center zoom around the midpoint
+        const newScreenPos = logicalToScreen(midLogical.x, midLogical.y);
+        state.offsetX += midX - newScreenPos.x;
+        state.offsetY += midY - newScreenPos.y;
+      }
+
+      lastMouseX = midX;
+      lastMouseY = midY;
+      lastTouchDist = dist;
+      draw();
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', (e) => {
+    if (e.touches.length === 0 && !touchCanceled) {
+      // Verify it was a short tap
+      const duration = Date.now() - touchStartTime;
+      if (duration < 400) {
+        const mouseEventDown = new MouseEvent('mousedown', {
+          clientX: touchStartX,
+          clientY: touchStartY,
+          button: 0
+        });
+        canvas.dispatchEvent(mouseEventDown);
+        
+        const mouseEventUp = new MouseEvent('mouseup', {
+          button: 0
+        });
+        canvas.dispatchEvent(mouseEventUp);
+      }
+    } else {
+      const mouseEvent = new MouseEvent('mouseup', {
+        button: 0
+      });
+      canvas.dispatchEvent(mouseEvent);
+    }
+    isPanning = false;
+  });
+
+  // Zooming via Scroll Wheel
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Store logical cursor coordinate before zoom
+    const cursorLogical = screenToLogical(mouseX, mouseY);
+
+    // Adjust zoom level
+    const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+    state.zoom = Math.max(0.1, Math.min(30.0, state.zoom * zoomFactor));
+
+    // Shift offset to center zoom around the mouse cursor
+    const newScreenPos = logicalToScreen(cursorLogical.x, cursorLogical.y);
+    state.offsetX += mouseX - newScreenPos.x;
+    state.offsetY += mouseY - newScreenPos.y;
+
+    draw();
+  }, { passive: false });
+
+  // Tool specific helpers
+  function findPointNear(sx: number, sy: number, threshold = 15) {
+    return points.find(pt => {
+      const pos = logicalToScreen(pt.x, pt.y);
+      const dist = Math.hypot(pos.x - sx, pos.y - sy);
+      return dist <= threshold;
+    });
+  }
+
+  function eraseAtPosition(sx: number, sy: number) {
+    // 1. Delete points near click
+    const initialPointsLength = points.length;
+    points = points.filter(pt => {
+      const pos = logicalToScreen(pt.x, pt.y);
+      return Math.hypot(pos.x - sx, pos.y - sy) > 15;
+    });
+
+    // 2. Delete freehand strokes intersecting eraser radius
+    const initialStrokesLength = freehandStrokes.length;
+    freehandStrokes = freehandStrokes.filter(stroke => {
+      // Check if any segment of the stroke is within 15px of (sx, sy)
+      for (let pt of stroke.path) {
+        const sPt = logicalToScreen(pt.x, pt.y);
+        if (Math.hypot(sPt.x - sx, sPt.y - sy) < 15) return false; // delete
+      }
+      return true; // keep
+    });
+
+    // 3. Delete point-based connections
+    const initialConnectionsLength = connections.length;
+    connections = connections.filter(conn => {
+      // Delete connection if any referenced point was erased
+      return conn.pointIds.every(id => points.some(p => p.id === id));
+    });
+
+    if (points.length !== initialPointsLength || 
+        freehandStrokes.length !== initialStrokesLength ||
+        connections.length !== initialConnectionsLength) {
+      notifySidebarUpdates();
+      draw();
+    }
+  }
+
+  function handlePointSelectionForTools(ptId: string) {
+    // Toggle point selection
+    if (selectedPointIdsForTools.includes(ptId)) {
+      selectedPointIdsForTools = selectedPointIdsForTools.filter(id => id !== ptId);
+    } else {
+      selectedPointIdsForTools.push(ptId);
+    }
+
+    const tool = state.tool;
+    const activePts = selectedPointIdsForTools.map(id => points.find(p => p.id === id)!);
+
+    // Apply immediate geometric results
+    if (tool === 'line' && activePts.length >= 2) {
+      saveHistory();
+      connections.push({
+        type: 'line',
+        pointIds: [activePts[0].id, activePts[1].id],
+        color: state.drawColor
+      });
+      selectedPointIdsForTools = [];
+    } else if (tool === 'polyline' && activePts.length >= 2) {
+      // User can click multiple points. Let's build a chain connection.
+      // Click again on any point or switch tool to commit. For simplicity, we just add segment by segment.
+      saveHistory();
+      // Remove old connections if we want to build a continuous chain, or create dynamic polylines
+      const lastConn = connections[connections.length - 1];
+      if (lastConn && lastConn.type === 'polyline') {
+        lastConn.pointIds.push(ptId);
+      } else {
+        connections.push({
+          type: 'polyline',
+          pointIds: [activePts[0].id, activePts[1].id],
+          color: state.drawColor
+        });
+      }
+      selectedPointIdsForTools = [ptId]; // chain keeps active endpoint
+    } else if (tool === 'curve' && activePts.length >= 3) {
+      saveHistory();
+      connections.push({
+        type: 'curve',
+        pointIds: [...selectedPointIdsForTools],
+        color: state.drawColor
+      });
+      selectedPointIdsForTools = [];
+    } else if (tool === 'distance' && activePts.length === 2) {
+      const d = Math.hypot(activePts[1].x - activePts[0].x, activePts[1].y - activePts[0].y);
+      activeMeasurements.push({
+        type: 'distance',
+        pointIds: [activePts[0].id, activePts[1].id],
+        result: `d = ${d.toFixed(2)} units`
+      });
+      selectedPointIdsForTools = [];
+    } else if (tool === 'midpoint' && activePts.length === 2) {
+      saveHistory();
+      const midX = (activePts[0].x + activePts[1].x) / 2;
+      const midY = (activePts[0].y + activePts[1].y) / 2;
+      
+      activeMeasurements.push({
+        type: 'midpoint',
+        pointIds: [activePts[0].id, activePts[1].id],
+        result: `Midpoint (${midX.toFixed(2)}, ${midY.toFixed(2)})`
+      });
+      selectedPointIdsForTools = [];
+    } else if (tool === 'angle' && activePts.length === 3) {
+      // Angle B (vertex is middle index: activePts[1])
+      const dx0 = activePts[0].x - activePts[1].x;
+      const dy0 = activePts[0].y - activePts[1].y;
+      const dx2 = activePts[2].x - activePts[1].x;
+      const dy2 = activePts[2].y - activePts[1].y;
+      
+      let angle = Math.acos((dx0*dx2 + dy0*dy2) / (Math.hypot(dx0, dy0) * Math.hypot(dx2, dy2)));
+      let angleDegrees = (angle * 180) / Math.PI;
+
+      activeMeasurements.push({
+        type: 'angle',
+        pointIds: [activePts[0].id, activePts[1].id, activePts[2].id],
+        result: `${angleDegrees.toFixed(1)}°`
+      });
+      selectedPointIdsForTools = [];
+    } else if (tool === 'area') {
+      // User must click a point-based curve to calculate area.
+      // In this mode, we check if they selected endpoints.
+      if (areaSelectionPhase === 0) {
+        // Find which curve was clicked. For simplicity, let's look at curve connections.
+        const curve = connections.find(c => c.type === 'curve' && c.pointIds.includes(ptId));
+        if (curve) {
+          areaTargetType = 'points';
+          areaTargetId = curve.pointIds.join(',');
+          areaSelectionPhase = 1;
+          tipLabel.textContent = "Select START Point (click plotted point on curve)";
+        }
+      } else if (areaSelectionPhase === 1) {
+        areaUnderCurve = {
+          curveId: areaTargetId,
+          equationIndex: -1,
+          startX: activePts[0].x,
+          endX: activePts[0].x, // temp
+          area: 0
+        };
+        areaSelectionPhase = 2;
+        tipLabel.textContent = "Select END Point (click another plotted point on curve)";
+      } else if (areaSelectionPhase === 2 && areaUnderCurve) {
+        areaUnderCurve.endX = activePts[0].x;
+        
+        // Swap bounds if start > end
+        if (areaUnderCurve.startX > areaUnderCurve.endX) {
+          const tmp = areaUnderCurve.startX;
+          areaUnderCurve.startX = areaUnderCurve.endX;
+          areaUnderCurve.endX = tmp;
+        }
+
+        // Calculate area numerically
+        const conn = connections.find(c => c.pointIds.join(',') === areaUnderCurve!.curveId);
+        if (conn) {
+          const connPts = conn.pointIds
+            .map(id => points.find(p => p.id === id)!)
+            .sort((a, b) => a.x - b.x);
+          
+          let area = 0;
+          for (let i = 0; i < connPts.length - 1; i++) {
+            const pA = connPts[i];
+            const pB = connPts[i + 1];
+            if (pA.x >= areaUnderCurve.startX && pB.x <= areaUnderCurve.endX) {
+              // Trapezoidal rule segment
+              area += 0.5 * (pA.y + pB.y) * (pB.x - pA.x);
+            }
+          }
+          areaUnderCurve.area = Math.abs(area);
+        }
+        
+        saveHistory();
+        areaSelectionPhase = 0;
+        selectedPointIdsForTools = [];
+        updateTipLabel();
+      }
+    }
+
+    notifySidebarUpdates();
+    draw();
+  }
+
+  // --- COMMUNICATION WITH SIDEBAR PANEL ---
+
+  // Listen to tool change
+  window.addEventListener('gmo-select-tool', (e: any) => {
+    state.tool = e.detail.tool;
+    selectedPointIdsForTools = [];
+    areaSelectionPhase = 0;
+    
+    // Update bottom status bar labels
+    const toolNames: Record<string, string> = {
+      pencil: 'Pencil', pen: 'Pen', eraser: 'Eraser',
+      point: 'Point Plotter', line: 'Straight Line Connector',
+      polyline: 'Polyline Connector', curve: 'Smooth Curve Spline',
+      area: 'Area Under Curve', distance: 'Distance Calculator',
+      midpoint: 'Midpoint Calculator', angle: 'Angle Measurement'
+    };
+    toolLabel.textContent = `Tool: ${toolNames[state.tool] || state.tool}`;
+    updateTipLabel();
+    draw();
+  });
+
+  function updateTipLabel() {
+    const tips: Record<string, string> = {
+      pencil: 'Drag mouse or touch screen to draw natural handwriting-style pencil sketches.',
+      pen: 'Drag mouse or touch screen to draw smooth lines.',
+      eraser: 'Drag over drawings or click near plotted points to erase them.',
+      point: 'Click anywhere on the paper to place a named point. (Grid snap applies if active)',
+      line: 'Select two points in sequence to connect them with a straight line.',
+      polyline: 'Click consecutive points to chain them with segment lines.',
+      curve: 'Select three or more points in sequence to generate a smooth Catmull-Rom spline.',
+      area: 'Click a point on a curve spline, then select START and END points to calculate numerical area.',
+      distance: 'Select any two points to measure distance.',
+      midpoint: 'Select any two points to calculate their midpoint.',
+      angle: 'Select three points. The second point clicked will be the vertex of the angle.'
+    };
+    tipLabel.textContent = tips[state.tool] || '';
+  }
+
+  // Listen to draw color changes
+  window.addEventListener('gmo-change-draw-color', (e: any) => {
+    const col = e.detail.color;
+    if (col === 'contrast') {
+      state.drawColor = state.theme === 'dark' ? '#ffffff' : '#171717';
+    } else {
+      state.drawColor = col;
+    }
+    draw();
+  });
+
+  // Listen to global theme updates
+  window.addEventListener('gmo-theme-changed', (e: any) => {
+    state.theme = e.detail.theme;
+    
+    // Dynamically shift contrast drawing color if selected
+    const activeColorBtn = document.querySelector('.color-dot-selector.border-primary') as HTMLButtonElement;
+    if (activeColorBtn && activeColorBtn.getAttribute('data-color') === 'contrast') {
+      state.drawColor = e.detail.theme === 'dark' ? '#ffffff' : '#171717';
+    }
+    
+    // Default to cartesian grid in dark theme, green in light theme
+    state.gridType = e.detail.theme === 'dark' ? 'cartesian' : 'green';
+    
+    // Notify control panel UI to update selection
+    window.dispatchEvent(new CustomEvent('gmo-update-grid-ui', { detail: { grid: state.gridType } }));
+
+    draw();
+  });
+
+  // Listen to point size changes from sliders
+  window.addEventListener('gmo-change-point-size', (e: any) => {
+    state.pointSize = e.detail.size;
+    draw();
+  });
+
+  // Listen to line thickness changes from sliders
+  window.addEventListener('gmo-change-line-width', (e: any) => {
+    state.lineThickness = e.detail.width;
+    draw();
+  });
+
+  // Listen to point deletion from coordinate table
+  window.addEventListener('gmo-delete-point', (e: any) => {
+    saveHistory();
+    const ptId = e.detail.id;
+    
+    // Remove the point
+    points = points.filter(p => p.id !== ptId);
+    
+    // Also remove any connections that include this point
+    connections = connections.filter(conn => !conn.pointIds.includes(ptId));
+    
+    // Also remove any measurements referencing this point
+    activeMeasurements = activeMeasurements.filter(m => !m.pointIds.includes(ptId));
+    
+    // Also clear area integration if it referenced this point's curve
+    if (areaUnderCurve && areaUnderCurve.curveId.includes(ptId)) {
+      areaUnderCurve = null;
+    }
+    
+    notifySidebarUpdates();
+    draw();
+  });
+
+  // Listen to grid type change
+  window.addEventListener('gmo-select-grid', (e: any) => {
+    state.gridType = e.detail.grid;
+    draw();
+  });
+
+  // Listen to snap change
+  window.addEventListener('gmo-toggle-snap', (e: any) => {
+    state.snap = e.detail.snap;
+  });
+
+  // Listen to point coordinates visibility toggle
+  window.addEventListener('gmo-toggle-show-coordinates', (e: any) => {
+    state.showCoordinates = e.detail.show;
+    coordsStatusTxt.textContent = `Coords: ${state.showCoordinates ? 'On' : 'Off'}`;
+    draw();
+  });
+
+  // Listen to scale change
+  window.addEventListener('gmo-select-scale', (e: any) => {
+    state.scaleType = e.detail.scaleType;
+    if (e.detail.customScale) {
+      state.customScale = Number(e.detail.customScale);
+    }
+    draw();
+  });
+
+  // Listen to equation plotting
+  window.addEventListener('gmo-plot-equation', (e: any) => {
+    saveHistory();
+    equations.push({
+      expr: e.detail.equation,
+      color: e.detail.color || '#0070f3',
+      id: crypto.randomUUID()
+    });
+    notifySidebarUpdates();
+    draw();
+  });
+
+  // Listen to equation deletion
+  window.addEventListener('gmo-delete-equation', (e: any) => {
+    saveHistory();
+    equations = equations.filter(eq => eq.expr !== e.detail.equation);
+    draw();
+  });
+
+  // Listen to CSV upload / Table import
+  window.addEventListener('gmo-import-points', (e: any) => {
+    saveHistory();
+    const dataPoints = e.detail.points || [];
+    
+    // Clear old point data if requested
+    if (e.detail.clearExisting) {
+      points = [];
+      connections = [];
+      activeMeasurements = [];
+      areaUnderCurve = null;
+      pointCounter = 0;
+    }
+
+    dataPoints.forEach((p: { x: number; y: number; name?: string; color?: string }) => {
+      const pName = p.name || pointAlphabet[pointCounter % 26] + (pointCounter >= 26 ? Math.floor(pointCounter / 26) : '');
+      points.push({
+        id: crypto.randomUUID(),
+        name: pName,
+        x: p.x,
+        y: p.y,
+        color: p.color || state.drawColor
+      });
+      pointCounter++;
+    });
+
+    notifySidebarUpdates();
+    draw();
+  });
+
+  // Listen to custom integration area calculation request for equation
+  window.addEventListener('gmo-calculate-equation-area', (e: any) => {
+    saveHistory();
+    const eqIdx = e.detail.equationIndex;
+    const eq = equations[eqIdx];
+    const xStart = Number(e.detail.startX);
+    const xEnd = Number(e.detail.endX);
+
+    if (!eq) return;
+
+    // Trapezoidal rule integration (200 subdivisions)
+    let area = 0;
+    const steps = 200;
+    const dx = (xEnd - xStart) / steps;
+    
+    let f_start = evaluateMathExpression(eq.expr, xStart);
+    let f_end = evaluateMathExpression(eq.expr, xEnd);
+    if (isNaN(f_start)) f_start = 0;
+    if (isNaN(f_end)) f_end = 0;
+
+    area += 0.5 * (f_start + f_end);
+
+    for (let i = 1; i < steps; i++) {
+      const curX = xStart + i * dx;
+      let yVal = evaluateMathExpression(eq.expr, curX);
+      if (!isNaN(yVal) && isFinite(yVal)) {
+        area += yVal;
+      }
+    }
+    area = area * dx;
+
+    areaUnderCurve = {
+      curveId: 'equation',
+      equationIndex: eqIdx,
+      startX: xStart,
+      endX: xEnd,
+      area: Math.abs(area)
+    };
+
+    draw();
+  });
+
+  // Dispatch details back to the sidebar (points list, equations, stats)
+  function notifySidebarUpdates() {
+    // Compute Stats: min, max, average, slope
+    let minX = Infinity; let maxX = -Infinity;
+    let minY = Infinity; let maxY = -Infinity;
+    let sumY = 0;
+    
+    points.forEach(p => {
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.y > maxY) maxY = p.y;
+      sumY += p.y;
+    });
+
+    const averageY = points.length > 0 ? sumY / points.length : 0;
+    
+    // Fit linear regression slope if points exist
+    let slopeVal = 0;
+    if (points.length >= 2) {
+      let sumX = 0; let sumXY = 0; let sumXX = 0;
+      points.forEach(p => {
+        sumX += p.x;
+        sumXY += p.x * p.y;
+        sumXX += p.x * p.x;
+      });
+      const n = points.length;
+      const denom = (n * sumXX - sumX * sumX);
+      slopeVal = denom !== 0 ? (n * sumXY - sumX * sumY) / denom : 0;
+    }
+
+    const stats = {
+      pointsCount: points.length,
+      minX: points.length > 0 ? minX : 0,
+      maxX: points.length > 0 ? maxX : 0,
+      minY: points.length > 0 ? minY : 0,
+      maxY: points.length > 0 ? maxY : 0,
+      averageY: points.length > 0 ? averageY : 0,
+      slope: points.length >= 2 ? slopeVal : 0
+    };
+
+    window.dispatchEvent(new CustomEvent('gmo-canvas-data-updated', {
+      detail: {
+        points: points.map(p => ({ id: p.id, x: p.x, y: p.y, name: p.name })),
+        equations: equations.map(eq => eq.expr),
+        stats
+      }
+    }));
+  }
+
+
+  // Action Buttons
+  zoomInBtn.addEventListener('click', () => {
+    state.zoom = Math.min(30.0, state.zoom * 1.25);
+    draw();
+  });
+
+  zoomOutBtn.addEventListener('click', () => {
+    state.zoom = Math.max(0.1, state.zoom / 1.25);
+    draw();
+  });
+
+  resetViewBtn.addEventListener('click', () => {
+    state.zoom = 1.0;
+    state.offsetX = 0;
+    state.offsetY = 0;
+    draw();
+  });
+
+  toggleCoordsBtn.addEventListener('click', () => {
+    state.showCoordinates = !state.showCoordinates;
+    coordsStatusTxt.textContent = `Coords: ${state.showCoordinates ? 'On' : 'Off'}`;
+    
+    // Sync with sidebar checkbox
+    window.dispatchEvent(new CustomEvent('gmo-sidebar-sync-coordinates', {
+      detail: { show: state.showCoordinates }
+    }));
+    
+    draw();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all points and drawings?')) {
+      saveHistory();
+      points = [];
+      freehandStrokes = [];
+      connections = [];
+      equations = [];
+      activeMeasurements = [];
+      areaUnderCurve = null;
+      pointCounter = 0;
+      notifySidebarUpdates();
+      draw();
+    }
+  });
+
+  undoBtn.addEventListener('click', undo);
+  redoBtn.addEventListener('click', redo);
+
+  // Keybindings listener
+  window.addEventListener('keydown', (e) => {
+    // Ignore keys if inside an input box or textarea
+    if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      undo();
+    }
+    if (e.ctrlKey && e.key.toLowerCase() === 'y') {
+      e.preventDefault();
+      redo();
+    }
+
+    // Single keys
+    const key = e.key.toLowerCase();
+    if (key === 'p') {
+      window.dispatchEvent(new CustomEvent('gmo-trigger-tool-selection', { detail: { tool: 'pencil' } }));
+    } else if (key === 'w') {
+      window.dispatchEvent(new CustomEvent('gmo-trigger-tool-selection', { detail: { tool: 'pen' } }));
+    } else if (key === 'e') {
+      window.dispatchEvent(new CustomEvent('gmo-trigger-tool-selection', { detail: { tool: 'eraser' } }));
+    } else if (key === 'd') {
+      window.dispatchEvent(new CustomEvent('gmo-trigger-tool-selection', { detail: { tool: 'point' } }));
+    } else if (key === 'g') {
+      // Toggle snapping
+      const snapToggle = document.getElementById('snap-toggle') as HTMLInputElement;
+      if (snapToggle) {
+        snapToggle.checked = !snapToggle.checked;
+        snapToggle.dispatchEvent(new Event('change'));
+      }
+    } else if (key === '+' || key === '=') {
+      state.zoom = Math.min(30.0, state.zoom * 1.1);
+      draw();
+    } else if (key === '-') {
+      state.zoom = Math.max(0.1, state.zoom / 1.1);
+      draw();
+    }
+  });
+
+  // PNG Export
+  exportPngBtn.addEventListener('click', () => {
+    // Generate a temporary high-contrast canvas for exporting
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext('2d')!;
+    
+    // Draw current canvas into temporary canvas
+    tempCtx.drawImage(canvas, 0, 0);
+
+    const dataUrl = tempCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = 'graph-maker-online.png';
+    link.href = dataUrl;
+    link.click();
+  });
+
+  // SVG Export
+  exportSvgBtn.addEventListener('click', () => {
+    const width = canvas.width / (window.devicePixelRatio || 1);
+    const height = canvas.height / (window.devicePixelRatio || 1);
+    
+    const isDark = state.theme === 'dark';
+    const bgCol = isDark ? '#0a0a0a' : '#fafafa';
+    const axisCol = isDark ? '#ffffff' : '#171717';
+    const gridMinorCol = isDark ? 'rgba(57, 255, 20, 0.08)' : 'rgba(9, 121, 105, 0.1)';
+    const gridMajorCol = isDark ? 'rgba(57, 255, 20, 0.45)' : 'rgba(9, 121, 105, 0.5)';
+    
+    let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">\n`;
+    
+    // Background rect
+    svgContent += `  <rect width="100%" height="100%" fill="${bgCol}" />\n`;
+
+    // Render static grid representation in SVG
+    const scale = BASE_GRID_PIXELS * state.zoom;
+    const originX = (width / 2) + state.offsetX;
+    const originY = (height / 2) + state.offsetY;
+
+    if (state.gridType === 'green' || state.gridType === 'cartesian') {
+      const stepPixels = scale;
+      
+      // Vertical grid lines
+      for (let x = originX % stepPixels; x < width; x += stepPixels) {
+        svgContent += `  <line x1="${x}" y1="0" x2="${x}" y2="${height}" stroke="${gridMajorCol}" stroke-width="1" />\n`;
+      }
+      // Horizontal grid lines
+      for (let y = originY % stepPixels; y < height; y += stepPixels) {
+        svgContent += `  <line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="${gridMajorCol}" stroke-width="1" />\n`;
+      }
+      
+      // Axes
+      if (state.gridType !== 'blank') {
+        svgContent += `  <line x1="0" y1="${originY}" x2="${width}" y2="${originY}" stroke="${axisCol}" stroke-width="2" />\n`;
+        svgContent += `  <line x1="${originX}" y1="0" x2="${originX}" y2="${height}" stroke="${axisCol}" stroke-width="2" />\n`;
+      }
+    }
+
+    // Points
+    points.forEach(pt => {
+      const sPos = logicalToScreen(pt.x, pt.y);
+      const labelText = state.showCoordinates 
+        ? `${pt.name} (${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})` 
+        : pt.name;
+      svgContent += `  <circle cx="${sPos.x}" cy="${sPos.y}" r="4" fill="${pt.color}" />\n`;
+      svgContent += `  <text x="${sPos.x + 8}" y="${sPos.y - 4}" fill="${axisCol}" font-size="10" font-family="monospace">${labelText}</text>\n`;
+    });
+
+    // Connections
+    connections.forEach(conn => {
+      const connPts = conn.pointIds.map(id => points.find(p => p.id === id)).filter(p => p !== undefined) as Array<{ x: number; y: number }>;
+      if (connPts.length < 2) return;
+
+      if (conn.type === 'line') {
+        const p0 = logicalToScreen(connPts[0].x, connPts[0].y);
+        const p1 = logicalToScreen(connPts[1].x, connPts[1].y);
+        svgContent += `  <line x1="${p0.x}" y1="${p0.y}" x2="${p1.x}" y2="${p1.y}" stroke="${conn.color}" stroke-width="2" />\n`;
+      } else if (conn.type === 'polyline') {
+        let ptsStr = connPts.map(pt => {
+          const s = logicalToScreen(pt.x, pt.y);
+          return `${s.x},${s.y}`;
+        }).join(' ');
+        svgContent += `  <polyline points="${ptsStr}" fill="none" stroke="${conn.color}" stroke-width="2" />\n`;
+      }
+    });
+
+    // Freehand strokes
+    freehandStrokes.forEach(stroke => {
+      if (stroke.path.length < 2) return;
+      let pathData = '';
+      stroke.path.forEach((pt, idx) => {
+        const s = logicalToScreen(pt.x, pt.y);
+        pathData += `${idx === 0 ? 'M' : 'L'} ${s.x.toFixed(1)} ${s.y.toFixed(1)} `;
+      });
+      svgContent += `  <path d="${pathData.trim()}" fill="none" stroke="${stroke.color}" stroke-width="${stroke.width}" stroke-linecap="round" stroke-linejoin="round" />\n`;
+    });
+
+    svgContent += `</svg>`;
+
+    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'graph-maker-online.svg';
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+</script>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  type?: 'sidebar' | 'banner' | 'bottom';
+  className?: string;
+}
+
+const { type = 'sidebar', className = '' } = Astro.props;
+
+const dimensions = {
+  sidebar: 'w-full h-[250px]',
+  banner: 'w-full h-[90px]',
+  bottom: 'w-full h-[100px] max-w-[728px]'
+};
+---
+
+<div class={`flex flex-col items-center justify-center rounded-md border border-dashed border-hairline-strong/60 bg-canvas-soft-2/50 p-3 select-none print:hidden ${dimensions[type]} ${className}`}>
+  <!-- Ad Label -->
+  <div class="mb-1 flex items-center justify-center gap-1.5 text-[9px] font-mono uppercase tracking-wider text-mute">
+    <svg class="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>Sponsored</span>
+  </div>
+
+  <!-- Ad Box Content -->
+  <div class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-sm border border-hairline/60 bg-canvas/40 px-4 text-center">
+    <!-- Dotted grid background overlay -->
+    <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.06] bg-radial-[circle_at_1px_1px] bg-[size:10px_10px] bg-[#171717] dark:bg-[#ffffff]"></div>
+    
+    <div class="relative z-10 flex flex-col items-center justify-center gap-1">
+      <span class="font-sans text-[11px] font-medium text-body">Google AdSense Slot</span>
+      <span class="font-mono text-[9px] text-mute">
+        {type === 'sidebar' && '300 × 250 Medium Rectangle'}
+        {type === 'banner' && 'Responsive Leaderboard'}
+        {type === 'bottom' && '728 × 90 Leaderboard'}
+      </span>
+    </div>
+  </div>
+</div>

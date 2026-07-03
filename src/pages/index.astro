@@ -1,11 +1,555 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Header from '../components/Header.astro';
+import ControlPanel from '../components/ControlPanel.astro';
+import GraphCanvas from '../components/GraphCanvas.astro';
+import ShortcutsModal from '../components/ShortcutsModal.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+  title="Graph Maker Online – Free Online Graph Paper, Plotter & Editor"
+  description="Graph Maker Online is a free online graph plotter and graph editor. Plot line graphs, xy coordinates, and mathematical functions on green graph paper, Cartesian grids, polar plots, and engineering graph paper. No signup — start graphing instantly."
+>
+  <!-- App Wrapper (full viewport) -->
+  <div class="flex flex-col h-screen w-screen overflow-hidden bg-canvas text-ink transition-colors duration-150" id="app-wrapper">
+    
+    <!-- Premium Header -->
+    <Header />
+
+    <!-- Split Screen Dashboard Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+      <!-- Left Controls Panel Console -->
+      <ControlPanel />
+
+      <!-- Interactive Canvas plotting board -->
+      <GraphCanvas />
+    </main>
+
+    <!-- Sidebar Drawer Backdrop (Mobile only) -->
+    <div 
+      id="sidebar-backdrop" 
+      class="fixed inset-0 z-30 bg-primary/30 backdrop-blur-xs hidden lg:hidden print:hidden"
+    ></div>
+
+    <!-- Shortcuts HUD Modal overlay -->
+    <ShortcutsModal />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SEO CONTENT SECTION — 600+ words, keyword-rich, below the tool -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section id="seo-content" class="w-full bg-canvas-soft text-ink print:hidden">
+    <div class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+
+      <!-- Hero Header Section -->
+      <div class="w-full text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <span class="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold bg-canvas border border-hairline shadow-xs mb-6 select-none text-ink">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-violet"></span>
+          </span>
+          <span>Product Guide &amp; Documentation</span>
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-ink mb-6 leading-tight">
+          <span class="bg-gradient-to-r from-violet via-highlight-pink to-link-blue bg-clip-text text-transparent">Graph Maker Online</span> <span class="font-bold">— Your Free Interactive Graphing Toolkit &amp; Plotter</span>
+        </h1>
+        <p class="text-base sm:text-lg text-mute leading-relaxed max-w-3xl mx-auto">
+          Create, measure, plot, and print graphs instantly — no downloads, no signup, no cost. Explore our complete guide to coordinate plotting, math visualization, and printable grids.
+        </p>
+      </div>
+
+      <!-- Main Columns Grid -->
+      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Left Side: Table of Contents & Feature Chips (Sticky) -->
+        <div class="lg:col-span-4 lg:sticky lg:top-20 space-y-6">
+          
+          <!-- Table of Contents -->
+          <div class="rounded-md border border-hairline bg-canvas p-5 shadow-xs">
+            <h3 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute mb-4">On-Page Guide</h3>
+            <nav class="flex flex-col gap-3">
+              <a href="#what-is-gmo" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>What is GMO?</span>
+              </a>
+              <a href="#paper-styles" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Graph Paper Styles</span>
+              </a>
+              <a href="#graph-plotter" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Coordinate Plotter</span>
+              </a>
+              <a href="#function-plotter" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Function Plotter</span>
+              </a>
+              <a href="#area-calculator" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Area &amp; Integration</span>
+              </a>
+              <a href="#who-is-it-for" class="text-xs sm:text-sm font-medium text-mute hover:text-primary transition-colors flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Who is it for?</span>
+              </a>
+            </nav>
+          </div>
+
+          <!-- Feature Chips Card -->
+          <div class="rounded-md border border-hairline bg-canvas p-5 shadow-xs">
+            <h3 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute mb-4">Supported Features</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Green Paper</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Cartesian Grid</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Polar Vectors</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Logarithmic</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Definite Integral</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">CSV Coordinates</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Pencil &amp; Pen</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">PDF Export</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-hairline bg-canvas-soft text-body">Live Stats HUD</span>
+            </div>
+          </div>
+
+          <!-- Site Information Card (SEO & Navigation) -->
+          <div class="rounded-md border border-hairline bg-canvas p-5 shadow-xs">
+            <h3 class="font-sans text-[11px] font-semibold uppercase tracking-wider text-mute mb-4">Information</h3>
+            <nav class="flex flex-col gap-3">
+              <a href="/about" class="text-xs sm:text-sm font-medium text-mute hover:text-ink hover:underline transition-all flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>About Us</span>
+              </a>
+              <a href="/contact" class="text-xs sm:text-sm font-medium text-mute hover:text-ink hover:underline transition-all flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Contact Us</span>
+              </a>
+              <a href="/privacy" class="text-xs sm:text-sm font-medium text-mute hover:text-ink hover:underline transition-all flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Privacy Policy</span>
+              </a>
+              <a href="/terms" class="text-xs sm:text-sm font-medium text-mute hover:text-ink hover:underline transition-all flex items-center gap-2.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-hairline-strong"></span>
+                <span>Terms & Conditions</span>
+              </a>
+            </nav>
+          </div>
+
+        </div>
+
+        <!-- Right Side: Content Cards -->
+        <div class="lg:col-span-8 space-y-6 w-full">
+          
+          <!-- Card 1: What is GMO? -->
+          <div id="what-is-gmo" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              What is Graph Maker Online?
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              <strong>Graph Maker Online</strong> is a free, browser-based <strong>online graph editor</strong> and <strong>online graph sketcher</strong> that lets you plot coordinates, draw mathematical functions, and create professional-quality graphs in seconds. Whether you need <strong>green graph paper</strong> for a homework assignment, <strong>engineering graph paper</strong> for technical work, or a <strong>Cartesian graph maker</strong> for data visualisation, this tool covers it all. No installation, no registration — simply open the page and start graphing.
+            </p>
+          </div>
+
+          <!-- Card 2: Graph Paper Types -->
+          <div id="paper-styles" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              Choose from Multiple Online Graph Paper Styles
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              Our <strong>online graph paper</strong> selection includes classic University-style <strong>green graph paper</strong> with fine gridlines, standard Cartesian coordinate grids, polar plot sheets for angular measurements, and logarithmic grids (log-log and semi-log) — also known as <strong>engineering graph paper</strong>. Each style features precise scale markings, snapping guides, and adjustable zoom so your plotted data always stays accurate. Need a hard copy? Every grid layout is fully exportable as <strong>printable graph paper</strong> — just click Print and you're done.
+            </p>
+          </div>
+
+          <!-- Card 3: Graph Plotter Features -->
+          <div id="graph-plotter" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              Powerful Online Graph Plotter &amp; Coordinate Plotter
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base mb-4">
+              At its core, this is an <strong>online graph plotter</strong> built for students, educators, and professionals. Plot individual points as an <strong>xy graph plotter</strong> by clicking directly on the grid or entering coordinates manually. Connect points to create a <strong>line graph maker</strong> workflow, draw spline curves through data, or load an entire dataset from a CSV file. The <strong>graph plotter with points</strong> supports real-time coordinate labels, magnetic snapping, and full undo/redo history so you never lose your work.
+            </p>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              Looking to <strong>plot line graph online</strong>? Select the Line tool, click any two plotted points, and a crisp segment appears instantly — with distance and midpoint measurements available at the click of a button. You can also switch to the Polyline or Curve tool to build complex shapes and data connections.
+            </p>
+          </div>
+
+          <!-- Card 4: Function Plotter -->
+          <div id="function-plotter" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              Function Graph Plotter — Visualise Any Equation
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              Our built-in <strong>function graph plotter</strong> lets you type any mathematical expression and see it rendered on the coordinate plane immediately. Supports polynomials, trigonometric functions (sin, cos, tan), logarithms, exponentials, square roots, absolute values, and more. The expression parser handles common notations like <code>y = x^2 + 3x - 5</code>, <code>sin(2x)</code>, or <code>e^(-x)</code>. A virtual math keyboard is included for mobile users — making it the ideal <strong>online graph sketcher</strong> that works on any device.
+            </p>
+          </div>
+
+          <!-- Card 5: Area Calculator -->
+          <div id="area-calculator" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              Area Under Curve Calculator &amp; Graph Statistics
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              Beyond basic graphing, Graph Maker Online includes an <strong>area under curve calculator</strong> that uses numerical integration to compute the bounded area between your function curve and the x-axis. Simply define the start and end x-values, and the tool highlights the region and calculates the result. Paired with the live statistics dashboard — showing point count, coordinate ranges, averages, and linear regression coefficients — this <strong>free graph maker</strong> delivers analytical capability that rivals desktop software.
+            </p>
+          </div>
+
+          <!-- Card 6: Who is it for? -->
+          <div id="who-is-it-for" class="scroll-mt-24 p-6 sm:p-8 rounded-md border border-hairline bg-canvas shadow-xs w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+              <span class="h-5 w-1 bg-primary rounded-full"></span>
+              Free Online Graph Plotter for Everyone
+            </h2>
+            <p class="text-body leading-relaxed text-sm sm:text-base mb-4">
+              Whether you are a student sketching parabolas, an engineer plotting sensor data on <strong>engineering graph paper</strong>, a teacher demonstrating transformations with a <strong>circle graph maker</strong>, or a data analyst building a <strong>bar graph maker</strong> workflow, Graph Maker Online is designed for you. It's a <strong>free online graph plotter</strong>, a <strong>graph sketch online</strong> tool, and a <strong>coordinate graph plotter</strong> — all rolled into one fast, beautiful, responsive web application. Works on desktops, tablets, and smartphones with full touch support, dark mode, and keyboard shortcuts.
+            </p>
+            <p class="text-body leading-relaxed text-sm sm:text-base">
+              Start using the best <strong>online graph maker</strong> today — <strong>graph maker free</strong>, forever. Plot your data, draw your functions, export your graphs, and bring your ideas to life on a precision coordinate grid and graphing canvas.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="mt-24 border-t border-hairline pt-16 w-full">
+        <h2 class="text-2xl sm:text-3xl font-bold text-ink mb-10 text-center">Frequently Asked Questions</h2>
+        <div class="w-full max-w-3xl mx-auto space-y-4">
+          
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>What is the best free graph maker?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              Graph Maker Online is widely recognized as one of the best free graph maker tools available. It offers a complete suite of graphing instruments without any registration, downloads, or paywalls. You can plot coordinates, visualize complex functions, calculate regression lines, and export printable graph paper entirely for free.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>Where can I find a good graph maker?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              You can find a premium, browser-based online graph maker right here at graphmakeronline.com. It works on any device (desktop, tablet, mobile) and supports multiple grid styles such as Cartesian coordinate grids, green graph paper, polar sheets, and engineering log-log templates.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>What are the best data graph maker tools?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              The best data graph maker tools allow you to import xy coordinates, draw regressions, and edit layouts easily. While expensive desktop packages exist, Graph Maker Online serves as an excellent free online graph editor that lets you plot data manually, upload CSV files, and compute real-time statistics in one place.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>How to make a graph with AI?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              To make a graph with AI, you can generate coordinate pairs or function equations using large language models and then paste them into a graphing tool. Graph Maker Online features a mathematical function graph plotter and coordinate input board that lets you instantly render any AI-generated mathematical model or CSV table.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>How to find domain and range of a graph?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              To find the domain and range, analyze the set of all input x-values (domain) and output y-values (range) for which the graph is defined. Our built-in graph statistics and calculator panel automatically display the minimum and maximum X and Y ranges for all your plotted coordinate points.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>How to use a graph online?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              Using an online graph plotter is simple. Select your preferred grid type (like green graph paper or Cartesian plane), choose a tool (such as Point Plotter, Pencil, or Pen), and click on the canvas to draw. You can also type equations in the function graph plotter input box to render curves automatically.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>How to make a graph in Google?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              You can make a graph in Google Sheets by selecting your data table and clicking "Insert Chart". For a faster, no-setup alternative that requires no spreadsheet formatting, you can use Graph Maker Online to plot xy coordinates directly on a coordinate graph plotter canvas.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>Can I make university like graph online?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              Yes! Our online graph paper selector includes the signature university-style green graph paper with fine grids, as well as logarithmic engineering graph paper (semi-log and log-log) widely used in academic laboratories and technical coursework.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>Can I make graph without paper online?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              Absolutely. With Graph Maker Online, you can plot coordinates, sketch shapes, and calculate mathematical curves completely paper-free. Once your design is complete, you can download a digital PNG image or export it as a clean PDF layout.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>Can I sketch graph online?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              Yes, you can use our interactive freehand Pencil and Pen instruments to sketch curves, label regions, or draw annotations directly on the graphing canvas, making it a highly flexible online graph sketcher.
+            </div>
+          </details>
+
+          <details class="group w-full rounded-md border border-hairline bg-canvas transition-all duration-200">
+            <summary class="flex justify-between items-center p-5 text-sm sm:text-base font-medium text-ink cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
+              <span>How to edit graph online?</span>
+              <svg class="h-4 w-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-5 pb-5 text-xs sm:text-sm text-body leading-relaxed border-t border-hairline pt-4 bg-canvas-soft/10">
+              To edit a graph online, simply use the interactive Control Panel to add new coordinate points, delete existing nodes from the data table, adjust line thickness and point size, or type in a new equation to update the plot in real time.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Premium Footer -->
+  <Footer />
+
+  <!-- JSON-LD: FAQPage Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best free graph maker?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Graph Maker Online is widely recognized as one of the best free graph maker tools available. It offers a complete suite of graphing instruments without any registration, downloads, or paywalls. You can plot coordinates, visualize complex functions, calculate regression lines, and export printable graph paper entirely for free."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where can I find a good graph maker?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can find a premium, browser-based online graph maker right here at graphmakeronline.com. It works on any device (desktop, tablet, mobile) and supports multiple grid styles such as Cartesian coordinate grids, green graph paper, polar sheets, and engineering log-log templates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the best data graph maker tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The best data graph maker tools allow you to import xy coordinates, draw regressions, and edit layouts easily. While expensive desktop packages exist, Graph Maker Online serves as an excellent free online graph editor that lets you plot data manually, upload CSV files, and compute real-time statistics in one place."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to make a graph with AI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To make a graph with AI, you can generate coordinate pairs or function equations using large language models and then paste them into a graphing tool. Graph Maker Online features a mathematical function graph plotter and coordinate input board that lets you instantly render any AI-generated mathematical model or CSV table."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to find domain and range of a graph?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To find the domain and range, analyze the set of all input x-values (domain) and output y-values (range) for which the graph is defined. Our built-in graph statistics and calculator panel automatically display the minimum and maximum X and Y ranges for all your plotted coordinate points."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to use a graph online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Using an online graph plotter is simple. Select your preferred grid type (like green graph paper or Cartesian plane), choose a tool (such as Point Plotter, Pencil, or Pen), and click on the canvas to draw. You can also type equations in the function graph plotter input box to render curves automatically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to make a graph in Google?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can make a graph in Google Sheets by selecting your data table and clicking 'Insert Chart'. For a faster, no-setup alternative that requires no spreadsheet formatting, you can use Graph Maker Online to plot xy coordinates directly on a coordinate graph plotter canvas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I make university like graph online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Our online graph paper selector includes the signature university-style green graph paper with fine grids, as well as logarithmic engineering graph paper (semi-log and log-log) widely used in academic laboratories and technical coursework."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I make graph without paper online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. With Graph Maker Online, you can plot coordinates, sketch shapes, and calculate mathematical curves completely paper-free. Once your design is complete, you can download a digital PNG image or export it as a clean PDF layout."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I sketch graph online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can use our interactive freehand Pencil and Pen instruments to sketch curves, label regions, or draw annotations directly on the graphing canvas, making it a highly flexible online graph sketcher."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to edit graph online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To edit a graph online, simply use the interactive Control Panel to add new coordinate points, delete existing nodes from the data table, adjust line thickness and point size, or type in a new equation to update the plot in real time."
+        }
+      }
+    ]
+  })} />
 </Layout>
+
+<script>
+  // Mobile Sidebar Drawer Controller
+  const mobileToggle = document.getElementById('mobile-sidebar-toggle-btn');
+  const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+  const controlPanel = document.getElementById('control-panel');
+  const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+  function openSidebar() {
+    controlPanel?.classList.remove('-translate-x-full');
+    sidebarBackdrop?.classList.remove('hidden');
+    sidebarBackdrop?.classList.add('block');
+  }
+
+  function closeSidebar() {
+    controlPanel?.classList.add('-translate-x-full');
+    sidebarBackdrop?.classList.add('hidden');
+    sidebarBackdrop?.classList.remove('block');
+  }
+
+  mobileToggle?.addEventListener('click', openSidebar);
+  
+  // Bind close buttons after DOM rendering
+  document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('close-sidebar-btn');
+    closeBtn?.addEventListener('click', closeSidebar);
+  });
+  
+  closeSidebarBtn?.addEventListener('click', closeSidebar);
+  sidebarBackdrop?.addEventListener('click', closeSidebar);
+
+  // Close sidebar on tool selection or grid selection on mobile
+  window.addEventListener('gmo-trigger-tool-selection', () => {
+    if (window.innerWidth < 1024) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener('gmo-select-grid', () => {
+    if (window.innerWidth < 1024) {
+      closeSidebar();
+    }
+  });
+</script>
+
+<style>
+  /* App wrapper fills the viewport */
+  #app-wrapper {
+    min-height: 100vh;
+  }
+
+  /* Ensure page fits viewport perfectly */
+  main {
+    height: calc(100vh - 56px); /* 56px matches the h-14 Header height */
+  }
+
+  /* SEO Content Section styles */
+  #seo-content {
+    border-top: 1px solid var(--color-hairline, #e5e7eb);
+  }
+
+  #seo-content code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.85em;
+    background: var(--color-canvas-soft, #f5f5f5);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    border: 1px solid var(--color-hairline, #e5e7eb);
+  }
+
+  #seo-content strong {
+    color: var(--color-ink, #111);
+    font-weight: 600;
+  }
+
+  #seo-content dt {
+    font-size: 0.95rem;
+  }
+
+  #seo-content dd {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  
+  @media print {
+    main {
+      height: auto;
+      overflow: visible;
+      flex-direction: column;
+    }
+    #seo-content {
+      display: none;
+    }
+  }
+</style>

@@ -1,23 +1,154 @@
+---
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonicalUrl?: string;
+	ogImage?: string;
+}
+
+const { 
+	title = "Graph Maker Online – Free Online Graph Paper, Plotter & Editor", 
+	description = "Graph Maker Online is a free online graph plotter and graph editor. Plot line graphs, xy coordinates, and mathematical functions on green graph paper, Cartesian grids, polar plots, and engineering graph paper. No signup needed — try the best free online graph maker now.",
+	canonicalUrl = "https://graphmakeronline.com/",
+	ogImage = "https://graphmakeronline.com/og-image.png"
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YXZT9QGYR3"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-YXZT9QGYR3');
+		</script>
+
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Favicons -->
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-title" content="GraphMaker" />
+		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		
+		<!-- Primary SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content="graph maker online, online graph paper, green graph paper, graph maker, online graph maker, free graph maker, graph maker free, circle graph maker, graph editor, online graph editor, online graph sketcher, graph sketch online, line graph maker, bar graph maker, graph plotter, printable graph paper, engineering graph paper, area under curve calculator, cartesian graph maker, online graph plotter, graph plotter online, xy graph plotter, graph plotter with points, plot line graph online, function graph plotter, coordinate graph plotter, free online graph plotter, online graphing tool, polar graph paper, log graph paper, math graphing tool" />
+		<meta name="author" content="Graph Maker Online" />
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		<link rel="canonical" href={canonicalUrl} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="Graph Maker Online – Free interactive graphing paper, graph plotter, and online graph editor" />
+		<meta property="og:site_name" content="Graph Maker Online" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={canonicalUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		<meta name="twitter:image:alt" content="Graph Maker Online – Free interactive graphing paper, graph plotter, and online graph editor" />
+
+		<!-- JSON-LD Structured Data: WebApplication -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebApplication",
+			"name": "Graph Maker Online",
+			"url": "https://graphmakeronline.com/",
+			"description": "Free graph maker online and graph plotter. Create graphs on green graph paper, Cartesian grids, polar plots, and engineering graph paper. Plot coordinates, draw functions, calculate area under curves, and export printable graph paper — no signup required.",
+			"applicationCategory": "EducationalApplication",
+			"operatingSystem": "All",
+			"browserRequirements": "Requires a modern browser with JavaScript enabled",
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "USD"
+			},
+			"featureList": [
+				"Graph Maker Online & Measurement Tool",
+				"Green Graph Paper",
+				"Cartesian Graph Maker",
+				"Polar Graph Paper",
+				"Engineering Graph Paper (Log-Log & Semi-Log)",
+				"XY Graph Plotter with Points",
+				"Function Graph Plotter (sin, cos, tan, log, etc.)",
+				"Line Graph Maker",
+				"Coordinate Graph Plotter",
+				"Area Under Curve Calculator",
+				"Printable Graph Paper Export",
+				"CSV Data Import & Plot",
+				"Freehand Pencil & Pen Drawing",
+				"Dark Mode & Light Mode"
+			],
+			"screenshot": "https://graphmakeronline.com/og-image.png",
+			"creator": {
+				"@type": "Organization",
+				"name": "Graph Maker Online",
+				"url": "https://graphmakeronline.com/"
+			}
+		})} />
+
+		<!-- Fonts (Inter & JetBrains Mono) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+		<!-- Inline script to prevent theme flash (Default to light/bright mode) -->
+		<script is:inline>
+			(function () {
+				const theme = localStorage.getItem('gmo-theme') || 'light';
+				if (theme === 'dark') {
+					document.documentElement.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+				}
+			})();
+		</script>
 	</head>
-	<body>
+	<body class="bg-canvas-soft text-ink font-sans transition-colors duration-150 ease-in-out">
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
 	html,
 	body {
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		overflow-x: hidden;
+	}
+
+	/* Vercel Selection Styles */
+	::selection {
+		background-color: var(--color-primary);
+		color: var(--color-on-primary);
+	}
+
+	/* Custom SVG Crosshair Cursor (Solid Black in bright mode, Solid White in dark mode) */
+	.cursor-crosshair {
+		cursor: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cline%20x1%3D%2712%27%20y1%3D%272%27%20x2%3D%2712%27%20y2%3D%2722%27%20stroke%3D%27black%27%20stroke-width%3D%271.5%27%2F%3E%3Cline%20x1%3D%272%27%20y1%3D%2712%27%20x2%3D%2722%27%20y2%3D%2712%27%20stroke%3D%27black%27%20stroke-width%3D%271.5%27%2F%3E%3C%2Fsvg%3E") 12 12, crosshair !important;
+	}
+	.dark .cursor-crosshair {
+		cursor: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2724%27%20height%3D%2724%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cline%20x1%3D%2712%27%20y1%3D%272%27%20x2%3D%2712%27%20y2%3D%2722%27%20stroke%3D%27white%27%20stroke-width%3D%271.5%27%2F%3E%3Cline%20x1%3D%272%27%20y1%3D%2712%27%20x2%3D%2722%27%20y2%3D%2712%27%20stroke%3D%27white%27%20stroke-width%3D%271.5%27%2F%3E%3C%2Fsvg%3E") 12 12, crosshair !important;
 	}
 </style>

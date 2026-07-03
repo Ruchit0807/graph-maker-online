@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Privacy Policy – Graph Maker Online"
+  description="Read the privacy policy for Graph Maker Online. Learn how your data is handled on our signup-free, secure, client-side graphing application."
+  canonicalUrl="https://graphmakeronline.com/privacy"
+>
+  <div class="flex flex-col min-h-screen bg-canvas-soft text-ink transition-colors duration-150">
+    <Header isEditor={false} />
+
+    <main class="flex-1 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+      <!-- Title Section -->
+      <div class="max-w-3xl mx-auto mb-12">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          Privacy Policy
+        </h1>
+        <p class="text-xs text-mute font-mono uppercase tracking-wider">
+          Last Updated: June 29, 2026
+        </p>
+        <div class="h-px bg-hairline w-full mt-6"></div>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        
+        <!-- On-Page Links -->
+        <div class="md:col-span-4 md:sticky md:top-20 space-y-4 hidden md:block">
+          <div class="rounded-md border border-hairline bg-canvas p-4 shadow-xs">
+            <h3 class="text-[10px] font-semibold uppercase tracking-wider text-mute mb-3">Policy Sections</h3>
+            <nav class="flex flex-col gap-2">
+              <a href="#no-signup" class="text-xs text-mute hover:text-ink transition-colors">1. No Accounts Required</a>
+              <a href="#local-processing" class="text-xs text-mute hover:text-ink transition-colors">2. Client-Side Processing</a>
+              <a href="#cookies-ads" class="text-xs text-mute hover:text-ink transition-colors">3. Cookies &amp; Advertising</a>
+              <a href="#data-security" class="text-xs text-mute hover:text-ink transition-colors">4. Security Standards</a>
+              <a href="#contact-info" class="text-xs text-mute hover:text-ink transition-colors">5. Contact Information</a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Policy Content -->
+        <div class="md:col-span-8 space-y-8 text-body text-sm leading-relaxed">
+          <section id="introduction">
+            <p class="mb-4">
+              At <strong>Graph Maker Online</strong>, accessible from <a href="https://graphmakeronline.com" class="text-link-blue hover:underline">graphmakeronline.com</a>, the privacy of our visitors is one of our highest priorities. This Privacy Policy document contains information regarding the collection, processing, and storage of data when utilizing our browser-based graphing tools.
+            </p>
+            <p>
+              If you have additional questions or require more details about our Privacy Policy, do not hesitate to contact us at <a href="mailto:support@graphmakeronline.com" class="text-link-blue hover:underline">support@graphmakeronline.com</a>.
+            </p>
+          </section>
+
+          <section id="no-signup" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">1. No Accounts Required &amp; Zero Signups</h2>
+            <p class="mb-3">
+              Graph Maker Online is designed as a signup-free utility. We do not require users to create an account, log in, or provide personal details such as names, passwords, phone numbers, or credit card information to use our coordinate plotters, mathematical function graphers, or drawing instruments.
+            </p>
+            <p>
+              Because there is no profile database, we do not compile user identity registries.
+            </p>
+          </section>
+
+          <section id="local-processing" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">2. Client-Side Processing &amp; Local Storage</h2>
+            <p class="mb-3">
+              All plotting operations, freehand sketches, regression formulas, and numerical integrations are processed client-side. This means your coordinate datasets, formulas, and visual graphs are calculated in real time within your browser and are never uploaded to, stored on, or processed by remote servers.
+            </p>
+            <p class="mb-3">
+              We may utilize local web technologies, specifically:
+            </p>
+            <ul class="list-disc pl-5 mb-3 space-y-1">
+              <li>
+                <strong>Browser Local Storage:</strong> To preserve settings such as your color scheme selection (dark mode vs. light mode) and the active state of your drawing panel so your progress is maintained across page refreshes.
+              </li>
+              <li>
+                <strong>Local Downloads:</strong> When exporting your graphs as PNG images or PDF print layouts, files are compiled and saved locally. No files are transferred to our servers.
+              </li>
+            </ul>
+            <p>
+              You can wipe local storage configurations at any time simply by clearing your browser cache.
+            </p>
+          </section>
+
+          <section id="cookies-ads" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">3. Cookies, Log Files, &amp; Advertising Partners</h2>
+            <p class="mb-3">
+              Like standard web apps, Graph Maker Online utilizes log files. These records store visitor counts, browser clients, referring/exit directories, and general date-time marks. This traffic metadata is aggregated anonymously to evaluate site loading speeds and performance diagnostics.
+            </p>
+            <p class="mb-3">
+              We may feature Google AdSense or other ad networks on our website. These advertising networks use automated cookies and web beacon technologies to deliver relevant advertisements to your browser. These cookies enable third-party providers to serve ads based on your visit to Graph Maker Online and other pages on the internet.
+            </p>
+            <p>
+              You can choose to disable cookies through your individual browser options or manage personalized ad preferences by adjusting Google Ads settings.
+            </p>
+          </section>
+
+          <section id="data-security" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">4. Security Standards</h2>
+            <p>
+              Our website uses HTTPS (Hypertext Transfer Protocol Secure) connections encrypted with SSL certificates. This ensures all traffic and assets sent to your device are encrypted and securely delivered.
+            </p>
+          </section>
+
+          <section id="contact-info" class="scroll-mt-20">
+            <h2 class="text-base font-bold text-ink mb-3">5. Contact Information</h2>
+            <p>
+              For inquiries regarding this Privacy Policy or general data management practices, please contact us at <a href="mailto:support@graphmakeronline.com" class="text-link-blue hover:underline">support@graphmakeronline.com</a>.
+            </p>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>

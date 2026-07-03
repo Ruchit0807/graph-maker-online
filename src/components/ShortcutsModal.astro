@@ -1,0 +1,164 @@
+---
+---
+<div 
+  id="shortcuts-modal" 
+  class="fixed inset-0 z-50 hidden bg-primary/40 backdrop-blur-xs transition-opacity duration-150 ease-in-out print:hidden"
+>
+  <!-- Modal backdrop close trigger -->
+  <div class="absolute inset-0 cursor-default" id="modal-backdrop"></div>
+
+  <!-- Centering wrapper -->
+  <div class="relative flex min-h-full items-center justify-center p-4">
+    <!-- Modal card -->
+    <div class="relative w-full max-w-xl rounded-lg border border-hairline bg-canvas p-6 shadow-2xl transition-all duration-200 scale-95 opacity-0 duration-150" id="modal-card">
+    <!-- Close button -->
+    <button 
+      id="close-modal-btn"
+      class="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full text-mute hover:text-ink hover:bg-canvas-soft-2 focus:outline-none transition-colors"
+      aria-label="Close modal"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Content -->
+    <div class="flex flex-col gap-5">
+      <!-- Title -->
+      <div class="flex items-center gap-2.5 pb-3 border-b border-hairline">
+        <div class="flex h-7 w-7 items-center justify-center rounded bg-canvas-soft border border-hairline text-ink">
+          <svg class="h-4 w-4 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2zM9 8h.01M12 8h.01M15 8h.01" />
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <h3 class="font-sans text-sm font-semibold tracking-tight text-ink">Keyboard Shortcuts</h3>
+          <p class="text-[10px] text-mute font-sans">Plot and draw faster using these quick keyboard bindings.</p>
+        </div>
+      </div>
+
+      <!-- Shortcuts Categories Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Category 1: Active Instruments -->
+        <div class="flex flex-col gap-2.5 p-3.5 border border-hairline rounded bg-canvas-soft-2/20">
+          <div class="flex items-center gap-1.5 border-b border-hairline/60 pb-1.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mute font-semibold">Drawing Instruments</span>
+          </div>
+          <div class="flex flex-col gap-2.5 mt-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Pencil Tool</span>
+              <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">P</kbd>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Pen Tool</span>
+              <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">W</kbd>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Eraser Tool</span>
+              <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">E</kbd>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Point Plotter</span>
+              <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">D</kbd>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 2: View & Scaling -->
+        <div class="flex flex-col gap-2.5 p-3.5 border border-hairline rounded bg-canvas-soft-2/20">
+          <div class="flex items-center gap-1.5 border-b border-hairline/60 pb-1.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mute font-semibold">View & Controls</span>
+          </div>
+          <div class="flex flex-col gap-2.5 mt-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Zoom In / Out</span>
+              <div class="flex gap-1">
+                <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">+</kbd>
+                <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">-</kbd>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Undo Action</span>
+              <div class="flex gap-0.5 items-center">
+                <kbd class="px-1.5 py-0.5 text-[8.5px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">Ctrl</kbd>
+                <span class="text-mute text-[9px]">+</span>
+                <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">Z</kbd>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Redo Action</span>
+              <div class="flex gap-0.5 items-center">
+                <kbd class="px-1.5 py-0.5 text-[8.5px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">Ctrl</kbd>
+                <span class="text-mute text-[9px]">+</span>
+                <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">Y</kbd>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-body font-sans">Snap to Grid Toggle</span>
+              <kbd class="px-1.5 py-0.5 text-[9px] font-sans font-semibold text-ink bg-canvas border border-hairline border-b-2 rounded shadow-xs">G</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Tips footer row -->
+      <div class="flex gap-3 items-center justify-between p-3 border border-hairline bg-canvas-soft rounded-sm text-[10.5px] text-body">
+        <div class="flex items-center gap-1.5">
+          <svg class="h-4 w-4 text-mute shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Hold <kbd class="px-1.5 py-0.5 font-sans font-semibold text-ink bg-canvas border border-hairline border-b rounded">Shift</kbd> or click-drag mouse wheel to pan the sheet.</span>
+        </div>
+      </div>
+
+      <!-- Close Button -->
+      <button 
+        id="dismiss-shortcuts-btn"
+        class="h-8.5 w-full rounded-sm bg-primary text-xs font-semibold text-on-primary hover:bg-primary/90 focus:outline-none transition-colors"
+      >
+        Dismiss
+      </button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+  const shortcutsBtn = document.getElementById('shortcuts-btn');
+  const shortcutsModal = document.getElementById('shortcuts-modal');
+  const modalCard = document.getElementById('modal-card');
+  const closeBtn = document.getElementById('close-modal-btn');
+  const dismissBtn = document.getElementById('dismiss-shortcuts-btn');
+  const backdrop = document.getElementById('modal-backdrop');
+
+  function openModal() {
+    shortcutsModal?.classList.remove('hidden');
+    shortcutsModal?.classList.add('block');
+    setTimeout(() => {
+      modalCard?.classList.remove('scale-95', 'opacity-0');
+      modalCard?.classList.add('scale-100', 'opacity-100');
+    }, 10);
+  }
+
+  function closeModal() {
+    modalCard?.classList.remove('scale-100', 'opacity-100');
+    modalCard?.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+      shortcutsModal?.classList.add('hidden');
+      shortcutsModal?.classList.remove('block');
+    }, 150);
+  }
+
+  // Event Listeners
+  shortcutsBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  dismissBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+
+  // Esc key closes modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !shortcutsModal?.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>
